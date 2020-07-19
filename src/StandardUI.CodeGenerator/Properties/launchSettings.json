@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StandardUI.CodeGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": " $(SolutionDir)\\src\\StandardUI\\StandardUI.csproj"
+    }
+  }
+}
