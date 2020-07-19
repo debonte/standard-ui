@@ -8,6 +8,8 @@ namespace StandardUI.CodeGenerator
 {
     public abstract class OutputType
     {
+        public static QualifiedNameSyntax MicrosoftStandardUI = QualifiedName(IdentifierName("Microsoft"), IdentifierName("StandardUI"));
+
         public abstract string ProjectBaseDirectory { get; }
         public abstract QualifiedNameSyntax RootNamespace { get; }
         public abstract IdentifierNameSyntax? BaseClassName { get; }
@@ -27,8 +29,7 @@ namespace StandardUI.CodeGenerator
         public static readonly WpfXamlOutputType Instance = new WpfXamlOutputType();
 
         public override string ProjectBaseDirectory => "StandardUI.WPF";
-        public override QualifiedNameSyntax RootNamespace =>
-            QualifiedName(IdentifierName("StandardUI"), IdentifierName("WPF"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("WPF"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
         public override IdentifierNameSyntax? BaseClassName => IdentifierName("DependencyObjectWithCascadingNotifications");
 
@@ -54,8 +55,7 @@ namespace StandardUI.CodeGenerator
         public static readonly UwpXamlOutputType Instance = new UwpXamlOutputType();
 
         public override string ProjectBaseDirectory => "StandardUI.UWP";
-        public override QualifiedNameSyntax RootNamespace =>
-            QualifiedName(IdentifierName("StandardUI"), IdentifierName("UWP"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("UWP"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
         public override IdentifierNameSyntax? BaseClassName => IdentifierName("DependencyObjectWithCascadingNotifications");
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
@@ -69,8 +69,7 @@ namespace StandardUI.CodeGenerator
         public static readonly XamarinFormsXamlOutputType Instance = new XamarinFormsXamlOutputType();
 
         public override string ProjectBaseDirectory => Path.Combine("XamarinForms", "StandardUI.XamarinForms");
-        public override QualifiedNameSyntax RootNamespace =>
-            QualifiedName(IdentifierName("StandardUI"), IdentifierName("XamarinForms"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("XamarinForms"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("BindableProperty");
         public override IdentifierNameSyntax? BaseClassName => IdentifierName("BindableObjectWithCascadingNotifications");
 
@@ -87,8 +86,7 @@ namespace StandardUI.CodeGenerator
         public static readonly StandardModelOutputType Instance = new StandardModelOutputType();
 
         public override string ProjectBaseDirectory => Path.Combine("StandardUI", "StandardModel");
-        public override QualifiedNameSyntax RootNamespace =>
-            QualifiedName(IdentifierName("StandardUI"), IdentifierName("StandardModel"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("StandardModel"));
         public override IdentifierNameSyntax? BaseClassName => IdentifierName("ObjectWithCascadingNotifications");
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)

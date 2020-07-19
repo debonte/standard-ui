@@ -12,32 +12,19 @@ namespace StandardUI.CodeGenerator
 
         private List<SourceLine> _lines = new List<SourceLine>();
         private int _indent = 0;
-        private StringBuilder _buffer = new StringBuilder();
+
+        public void AddEmptyLine()
+		{
+            AddLine("");
+		}
 
         public void AddLine(string text)
-        {
-            Add(text);
-            EndLine();
-        }
-
-        public void AddLine()
 		{
-            EndLine();
-		}
-
-        public void EndLine()
-        {
-            var sourceLine = new SourceLine(_indent, _buffer.ToString());
+            var sourceLine = new SourceLine(_indent, text);
             _lines.Add(sourceLine);
-            _buffer.Clear();
-        }
-
-        public void Add(string text)
-		{
-            _buffer.Append(text);
 		}
 
-        public bool IsEmpty => _lines.Count == 0 && _buffer.Length == 0;
+        public bool IsEmpty => _lines.Count == 0;
 
         public IEnumerable<SourceLine> SourceLines => _lines;
 
@@ -53,7 +40,7 @@ namespace StandardUI.CodeGenerator
             _indent = previousIndent;
 		}
 
-        public void Add(Source source)
+        public void AddSource(Source source)
 		{
             foreach (SourceLine sourceLine in source._lines)
 			{

@@ -35,21 +35,22 @@ namespace StandardUI.CodeGenerator
 
             if (args.Length < 1)
             {
-                Console.WriteLine($"Usage: StandardUI.CodelGenerator.exe <path-to-StandardUI-project>");
+                Console.WriteLine($"Usage: StandardUI.CodelGenerator.exe <path-to-repo-root>");
                 Environment.Exit(1);
             }
+            string rootDirectory = args[0];
 
-            string standardUIProjectPath = args[0];
-            Console.WriteLine($"Loading solution '{standardUIProjectPath}'");
+            string standardUIProjectPath = Path.Combine(rootDirectory, "src", "StandardUI", "StandardUI.csproj");
+            Console.WriteLine($"Loading project '{standardUIProjectPath}'");
 
             // Attach progress reporter so we print projects as they are loaded.
             Project project = await workspace.OpenProjectAsync(standardUIProjectPath, new ConsoleProgressReporter());
             Console.WriteLine($"Finished loading project '{standardUIProjectPath}'");
 
-            GenerateClasses(workspace, project);
+            GenerateClasses(rootDirectory, workspace, project);
         }
 
-        private static void GenerateClasses(Workspace workspace, Project project)
+        private static void GenerateClasses(string rootDirectory, Workspace workspace, Project project)
         {
 			Compilation? compilation = project.GetCompilationAsync().Result;
             if (compilation == null)
@@ -70,13 +71,12 @@ namespace StandardUI.CodeGenerator
                     if (interfaceName == "IXCanvas")
                         continue;
 
-                    string rootDirectory = "c:\\xamarin\\StandardUI\\src";
                     try
                     {
                         Console.WriteLine($"Processing {interfaceDeclaration.Identifier.Text}");
                         new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, WpfXamlOutputType.Instance).Generate();
-                        new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, XamarinFormsXamlOutputType.Instance).Generate();
-                        new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, StandardModelOutputType.Instance).Generate();
+                        //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, XamarinFormsXamlOutputType.Instance).Generate();
+                        //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, StandardModelOutputType.Instance).Generate();
                     }
                     catch (UserViewableException e)
                     {

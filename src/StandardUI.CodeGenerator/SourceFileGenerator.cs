@@ -95,19 +95,19 @@ namespace StandardUI.CodeGenerator
 
             Source classSource = new Source();
 
-            classSource.Add($"public class {_destinationClassName.Identifier} :");
+            string dervivedFrom;
             if (destinationBaseClass == null)
-                classSource.Add(_interfaceName);
+                dervivedFrom = _interfaceName;
             else
-                classSource.Add($"{destinationBaseClass}, {_interfaceName}");
-            classSource.AddLine();
+                dervivedFrom = $"{destinationBaseClass}, {_interfaceName}";
+            classSource.AddLine($"public class {_destinationClassName.Identifier} : {dervivedFrom}");
             classSource.AddLine("{");
             using (var indentRestorer = classSource.Indent())
 			{
-                classSource.Add(destinationStaticMembers);
+                classSource.AddSource(destinationStaticMembers);
                 if (constructor != null)
-                    classSource.Add(constructor);
-                classSource.Add(destinationMembers);
+                    classSource.AddSource(constructor);
+                classSource.AddSource(destinationMembers);
             }
             classSource.AddLine("}");
 
@@ -185,21 +185,21 @@ namespace StandardUI.CodeGenerator
             Source fileSource = new Source();
 
             fileSource.AddLine($"// This file is generated from {_interfaceName}.cs. Update the source file to change its contents.");
-            fileSource.AddLine();
+            fileSource.AddEmptyLine();
 
-            fileSource.Add(usingDeclarations);
+            fileSource.AddSource(usingDeclarations);
             if (!usingDeclarations.IsEmpty)
-                fileSource.AddLine();
+                fileSource.AddEmptyLine();
 
-            fileSource.Add($"namespace {_destinationNamespaceName}");
-            fileSource.Add("{");
+            fileSource.AddLine($"namespace {_destinationNamespaceName}");
+            fileSource.AddLine("{");
 
             using (fileSource.Indent())
 			{
-                fileSource.Add(classSource);
+                fileSource.AddSource(classSource);
 			}
 
-            fileSource.Add("}");
+            fileSource.AddLine("}");
 
             string outputDirectory = GetOutputDirectory(_sourceNamespaceName);
             fileSource.WriteToFile(outputDirectory, _destinationClassName + ".cs");
@@ -244,7 +244,7 @@ namespace StandardUI.CodeGenerator
             else nonNullablePropertyType = propertyType;
 
             destinationStaticMembers.AddLine(
-                $"public static readonly DependencyProperty {propertyDescriptorName} = PropertyUtils.Create(nameof({propertyName}, typeof({nonNullablePropertyType}), typeof(${_destinationClassName}), {defaultValue});");
+                $"public static readonly DependencyProperty {propertyDescriptorName} = PropertyUtils.Create(nameof({propertyName}), typeof({nonNullablePropertyType}), typeof({_destinationClassName}), {defaultValue});");
         }
 
 #if LATER
@@ -418,11 +418,13 @@ namespace StandardUI.CodeGenerator
         private QualifiedNameSyntax ToDestinationNamespaceName(NameSyntax sourceNamespaceName)
         {
             if (!sourceNamespaceName.ToString().StartsWith("Microsoft.StandardUI"))
-                throw new InvalidOperationException($"Source namespace {sourceNamespaceName} doesn't start with 'StandardUI.' as expected");
+                throw new InvalidOperationException($"Source namespace {sourceNamespaceName} doesn't start with 'Microsoft.StandardUI.' as expected");
+
+            QualifiedNameSyntax destinationNamespaceName = _outputType.RootNamespace;
 
             // Map e.g. Microsoft.StandardUI.Media source namespace => Microsoft.StandardUI.WPF.Media destination namespace
-            QualifiedNameSyntax destinationNamespaceName = _outputType.RootNamespace;
-            if (sourceNamespaceName is QualifiedNameSyntax qualifiedName)
+            // If the source namespace is just Microsoft.StandardUI, don't change anything here
+            if (((QualifiedNameSyntax)sourceNamespaceName).Left is QualifiedNameSyntax qualifiedName)
                 destinationNamespaceName = QualifiedName(destinationNamespaceName, qualifiedName.Right);
 
             return destinationNamespaceName;
@@ -642,7 +644,7 @@ namespace StandardUI.CodeGenerator
 
         private string GetOutputDirectory(NameSyntax namespaceName)
         {
-            string outputDirectory = Path.Combine(_rootDirectory, _outputType.ProjectBaseDirectory);
+            string outputDirectory = Path.Combine(_rootDirectory, "src", _outputType.ProjectBaseDirectory);
             string? childNamespace = GetChildNamespace(namespaceName);
             if (childNamespace != null)
                 outputDirectory = Path.Combine(outputDirectory, childNamespace);
