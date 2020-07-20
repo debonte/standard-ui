@@ -17,3 +17,5 @@ In terms of implementation, UI platforms can implement the interface directly or
 `Ellipse` object implement `IEllipse` directly. That helps enforce API naming consistency and is slightly more efficient. Or the interface can be implemented via a wrapper, which requires no changes to the underlying UI platform at all - WPF is handled like that.
 
 The API interfaces are all defined [here](src/StandardUI). Implementations for the different UI frameworks are created through a mix of [code generation](src/StandardUI.CodeGenerator) from those interfaces and hand coding.
+
+This project is an evolution of my [XGraphics](https://github.com/BretJohnson/XGraphics) project, taking it beyond just shapes.
