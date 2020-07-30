@@ -3,6 +3,6 @@
     [UIModelObject]
     public interface ISolidColorBrush : IBrush
     {
-        Color Color { get; }
+        Color Color { get; set; }
     }
 }

@@ -4,12 +4,12 @@
     public interface IRotateTransform : ITransform
     {
         [DefaultValue(0.0)]
-        double Angle { get; }
+        double Angle { get; set; }
 
         [DefaultValue(0.0)]
-        double CenterX { get; }
+        double CenterX { get; set; }
 
         [DefaultValue(0.0)]
-        double CenterY { get; }
+        double CenterY { get; set; }
     }
 }

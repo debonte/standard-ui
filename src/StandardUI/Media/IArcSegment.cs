@@ -3,17 +3,17 @@
     [UIModelObject]
     public interface IArcSegment : IPathSegment
     {
-        Point Point { get; }
+        Point Point { get; set; }
 
-        Size Size { get; }
+        Size Size { get; set; }
 
         [DefaultValue(0.0)]
-        double RotationAngle { get; }
+        double RotationAngle { get; set; }
 
         [DefaultValue(false)]
-        bool IsLargeArc { get; }
+        bool IsLargeArc { get; set; }
 
         [DefaultValue(SweepDirection.Counterclockwise)]
-        SweepDirection SweepDirection { get; }
+        SweepDirection SweepDirection { get; set; }
     }
 }

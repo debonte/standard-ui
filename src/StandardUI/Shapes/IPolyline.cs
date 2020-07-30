@@ -6,8 +6,8 @@ namespace Microsoft.StandardUI.Shapes
     public interface IPolyline : IShape
     {
         [DefaultValue(FillRule.EvenOdd)]
-        FillRule FillRule { get; }
+        FillRule FillRule { get; set; }
 
-        Points Points { get; }
+        Points Points { get; set; }
     }
 }

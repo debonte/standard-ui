@@ -6,6 +6,6 @@ namespace Microsoft.StandardUI.Shapes
     public interface IPath : IShape
     {
         [DefaultValue(null)]
-        IGeometry Data { get; }
+        IGeometry Data { get; set; }
     }
 }

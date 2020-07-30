@@ -3,6 +3,6 @@
     [UIModelObject]
     public interface IPolyLineSegment : IPathSegment
     {
-        Points Points { get; }
+        Points Points { get; set; }
     }
 }

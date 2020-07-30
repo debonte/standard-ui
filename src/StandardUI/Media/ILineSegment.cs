@@ -3,6 +3,6 @@
     [UIModelObject]
     public interface ILineSegment : IPathSegment
     {
-        Point Point { get; }
+        Point Point { get; set; }
     }
 }

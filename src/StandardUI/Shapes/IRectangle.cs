@@ -4,9 +4,9 @@
     public interface IRectangle : IShape
     {
         [DefaultValue(0.0)]
-        double RadiusX { get; }
+        double RadiusX { get; set; }
 
         [DefaultValue(0.0)]
-        double RadiusY { get; }
+        double RadiusY { get; set; }
     }
 }

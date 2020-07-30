@@ -4,15 +4,15 @@
     public interface ILine : IShape
     {
         [DefaultValue(0.0)]
-        double X1 { get; }
+        double X1 { get; set; }
 
         [DefaultValue(0.0)]
-        double Y1 { get; }
+        double Y1 { get; set; }
 
         [DefaultValue(0.0)]
-        double X2 { get; }
+        double X2 { get; set; }
 
         [DefaultValue(0.0)]
-        double Y2 { get; }
+        double Y2 { get; set; }
     }
 }

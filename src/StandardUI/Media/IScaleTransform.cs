@@ -4,15 +4,15 @@
     public interface IScaleTransform : ITransform
     {
         [DefaultValue(0.0)]
-        double CenterX { get; }
+        double CenterX { get; set; }
 
         [DefaultValue(0.0)]
-        double CenterY { get; }
+        double CenterY { get; set; }
 
         [DefaultValue(1.0)]
-        double ScaleX { get; }
+        double ScaleX { get; set; }
 
         [DefaultValue(1.0)]
-        double ScaleY { get; }
+        double ScaleY { get; set; }
     }
 }

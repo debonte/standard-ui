@@ -4,9 +4,9 @@
     public interface IGradientStop
     {
         // The default is Transparent
-        Color Color { get; }
+        Color Color { get; set; }
 
         [DefaultValue(0.0)]
-        double Offset { get; }
+        double Offset { get; set; }
     }
 }

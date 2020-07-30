@@ -5,14 +5,14 @@ namespace Microsoft.StandardUI.Media
     [UIModelObject]
     public interface IPathFigure
     {
-        IEnumerable<IPathSegment> Segments { get; }
+        IEnumerable<IPathSegment> Segments { get; set; }
 
-        Point StartPoint { get; }
+        Point StartPoint { get; set; }
 
         [DefaultValue(false)]
-        bool IsClosed { get; }
+        bool IsClosed { get; set; }
 
         [DefaultValue(true)]
-        bool IsFilled { get; }
+        bool IsFilled { get; set; }
     }
 }

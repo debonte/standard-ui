@@ -4,9 +4,9 @@
     public interface IGeometry
     {
         [DefaultValue(0.25)]
-        double StandardFlatteningTolerance { get; }
+        double StandardFlatteningTolerance { get; set; }
 
         [DefaultValue(null)]
-        ITransform Transform { get; }
+        ITransform Transform { get; set; }
     }
 }

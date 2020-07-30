@@ -4,9 +4,9 @@
     public interface ITranslateTransform : ITransform
     {
         [DefaultValue(0.0)]
-        double X { get; }
+        double X { get; set; }
 
         [DefaultValue(0.0)]
-        double Y { get; }
+        double Y { get; set; }
     }
 }

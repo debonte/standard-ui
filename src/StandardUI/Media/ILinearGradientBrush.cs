@@ -3,8 +3,8 @@
     [UIModelObject]
     public interface ILinearGradientBrush : IGradientBrush
     {
-        Point StartPoint { get; }
+        Point StartPoint { get; set; }
 
-        Point EndPoint { get; }
+        Point EndPoint { get; set; }
     }
 }

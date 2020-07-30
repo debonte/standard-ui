@@ -3,6 +3,6 @@
     [UIModelObject]
     public interface IPolyQuadraticBezierSegment : IPathSegment
     {
-        Points Points { get; }
+        Points Points { get; set; }
     }
 }
