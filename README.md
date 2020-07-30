@@ -13,8 +13,12 @@ API names most closely match UWP/WinUI, but should be familiar to WPF and Xamari
 
 The API is interface based. For instance, an ellipse is `Microsoft.StandardUI.Shapes.IEllipse`. Users of the API always use the interface.
 
-In terms of implementation, UI platforms can implement the interface directly or it can be implemented by a wrapper object. For new UI platforms, like WinUI3 and .NET MAUI, ideally they'd have their native
-`Ellipse` object implement `IEllipse` directly. That helps enforce API naming consistency and is slightly more efficient. Or the interface can be implemented via a wrapper, which requires no changes to the underlying UI platform at all - WPF is handled like that.
+In terms of implementation, UI platforms can implement the interface directly OR it can be implemented by a wrapper object (which typically lives in this repo). Having both options available provides maximum flexibility.
+
+For new UI platforms, like WinUI3 and .NET MAUI, ideally they have their native
+`Ellipse` object implement `IEllipse` directly. That helps enforce API naming consistency and is slightly more efficient.
+
+Or the interface can be implemented via a wrapper, which requires no changes to the underlying UI platform at all. That's a good choice for platforms like WPF.
 
 The API interfaces are all defined [here](src/StandardUI). Implementations for the different UI frameworks are created through a mix of [code generation](src/StandardUI.CodeGenerator) from those interfaces and hand coding.
 
