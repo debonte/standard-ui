@@ -71,7 +71,7 @@ namespace StandardUI.CodeGenerator
                     collectionProperties.Add(modelProperty);
 
                 AddPropertyDescriptor(propertyName, propertyDescriptorName, destinationPropertyType, defaultValue, destinationStaticMembers);
-                //AddProperty(modelProperty, propertyName, propertyDescriptorName, sourcePropertyType, destinationPropertyType, destinationMembers);
+                AddProperty(modelProperty, propertyName, propertyDescriptorName, sourcePropertyType, destinationPropertyType, destinationMembers);
 
                 if (propertyName == "Children")
                     hasChildrenProperty = true;
@@ -79,8 +79,7 @@ namespace StandardUI.CodeGenerator
 
             Source? constructor = CreateConstructor(collectionProperties);
 
-            TypeSyntax? baseInterface = _sourceInterfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
-            TypeSyntax? destinationBaseClass = GetBaseClass(baseInterface);
+            TypeSyntax? destinationBaseClass = GetBaseClass();
 
             SyntaxNodeOrToken[] baseList;
             if (destinationBaseClass == null)
@@ -185,11 +184,11 @@ namespace StandardUI.CodeGenerator
             Source fileSource = new Source();
 
             fileSource.AddLine($"// This file is generated from {_interfaceName}.cs. Update the source file to change its contents.");
-            fileSource.AddEmptyLine();
+            fileSource.AddBlankLine();
 
             fileSource.AddSource(usingDeclarations);
             if (!usingDeclarations.IsEmpty)
-                fileSource.AddEmptyLine();
+                fileSource.AddBlankLine();
 
             fileSource.AddLine($"namespace {_destinationNamespaceName}");
             fileSource.AddLine("{");
@@ -247,7 +246,6 @@ namespace StandardUI.CodeGenerator
                 $"public static readonly DependencyProperty {propertyDescriptorName} = PropertyUtils.Create(nameof({propertyName}), typeof({nonNullablePropertyType}), typeof({_destinationClassName}), {defaultValue});");
         }
 
-#if LATER
         private void AddProperty(PropertyDeclarationSyntax modelProperty, string propertyName, string propertyDescriptorName,
             TypeSyntax sourcePropertyType, TypeSyntax destinationPropertyType, Source destinationMembers)
         {
@@ -260,6 +258,7 @@ namespace StandardUI.CodeGenerator
                 t.Kind() == SyntaxKind.MultiLineDocumentationCommentTrivia);
             bool includeXmlComment = classPropertyTypeDiffersFromInterface && xmlCommentTrivia.Kind() != SyntaxKind.None;
 
+#if LATER
             SyntaxTokenList modifiers;
             if (includeXmlComment)
                 modifiers = TokenList(
@@ -269,43 +268,22 @@ namespace StandardUI.CodeGenerator
                         TriviaList()));
             else
                 modifiers = TokenList(Token(SyntaxKind.PublicKeyword));
+#endif
 
-            PropertyDeclarationSyntax propertyDeclaration;
+            destinationMembers.AddBlankLine();
             if (_outputType is XamlOutputType)
             {
-                propertyDeclaration = PropertyDeclaration(destinationPropertyType, propertyName)
-                    .WithModifiers(modifiers)
-                    .WithAccessorList(
-                        AccessorList(
-                            List(new[]
-                            {
-                                AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                                    .WithExpressionBody(
-                                        ArrowExpressionClause(
-                                            CastExpression(
-                                                destinationPropertyType,
-                                                InvocationExpression(IdentifierName("GetValue"))
-                                                    .WithArgumentList(ArgumentList(
-                                                        SingletonSeparatedList(
-                                                            Argument(propertyDescriptorIdentifier)))))))
-                                    .WithSemicolonToken(Token(SyntaxKind.SemicolonToken)),
-                                AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                                    .WithExpressionBody(
-                                        ArrowExpressionClause(InvocationExpression(IdentifierName("SetValue"))
-                                            .WithArgumentList(ArgumentList(
-                                                SeparatedList<ArgumentSyntax>(
-                                                    new SyntaxNodeOrToken[]
-                                                    {
-                                                        Argument(propertyDescriptorIdentifier),
-                                                        Token(SyntaxKind.CommaToken),
-                                                        Argument(IdentifierName("value"))
-                                                    })))))
-                                    .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                            })))
-                    .NormalizeWhitespace();
+                destinationMembers.AddLine($"public {destinationPropertyType} {propertyName}");
+                destinationMembers.AddLine("{");
+                using (var indentRestorer = destinationMembers.Indent()) {
+                    destinationMembers.AddLine($"get => ({destinationPropertyType}) GetValue({propertyName}Property);");
+                    destinationMembers.AddLine($"set => SetValue({propertyName}Property, value);");
+                }
+                destinationMembers.AddLine("}");
             }
             else
             {
+#if LATER
                 ExpressionSyntax defaultValue = GetDefaultValue(modelProperty, destinationPropertyType);
 
                 propertyDeclaration = PropertyDeclaration(destinationPropertyType, propertyName)
@@ -323,6 +301,7 @@ namespace StandardUI.CodeGenerator
                         EqualsValueClause(defaultValue))
                     .WithSemicolonToken(
                         Token(SyntaxKind.SemicolonToken));
+#endif
             }
 
 #if LATER
@@ -333,37 +312,29 @@ namespace StandardUI.CodeGenerator
                         .Insert(0, CarriageReturnLineFeed)));
 #endif
 
-            destinationMembers.Add(propertyDeclaration);
-
             // If the interface property has a different type, add another property that explicitly implements it
             if (classPropertyTypeDiffersFromInterface)
             {
-                ExpressionSyntax arrowRightHandSide;
-                if (sourcePropertyType is IdentifierNameSyntax identifierName &&
-                    IsWrappedType(identifierName.Identifier.Text))
+                string getterValue;
+                string setterValue;
+                if (sourcePropertyType is IdentifierNameSyntax identifierName && IsWrappedType(identifierName.Identifier.Text))
                 {
                     string wrapperTypeName = identifierName.Identifier.Text;
+                    getterValue = $"{propertyName}.{sourcePropertyType}";
 
-                    arrowRightHandSide =
-                        MemberAccessExpression(
-                            SyntaxKind.SimpleMemberAccessExpression,
-                            IdentifierName(propertyName),
-                            IdentifierName($"Wrapped{wrapperTypeName}"));
+                    setterValue = $"new {destinationPropertyType}()"
                 }
-                else arrowRightHandSide = IdentifierName(propertyName);
+                else getterValue = propertyName;
 
-                PropertyDeclarationSyntax explicitInterfaceProperty =
-                    PropertyDeclaration(sourcePropertyType, propertyName)
-                        .WithExplicitInterfaceSpecifier(
-                            ExplicitInterfaceSpecifier(IdentifierName(_sourceInterfaceDeclaration.Identifier)))
-                        .WithExpressionBody(
-                            ArrowExpressionClause(arrowRightHandSide))
-                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
-
-                destinationMembers.Add(explicitInterfaceProperty);
+                destinationMembers.AddLine($"{sourcePropertyType} {_interfaceName}.{propertyName}");
+                destinationMembers.AddLine("{");
+                using (var indentRestorer = destinationMembers.Indent()) {
+                    destinationMembers.AddLine($"get => {getterValue};");
+                    destinationMembers.AddLine($"set => {propertyName} = value;");
+                }
+                destinationMembers.AddLine("}");
             }
         }
-#endif
 
         private Source CreateUsingDeclarations(bool hasPropertyDescriptors)
         {
@@ -476,7 +447,7 @@ namespace StandardUI.CodeGenerator
             else if (IsWrappableType(typeName))
             {
                 if (IsWrappedType(typeName))
-                    return QualifiedName(IdentifierName("Wrapper"), IdentifierName(typeName));
+                    return IdentifierName(typeName + ((XamlOutputType) _outputType).WrapperSuffix);
                 else return identifierName;
             }
             else if (IsNonwrappedObjectType(typeName))
@@ -514,6 +485,11 @@ namespace StandardUI.CodeGenerator
             return _outputType is XamlOutputType && IsWrappableType(typeName);
         }
 
+        public string GetWrapperTypeName(string typeName)
+        {
+            return typeName + ((XamlOutputType)_outputType).WrapperSuffix;
+        }
+
         private bool IsNonwrappedObjectType(string typeName)
         {
             return typeName == "LoadedImage" || typeName == "Exception" || typeName == "ImageDecoder";
@@ -527,6 +503,12 @@ namespace StandardUI.CodeGenerator
 
         private static bool IsCollectionType(TypeSyntax type, out TypeSyntax elementType)
         {
+            if (IsUIElementCollectionType(type))
+            {
+                elementType = IdentifierName("IUIElement");
+                return true;
+            }
+
             elementType = IdentifierName("INVALID");
             if (!(type is GenericNameSyntax genericName))
                 return false;
@@ -540,6 +522,11 @@ namespace StandardUI.CodeGenerator
 
             elementType = elementIdentifierName;
             return true;
+        }
+
+        private static bool IsUIElementCollectionType(TypeSyntax type)
+        {
+            return type is IdentifierNameSyntax typeNameSyntax && typeNameSyntax.Identifier.Text == "IUIElementCollection";
         }
 
         private ExpressionSyntax GetDefaultValue(PropertyDeclarationSyntax modelProperty, TypeSyntax destinationPropertyType)
@@ -564,19 +551,10 @@ namespace StandardUI.CodeGenerator
                             bool isWrappedType = modelProperty.Type is IdentifierNameSyntax propertyTypeName &&
                                              IsWrappedType(propertyTypeName.Identifier.Text);
 
-                            if (isWrappedType)
-                                defaultExpression =
-                                    MemberAccessExpression(
-                                        SyntaxKind.SimpleMemberAccessExpression,
-                                        MemberAccessExpression(
-                                            SyntaxKind.SimpleMemberAccessExpression,
-                                            IdentifierName("Wrapper"),
-                                            IdentifierName("Point")),
-                                        IdentifierName("CenterDefault"));
-                            else
-                                defaultExpression = MemberAccessExpression(
+                            defaultExpression =
+                                MemberAccessExpression(
                                     SyntaxKind.SimpleMemberAccessExpression,
-                                    IdentifierName("Point"),
+                                    IdentifierName(isWrappedType ? GetWrapperTypeName("Point") : "Point"),
                                     IdentifierName("CenterDefault"));
                         }
                         else throw new UserViewableException($"Unknown string literal based default value: {literalExpressionString}");
@@ -588,7 +566,12 @@ namespace StandardUI.CodeGenerator
 
             TypeSyntax propertyType = modelProperty.Type;
 
-            if (propertyType is GenericNameSyntax genericName && genericName.Identifier.Text == "IEnumerable" &&
+            if (IsUIElementCollectionType(propertyType))
+            {
+                return
+                    LiteralExpression(SyntaxKind.NullLiteralExpression);
+            }
+            else if (propertyType is GenericNameSyntax genericName && genericName.Identifier.Text == "IEnumerable" &&
                 genericName.TypeArgumentList.Arguments.Count == 1 &&
                 genericName.TypeArgumentList.Arguments[0] is IdentifierNameSyntax elementIdentifierName)
             {
@@ -605,10 +588,7 @@ namespace StandardUI.CodeGenerator
 
                 ExpressionSyntax typeExpression;
                 if (IsWrappedType(propertyTypeName.Identifier.Text))
-                    typeExpression = MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression,
-                        IdentifierName("Wrapper"),
-                        propertyTypeName);
+                    typeExpression = IdentifierName(GetWrapperTypeName(propertyTypeName.Identifier.Text));
                 else typeExpression = propertyTypeName;
 
                 return
@@ -631,13 +611,19 @@ namespace StandardUI.CodeGenerator
                                         SingletonSeparatedList<TypeSyntax>(arrayType.ElementType)))));
             }
 
-            throw new UserViewableException($"Property {modelProperty.Identifier.Text} has no [lDefaultValue] attribute nor hardcoded default");
+            throw new UserViewableException($"Property {modelProperty.Identifier.Text} has no [DefaultValue] attribute nor hardcoded default");
         }
 
-        private TypeSyntax? GetBaseClass(TypeSyntax? baseInterface)
+        private TypeSyntax? GetBaseClass()
         {
+            TypeSyntax? baseInterface = _sourceInterfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
+
             if (baseInterface == null)
-                return _outputType.BaseClassName;
+            {
+                if (_sourceInterfaceDeclaration.Identifier.Text == "IUIElement")
+                    return _outputType.UIElementBaseClassName;
+                else return _outputType.DefaultBaseClassName;
+            }
             else
                 return ToDestinationType(baseInterface);
         }

@@ -13,7 +13,7 @@ namespace StandardUI.CodeGenerator
         private List<SourceLine> _lines = new List<SourceLine>();
         private int _indent = 0;
 
-        public void AddEmptyLine()
+        public void AddBlankLine()
 		{
             AddLine("");
 		}
