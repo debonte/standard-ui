@@ -1,0 +1,24 @@
+﻿namespace Microsoft.StandardUI
+{
+    [UIModelObject]
+    public interface ISetter : IDependencyObject
+    {
+        /// <summary>
+        /// Gets or sets the property to apply the Value to.
+        /// </summary>
+        [DefaultValue(null)]
+        public IDependencyProperty? Property { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path of a property on a target element to apply the Value to.
+        /// </summary>
+        [DefaultValue(null)]
+        public ITargetPropertyPath Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value to apply to the property that is specified by the Setter.
+        /// </summary>
+        [DefaultValue(null)]
+        public object Value { get; set; }
+    }
+}
