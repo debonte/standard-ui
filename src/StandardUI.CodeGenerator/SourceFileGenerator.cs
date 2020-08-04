@@ -12,6 +12,7 @@ namespace StandardUI.CodeGenerator
 	public class SourceFileGenerator
     {
         public static int IndentSize = 4;
+        public const string RootNamespace = "Microsoft.StandardUI";
 
         private readonly Workspace _workspace;
         private readonly InterfaceDeclarationSyntax _sourceInterfaceDeclaration;
@@ -67,8 +68,10 @@ namespace StandardUI.CodeGenerator
                 TypeSyntax destinationPropertyType = ToDestinationType(sourcePropertyType);
                 ExpressionSyntax defaultValue = GetDefaultValue(modelProperty, destinationPropertyType);
 
-                if (IsCollectionType(modelProperty.Type, out TypeSyntax _))
+#if false
+                if (IsCollectionType(modelProperty.Type))
                     collectionProperties.Add(modelProperty);
+#endif
 
                 AddPropertyDescriptor(propertyName, propertyDescriptorName, destinationPropertyType, defaultValue, destinationStaticMembers);
                 AddProperty(modelProperty, propertyName, propertyDescriptorName, sourcePropertyType, destinationPropertyType, destinationMembers);
@@ -79,18 +82,7 @@ namespace StandardUI.CodeGenerator
 
             Source? constructor = CreateConstructor(collectionProperties);
 
-            TypeSyntax? destinationBaseClass = GetBaseClass();
-
-            SyntaxNodeOrToken[] baseList;
-            if (destinationBaseClass == null)
-                baseList = new SyntaxNodeOrToken[] {
-                    SimpleBaseType(IdentifierName(_interfaceName))
-                };
-            else
-                baseList = new SyntaxNodeOrToken[] {
-                    SimpleBaseType(destinationBaseClass), Token(SyntaxKind.CommaToken),
-                    SimpleBaseType(IdentifierName(_interfaceName))
-                };
+            string? destinationBaseClass = GetDestinationBaseClass();
 
             Source classSource = new Source();
 
@@ -243,13 +235,14 @@ namespace StandardUI.CodeGenerator
             else nonNullablePropertyType = propertyType;
 
             destinationStaticMembers.AddLine(
-                $"public static readonly DependencyProperty {propertyDescriptorName} = PropertyUtils.Create(nameof({propertyName}), typeof({nonNullablePropertyType}), typeof({_destinationClassName}), {defaultValue});");
+                $"public static readonly System.Windows.DependencyProperty {propertyDescriptorName} = PropertyUtils.Create(nameof({propertyName}), typeof({nonNullablePropertyType}), typeof({_destinationClassName}), {defaultValue});");
         }
 
         private void AddProperty(PropertyDeclarationSyntax modelProperty, string propertyName, string propertyDescriptorName,
             TypeSyntax sourcePropertyType, TypeSyntax destinationPropertyType, Source destinationMembers)
         {
             IdentifierNameSyntax propertyDescriptorIdentifier = IdentifierName(propertyDescriptorName);
+            bool hasSetter = modelProperty.AccessorList?.Accessors.Any((accessor) => accessor.Kind() == SyntaxKind.SetAccessorDeclaration) ?? false;
 
             bool classPropertyTypeDiffersFromInterface = sourcePropertyType.ToString() != destinationPropertyType.ToString();
 
@@ -277,7 +270,8 @@ namespace StandardUI.CodeGenerator
                 destinationMembers.AddLine("{");
                 using (var indentRestorer = destinationMembers.Indent()) {
                     destinationMembers.AddLine($"get => ({destinationPropertyType}) GetValue({propertyName}Property);");
-                    destinationMembers.AddLine($"set => SetValue({propertyName}Property, value);");
+                    if (hasSetter)
+                        destinationMembers.AddLine($"set => SetValue({propertyName}Property, value);");
                 }
                 destinationMembers.AddLine("}");
             }
@@ -316,21 +310,25 @@ namespace StandardUI.CodeGenerator
             if (classPropertyTypeDiffersFromInterface)
             {
                 string getterValue;
-                string setterValue;
+                string setterAssignment;
                 if (sourcePropertyType is IdentifierNameSyntax identifierName && IsWrappedType(identifierName.Identifier.Text))
                 {
                     string wrapperTypeName = identifierName.Identifier.Text;
                     getterValue = $"{propertyName}.{sourcePropertyType}";
-
-                    setterValue = $"new {destinationPropertyType}()"
+                    setterAssignment = $"{propertyName} = new {destinationPropertyType}(value)";
                 }
-                else getterValue = propertyName;
+                else
+                {
+                    getterValue = propertyName;
+                    setterAssignment = $"{propertyName} = ({destinationPropertyType}) value";
+                }
 
                 destinationMembers.AddLine($"{sourcePropertyType} {_interfaceName}.{propertyName}");
                 destinationMembers.AddLine("{");
                 using (var indentRestorer = destinationMembers.Indent()) {
                     destinationMembers.AddLine($"get => {getterValue};");
-                    destinationMembers.AddLine($"set => {propertyName} = value;");
+                    if (hasSetter)
+                        destinationMembers.AddLine($"set => {setterAssignment};");
                 }
                 destinationMembers.AddLine("}");
             }
@@ -347,7 +345,7 @@ namespace StandardUI.CodeGenerator
                 NameSyntax sourceUsingName = sourceUsing.Name;
                 AddUsing(usingNames, sourceUsingName);
 
-                if (sourceUsingName.ToString().StartsWith("StandardUI."))
+                if (sourceUsingName.ToString().StartsWith("Microsoft.StandardUI."))
                     AddUsing(usingNames, ToDestinationNamespaceName(sourceUsingName));
             }
 
@@ -386,33 +384,23 @@ namespace StandardUI.CodeGenerator
                 usingNames.Add(usingString, name);
         }
 
-        private QualifiedNameSyntax ToDestinationNamespaceName(NameSyntax sourceNamespaceName)
+        private QualifiedNameSyntax ToDestinationNamespaceName(NameSyntax sourceNamespace)
         {
-            if (!sourceNamespaceName.ToString().StartsWith("Microsoft.StandardUI"))
-                throw new InvalidOperationException($"Source namespace {sourceNamespaceName} doesn't start with 'Microsoft.StandardUI.' as expected");
+            string? childNamespaceName = GetChildNamespace(sourceNamespace);
 
-            QualifiedNameSyntax destinationNamespaceName = _outputType.RootNamespace;
+            QualifiedNameSyntax destinationNamespace = _outputType.RootNamespace;
 
             // Map e.g. Microsoft.StandardUI.Media source namespace => Microsoft.StandardUI.WPF.Media destination namespace
             // If the source namespace is just Microsoft.StandardUI, don't change anything here
-            if (((QualifiedNameSyntax)sourceNamespaceName).Left is QualifiedNameSyntax qualifiedName)
-                destinationNamespaceName = QualifiedName(destinationNamespaceName, qualifiedName.Right);
+            if (childNamespaceName != null)
+                destinationNamespace = QualifiedName(destinationNamespace, IdentifierName(childNamespaceName));
 
-            return destinationNamespaceName;
+            return destinationNamespace;
         }
 
         private TypeSyntax ToDestinationType(TypeSyntax sourceType)
         {
-            if (IsCollectionType(sourceType, out TypeSyntax elementType))
-            {
-                TypeSyntax elementDestinationType = ToDestinationType(elementType);
-
-                return GenericName("XGraphicsCollection")
-                    .WithTypeArgumentList(
-                        TypeArgumentList(
-                            SingletonSeparatedList(elementDestinationType)));
-            }
-            else if (sourceType is IdentifierNameSyntax identifierName)
+            if (sourceType is IdentifierNameSyntax identifierName)
                 return GetIdentifierDestinationType(identifierName);
             else if (sourceType is NullableTypeSyntax nullableType &&
                      nullableType.ElementType is IdentifierNameSyntax nullableIdentifierName)
@@ -501,32 +489,31 @@ namespace StandardUI.CodeGenerator
                    typeName == "BrushMappingMode" || typeName == "PenLineCap" || typeName == "PenLineJoin" || typeName == "LoadingStatus";
         }
 
-        private static bool IsCollectionType(TypeSyntax type, out TypeSyntax elementType)
+        private static bool IsCollectionType(TypeSyntax type, out string elementType)
         {
-            if (IsUIElementCollectionType(type))
+            if (!(type is IdentifierNameSyntax identiferTypeName))
             {
-                elementType = IdentifierName("IUIElement");
-                return true;
+                elementType = "";
+                return false;
             }
 
-            elementType = IdentifierName("INVALID");
-            if (!(type is GenericNameSyntax genericName))
-                return false;
-
-            if (genericName.Identifier.Text != "IEnumerable")
-                return false;
-
-            if (!(genericName.TypeArgumentList.Arguments.Count == 1 &&
-                  genericName.TypeArgumentList.Arguments[0] is IdentifierNameSyntax elementIdentifierName))
-                throw new InvalidOperationException($"Type {genericName} doesn't have a single identifier generic argument as expected");
-
-            elementType = elementIdentifierName;
-            return true;
+            return IsCollectionType(identiferTypeName.Identifier.Text, out elementType);
         }
 
-        private static bool IsUIElementCollectionType(TypeSyntax type)
+        private static bool IsCollectionType(string typeName, out string elementType)
         {
-            return type is IdentifierNameSyntax typeNameSyntax && typeNameSyntax.Identifier.Text == "IUIElementCollection";
+            const string collectionSuffix = "Collection";
+
+            if (typeName.EndsWith(collectionSuffix))
+            {
+                elementType = typeName.Substring(0, typeName.Length - collectionSuffix.Length);
+                return true;
+            }
+            else
+            {
+                elementType = "";
+                return false;
+            }
         }
 
         private ExpressionSyntax GetDefaultValue(PropertyDeclarationSyntax modelProperty, TypeSyntax destinationPropertyType)
@@ -557,7 +544,8 @@ namespace StandardUI.CodeGenerator
                                     IdentifierName(isWrappedType ? GetWrapperTypeName("Point") : "Point"),
                                     IdentifierName("CenterDefault"));
                         }
-                        else throw new UserViewableException($"Unknown string literal based default value: {literalExpressionString}");
+                        else if (literalExpressionString != "\"\"")
+                            throw new UserViewableException($"Unknown string literal based default value: {literalExpressionString}");
                     }
 
                     return defaultExpression;
@@ -566,7 +554,7 @@ namespace StandardUI.CodeGenerator
 
             TypeSyntax propertyType = modelProperty.Type;
 
-            if (IsUIElementCollectionType(propertyType))
+            if (IsCollectionType(propertyType, out var _))
             {
                 return
                     LiteralExpression(SyntaxKind.NullLiteralExpression);
@@ -614,8 +602,11 @@ namespace StandardUI.CodeGenerator
             throw new UserViewableException($"Property {modelProperty.Identifier.Text} has no [DefaultValue] attribute nor hardcoded default");
         }
 
-        private TypeSyntax? GetBaseClass()
+        private string? GetDestinationBaseClass()
         {
+            if (IsCollectionType(_sourceInterfaceDeclaration.Identifier.Text, out string elementType))
+                return $"StandardUICollection<{elementType}>";
+
             TypeSyntax? baseInterface = _sourceInterfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
 
             if (baseInterface == null)
@@ -625,7 +616,7 @@ namespace StandardUI.CodeGenerator
                 else return _outputType.DefaultBaseClassName;
             }
             else
-                return ToDestinationType(baseInterface);
+                return ToDestinationType(baseInterface).ToString();
         }
 
         private string GetOutputDirectory(NameSyntax namespaceName)
@@ -642,16 +633,19 @@ namespace StandardUI.CodeGenerator
         /// Return the child namespace (e.g. "Shapes", "Transforms", etc. or null if there is no child
         /// and classes should be at the root.
         /// </summary>
-        /// <param name="namespaceName">source namespace</param>
+        /// <param name="sourceNamespace">source namespace</param>
         /// <returns>child namespace</returns>
-        private static string? GetChildNamespace(NameSyntax namespaceName)
+        private static string? GetChildNamespace(NameSyntax sourceNamespace)
         {
-            string namespaceNameString = namespaceName.ToString();
+            string sourceNamespaceString = sourceNamespace.ToString();
 
-            int periodIndex = namespaceNameString.IndexOf('.');
-            if (periodIndex == -1)
+            if (!sourceNamespaceString.StartsWith(RootNamespace))
+                throw new InvalidOperationException($"Source namespace {sourceNamespace} doesn't start with '{RootNamespace}' as expected");
+
+            if (!sourceNamespaceString.StartsWith(RootNamespace + "."))
                 return null;
-            else return namespaceNameString.Substring(periodIndex + 1);
+
+            return sourceNamespaceString.Substring(sourceNamespaceString.LastIndexOf('.') + 1);
         }
     }
 }

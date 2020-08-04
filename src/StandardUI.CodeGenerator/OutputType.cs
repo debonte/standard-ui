@@ -12,8 +12,8 @@ namespace StandardUI.CodeGenerator
 
         public abstract string ProjectBaseDirectory { get; }
         public abstract QualifiedNameSyntax RootNamespace { get; }
-        public abstract IdentifierNameSyntax? UIElementBaseClassName { get; }
-        public abstract IdentifierNameSyntax? DefaultBaseClassName { get; }
+        public abstract string? UIElementBaseClassName { get; }
+        public abstract string? DefaultBaseClassName { get; }
         public abstract IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute);
         public abstract bool EmitChangedNotifications { get; }
     }
@@ -30,11 +30,11 @@ namespace StandardUI.CodeGenerator
     {
         public static readonly WpfXamlOutputType Instance = new WpfXamlOutputType();
 
-        public override string ProjectBaseDirectory => "StandardUI.WPF";
-        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("WPF"));
+        public override string ProjectBaseDirectory => "StandardUI.Wpf";
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("Wpf"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
-        public override IdentifierNameSyntax? UIElementBaseClassName => IdentifierName("System.Windows.UIElement");
-        public override IdentifierNameSyntax? DefaultBaseClassName => IdentifierName("DependencyObject");
+        public override string? UIElementBaseClassName => "System.Windows.UIElement";
+        public override string? DefaultBaseClassName => "System.Windows.DependencyObject";
         public override string WrapperSuffix => "Wpf";
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
@@ -46,9 +46,11 @@ namespace StandardUI.CodeGenerator
             if (hasTypeConverterAttribute)
                 usings.Add(QualifiedName(IdentifierName("System"), IdentifierName("ComponentModel")));
 
+#if NOT_NEEDED
             usings.Add(QualifiedName(
                     QualifiedName(IdentifierName("System"), IdentifierName("Windows")),
                     IdentifierName("Markup")));
+#endif
 
             return usings;
         }
@@ -61,8 +63,8 @@ namespace StandardUI.CodeGenerator
         public override string ProjectBaseDirectory => "StandardUI.UWP";
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("UWP"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
-        public override IdentifierNameSyntax? UIElementBaseClassName => IdentifierName("Windows.UI.Xaml.UIElement");
-        public override IdentifierNameSyntax? DefaultBaseClassName => IdentifierName("DependencyObject");
+        public override string? UIElementBaseClassName => "Windows.UI.Xaml.UIElement";
+        public override string? DefaultBaseClassName => "DependencyObject";
         public override string WrapperSuffix => "Uwp";
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
         {
@@ -77,8 +79,8 @@ namespace StandardUI.CodeGenerator
         public override string ProjectBaseDirectory => Path.Combine("XamarinForms", "StandardUI.XamarinForms");
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("XamarinForms"));
         public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("BindableProperty");
-        public override IdentifierNameSyntax? UIElementBaseClassName => IdentifierName("VisualElement");
-        public override IdentifierNameSyntax? DefaultBaseClassName => IdentifierName("BindableObject");
+        public override string? UIElementBaseClassName => "VisualElement";
+        public override string? DefaultBaseClassName => "BindableObject";
         public override string WrapperSuffix => "Forms";
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
@@ -95,8 +97,8 @@ namespace StandardUI.CodeGenerator
 
         public override string ProjectBaseDirectory => Path.Combine("StandardUI", "StandardModel");
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("StandardModel"));
-        public override IdentifierNameSyntax? UIElementBaseClassName => IdentifierName("ObjectWithCascadingNotifications");
-        public override IdentifierNameSyntax? DefaultBaseClassName => IdentifierName("ObjectWithCascadingNotifications");
+        public override string? UIElementBaseClassName => "ObjectWithCascadingNotifications";
+        public override string? DefaultBaseClassName => "ObjectWithCascadingNotifications";
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
         {
