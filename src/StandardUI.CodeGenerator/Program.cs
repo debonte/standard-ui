@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +48,20 @@ namespace StandardUI.CodeGenerator
             Project project = await workspace.OpenProjectAsync(standardUIProjectPath, new ConsoleProgressReporter());
             Console.WriteLine($"Finished loading project '{standardUIProjectPath}'");
 
-            GenerateClasses(rootDirectory, workspace, project);
+            try
+            {
+                GenerateClasses(rootDirectory, workspace, project);
+            }
+            catch (UserViewableException e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+                Environment.Exit(1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.ToString()}");
+                Environment.Exit(2);
+            }
         }
 
         private static void GenerateClasses(string rootDirectory, Workspace workspace, Project project)
@@ -56,39 +70,33 @@ namespace StandardUI.CodeGenerator
             if (compilation == null)
                 return;
 
-            foreach (var tree in compilation.SyntaxTrees)
+            var interfaces = new Dictionary<string, InterfaceDeclarationSyntax>();
+            var attachedInterfaces = new Dictionary<string, InterfaceDeclarationSyntax>();
+            foreach (SyntaxTree? tree in compilation.SyntaxTrees)
             {
-                var interfaces = tree.GetRoot().DescendantNodesAndSelf().Where(x => x.IsKind(SyntaxKind.InterfaceDeclaration));
-                foreach (SyntaxNode node in interfaces)
+                foreach (InterfaceDeclarationSyntax? intface in tree.GetRoot().DescendantNodesAndSelf().OfType<InterfaceDeclarationSyntax>())
                 {
-                    InterfaceDeclarationSyntax interfaceDeclaration = (InterfaceDeclarationSyntax) node;
+                    string name = intface.Identifier.Text;
 
-                    if (!HasModelObjectAttribute(interfaceDeclaration))
-                        continue;
-
-                    // XCanvas is implemented manually, not generated
-                    string interfaceName = interfaceDeclaration.Identifier.Text;
-                    if (interfaceName == "IXCanvas")
-                        continue;
-
-                    try
-                    {
-                        Console.WriteLine($"Processing {interfaceDeclaration.Identifier.Text}");
-                        new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, WpfXamlOutputType.Instance).Generate();
-                        //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, XamarinFormsXamlOutputType.Instance).Generate();
-                        //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, StandardModelOutputType.Instance).Generate();
-                    }
-                    catch (UserViewableException e)
-                    {
-                        Console.WriteLine($"Error: {e.Message}");
-                        Environment.Exit(1);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine($"Error: {e.ToString()}");
-                        Environment.Exit(2);
-                    }
+                    if (name.EndsWith("Attached"))
+                        attachedInterfaces.Add(name, intface);
+                    else interfaces.Add(name, intface);
                 }
+            }
+
+            foreach (InterfaceDeclarationSyntax intface in interfaces.Values)
+            {
+                if (!HasModelObjectAttribute(intface))
+                    continue;
+
+                InterfaceDeclarationSyntax? attachedInterface = null;
+                if (attachedInterfaces.TryGetValue(intface.Identifier.Text + "Attached", out InterfaceDeclarationSyntax value))
+                    attachedInterface = value;
+
+                Console.WriteLine($"Processing {intface.Identifier.Text}");
+                new Interface(new Context(workspace, rootDirectory, WpfXamlOutputType.Instance), intface, attachedInterface).Generate();
+                //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, XamarinFormsXamlOutputType.Instance).Generate();
+                //new SourceFileGenerator(workspace, interfaceDeclaration, rootDirectory, StandardModelOutputType.Instance).Generate();
             }
         }
 

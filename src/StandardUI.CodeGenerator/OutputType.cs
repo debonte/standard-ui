@@ -20,8 +20,8 @@ namespace StandardUI.CodeGenerator
 
     public abstract class XamlOutputType : OutputType
     {
-        public abstract IdentifierNameSyntax DependencyPropertyClassName { get; }
-
+        public abstract string DependencyPropertyClassName { get; }
+        public virtual string GetPropertyDescriptorName(string propertyName) => propertyName + "Property";
         public override bool EmitChangedNotifications => true;
         public abstract string WrapperSuffix { get; }
     }
@@ -32,7 +32,7 @@ namespace StandardUI.CodeGenerator
 
         public override string ProjectBaseDirectory => "StandardUI.Wpf";
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("Wpf"));
-        public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
+        public override string DependencyPropertyClassName => "System.Windows.DependencyProperty";
         public override string? UIElementBaseClassName => "System.Windows.UIElement";
         public override string? DefaultBaseClassName => "System.Windows.DependencyObject";
         public override string WrapperSuffix => "Wpf";
@@ -62,7 +62,7 @@ namespace StandardUI.CodeGenerator
 
         public override string ProjectBaseDirectory => "StandardUI.UWP";
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("UWP"));
-        public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("DependencyProperty");
+        public override string DependencyPropertyClassName => "DependencyProperty";
         public override string? UIElementBaseClassName => "Windows.UI.Xaml.UIElement";
         public override string? DefaultBaseClassName => "DependencyObject";
         public override string WrapperSuffix => "Uwp";
@@ -78,7 +78,7 @@ namespace StandardUI.CodeGenerator
 
         public override string ProjectBaseDirectory => Path.Combine("XamarinForms", "StandardUI.XamarinForms");
         public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("XamarinForms"));
-        public override IdentifierNameSyntax DependencyPropertyClassName => IdentifierName("BindableProperty");
+        public override string DependencyPropertyClassName => "BindableProperty";
         public override string? UIElementBaseClassName => "VisualElement";
         public override string? DefaultBaseClassName => "BindableObject";
         public override string WrapperSuffix => "Forms";
