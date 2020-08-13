@@ -2,7 +2,7 @@
 
 namespace Microsoft.StandardUI
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
     public class DefaultValueAttribute : Attribute
     {
         public object? Value { get; }
