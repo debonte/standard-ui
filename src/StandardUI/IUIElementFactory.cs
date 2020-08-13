@@ -1,4 +1,5 @@
-﻿using Microsoft.StandardUI.Shapes;
+﻿using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Shapes;
 
 namespace Microsoft.StandardUI
 {

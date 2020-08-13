@@ -6,7 +6,7 @@ namespace Microsoft.StandardUI.Shapes
     public interface IShape : IUIElement
     {
         /// <summary>
-        /// A Brush that paints/fills the shape interior. The default is null, (a null brush) which is evaluated as Transparent for rendering.
+        /// A Brush that paints/fills the shape interior. The default is null (a null brush) which is evaluated as Transparent for rendering.
         /// </summary>
         [DefaultValue(null)]
         IBrush? Fill { get; set; }
