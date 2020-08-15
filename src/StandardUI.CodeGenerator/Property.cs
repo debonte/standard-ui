@@ -40,7 +40,7 @@ namespace StandardUI.CodeGenerator
             string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
             destinationStaticMembers.AddLine(
-                $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.Create(nameof({Name}), typeof({nonNullablePropertyType}), typeof({DestinationType}), {DefaultValue});");
+                $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.Register(nameof({Name}), typeof({nonNullablePropertyType}), typeof({Interface.DestinationClassName}), {DefaultValue});");
         }
 
         public void AddMethodsSource(Source destinationMembers)

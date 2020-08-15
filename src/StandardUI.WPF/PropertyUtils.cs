@@ -14,20 +14,16 @@ namespace Microsoft.StandardUI.Wpf
             return Enumerable.Empty<T>();
         }
 
-        public static System.Windows.DependencyProperty Create(string propertyName, Type propertyType, Type ownerType, object? defaultValue)
+        public static System.Windows.DependencyProperty Register(string propertyName, Type propertyType, Type ownerType, object? defaultValue)
         {
-            if (propertyType == typeof(IBrush))
-                propertyType = typeof(Brush);
-            else if (propertyType == typeof(ITransform))
-                propertyType = typeof(Transform);
-            else if (propertyType == typeof(Color))
-            {
-                propertyType = typeof(ColorWpf);
-                defaultValue = ColorWpf.Transparent;
-            }
-
             var propertyMetadata = new PropertyMetadata(defaultValue, OnPropertyChanged);
             return System.Windows.DependencyProperty.Register(propertyName, propertyType, ownerType, propertyMetadata);
+        }
+
+        public static System.Windows.DependencyProperty RegisterAttached(string propertyName, Type propertyType, Type ownerType, object? defaultValue)
+        {
+            //var propertyMetadata = new PropertyMetadata(defaultValue, OnPropertyChanged);
+            return System.Windows.DependencyProperty.RegisterAttached(propertyName, propertyType, ownerType);
         }
 
         private static void OnPropertyChanged(System.Windows.DependencyObject obj, DependencyPropertyChangedEventArgs e)

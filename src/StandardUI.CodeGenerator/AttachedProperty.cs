@@ -64,7 +64,7 @@ namespace StandardUI.CodeGenerator
             string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
             destinationStaticMembers.AddLine(
-                $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = AttachedPropertyUtils.Create(\"{Name}\", typeof({nonNullablePropertyType}), typeof({TargetDestinationType}), {DefaultValue});");
+                $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.RegisterAttached(\"{Name}\", typeof({nonNullablePropertyType}), typeof({TargetDestinationType}), {DefaultValue});");
         }
 
         public void AddMainClassMethodsSource(Source destinationMembers)
@@ -93,36 +93,6 @@ namespace StandardUI.CodeGenerator
                         .Insert(0, CarriageReturnLineFeed)
                         .Insert(0, CarriageReturnLineFeed)));
 #endif
-
-            // If the interface property has a different type, add another property that explicitly implements it
-            if (classPropertyTypeDiffersFromInterface)
-            {
-                string getterValue;
-                string setterAssignment;
-                if (SourceType is IdentifierNameSyntax identifierName && Context.IsWrappedType(identifierName.Identifier.Text))
-                {
-                    string wrapperTypeName = identifierName.Identifier.Text;
-                    getterValue = $"{Name}.{SourceType}";
-                    setterAssignment = $"{Name} = new {DestinationType}(value)";
-                }
-                else
-                {
-                    getterValue = Name;
-                    setterAssignment = $"{Name} = ({DestinationType}) value";
-                }
-
-                destinationMembers.AddLine($"{SourceType} {Interface}.{Name}");
-                destinationMembers.AddLine("{");
-                using (var indentRestorer = destinationMembers.Indent())
-                {
-                    destinationMembers.AddLine($"get => {getterValue};");
-                    /*
-                    if (hasSetter)
-                        destinationMembers.AddLine($"set => {setterAssignment};");
-                    */
-                }
-                destinationMembers.AddLine("}");
-            }
         }
 
         public void AddAttachedClassMethodsSource(Source destinationMembers)
@@ -132,9 +102,9 @@ namespace StandardUI.CodeGenerator
             destinationMembers.AddBlankLine();
             if (Context.OutputType is XamlOutputType xamlOutputType)
             {
-                destinationMembers.AddLine($"public {DestinationType} Get{Name}({TargetDestinationType} {TargetParameterName}) => {Interface.DestinationClassName}.Get{Name}({TargetParameterName});");
+                destinationMembers.AddLine($"public {DestinationType} Get{Name}({TargetSourceType} {TargetParameterName}) => {Interface.DestinationClassName}.Get{Name}(({TargetDestinationType}) {TargetParameterName});");
                 if (SetterDeclaration != null)
-                    destinationMembers.AddLine($"public void Set{Name}({TargetDestinationType} {TargetParameterName}, {DestinationType} value) => {Interface.DestinationClassName}.Set{Name}({TargetParameterName}, value);");
+                    destinationMembers.AddLine($"public void Set{Name}({TargetSourceType} {TargetParameterName}, {DestinationType} value) => {Interface.DestinationClassName}.Set{Name}(({TargetDestinationType}) {TargetParameterName}, value);");
             }
             else
             {
