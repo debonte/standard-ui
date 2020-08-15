@@ -234,7 +234,7 @@ namespace StandardUI.CodeGenerator
 
         public string GetOutputDirectory(NameSyntax namespaceName)
         {
-            string outputDirectory = Path.Combine(RootDirectory, "src", OutputType.ProjectBaseDirectory);
+            string outputDirectory = Path.Combine(RootDirectory, "src", OutputType.ProjectBaseDirectory, "generated");
             string? childNamespace = GetChildNamespace(namespaceName);
             if (childNamespace != null)
                 outputDirectory = Path.Combine(outputDirectory, childNamespace);
