@@ -3,6 +3,7 @@
     [UIModelObject]
     public interface IDependencyObject
     {
+#if LATER
         /// <summary>
         /// Returns the current effective value of a dependency property from an IDependencyObject.
         /// </summary>
@@ -23,5 +24,6 @@
         /// <param name="dp">The identifier of the dependency property to set.</param>
         /// <param name="value">The new local value.</param>
         public void SetValue(IDependencyProperty dp, object value);
+#endif
     }
 }
