@@ -15,13 +15,15 @@ namespace StandardUI.CodeGenerator
     {
         static async Task Main(string[] args)
         {
-            // Attempt to set the version of MSBuild.
-            var visualStudioInstances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
-            var instance = visualStudioInstances.Length == 1
-                // If there is only one instance of MSBuild on this machine, set that as the one to use.
-                ? visualStudioInstances[0]
-                // Handle selecting the version of MSBuild you want to use.
-                : SelectVisualStudioInstance(visualStudioInstances);
+            if (args.Length < 1 || args.Length > 2)
+            {
+                Console.WriteLine($"Usage: StandardUI.CodelGenerator.exe <path-to-repo-root> [path-to-vs-instance]");
+                Environment.Exit(1);
+            }
+
+            string rootDirectory = NormalizePath(args[0]);
+
+            VisualStudioInstance instance = GetVisualStudioInstance(args.Length == 2 ? NormalizePath(args[1]) : null);
 
             Console.WriteLine($"Using MSBuild at '{instance.MSBuildPath}' to load projects.");
 
@@ -34,12 +36,6 @@ namespace StandardUI.CodeGenerator
             // Print message for WorkspaceFailed event to help diagnosing project load failures.
             workspace.WorkspaceFailed += (o, e) => Console.WriteLine(e.Diagnostic.Message);
 
-            if (args.Length < 1)
-            {
-                Console.WriteLine($"Usage: StandardUI.CodelGenerator.exe <path-to-repo-root>");
-                Environment.Exit(1);
-            }
-            string rootDirectory = args[0];
 
             string standardUIProjectPath = Path.Combine(rootDirectory, "src", "StandardUI", "StandardUI.csproj");
             Console.WriteLine($"Loading project '{standardUIProjectPath}'");
@@ -62,6 +58,52 @@ namespace StandardUI.CodeGenerator
                 Console.WriteLine($"Error: {e.ToString()}");
                 Environment.Exit(2);
             }
+        }
+
+        private static VisualStudioInstance GetVisualStudioInstance(string? vsPath)
+        {
+            VisualStudioInstance? instance = null;
+            var visualStudioInstances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
+            if (visualStudioInstances.Length == 1)
+            {
+                // If there is only one instance of MSBuild on this machine, set that as the one to use.
+                instance = visualStudioInstances[0];
+            }
+            else if (visualStudioInstances.Length > 1 && vsPath != null)
+            {
+                foreach (var currInstance in visualStudioInstances)
+                {
+                    string vsRootPath = NormalizePath(currInstance.VisualStudioRootPath);
+
+                    if (vsPath.StartsWith(vsRootPath))
+                    {
+                        instance = currInstance;
+                        break;
+                    }
+                }
+            }
+
+            if (instance == null)
+            {
+                // Let user select the instance to use manually
+                instance = SelectVisualStudioInstance(visualStudioInstances);
+            }
+
+            return instance;
+        }
+
+        private static bool HasModelObjectAttribute(InterfaceDeclarationSyntax interfaceDeclaration)
+        {
+            foreach (AttributeListSyntax attributeList in interfaceDeclaration.AttributeLists)
+            {
+                foreach (AttributeSyntax attribute in attributeList.Attributes)
+                {
+                    if (attribute.Name.ToString() == "UIModelObject")
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         private static void GenerateClasses(string rootDirectory, Workspace workspace, Project project)
@@ -100,18 +142,18 @@ namespace StandardUI.CodeGenerator
             }
         }
 
-        private static bool HasModelObjectAttribute(InterfaceDeclarationSyntax interfaceDeclaration)
+        private static string NormalizePath(string path)
         {
-            foreach (AttributeListSyntax attributeList in interfaceDeclaration.AttributeLists)
+            path = path.Trim();
+            try
             {
-                foreach (AttributeSyntax attribute in attributeList.Attributes)
-                {
-                    if (attribute.Name.ToString() == "UIModelObject")
-                        return true;
-                }
+                return Path.GetFullPath(path).TrimEnd('\\').ToLowerInvariant();
             }
-
-            return false;
+            catch (ArgumentException e)
+            {
+                // If invalid path, leave unmodified
+                return path;
+            }
         }
 
         private static VisualStudioInstance SelectVisualStudioInstance(VisualStudioInstance[] visualStudioInstances)
