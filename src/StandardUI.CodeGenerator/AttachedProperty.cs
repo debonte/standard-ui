@@ -51,7 +51,7 @@ namespace StandardUI.CodeGenerator
             }
         }
 
-        public void AddMainClassDescriptorSource(Source destinationStaticMembers)
+        public void GenerateMainClassDescriptor(Source destinationStaticMembers)
         {
             if (!(Context.OutputType is XamlOutputType xamlOutputType))
                 return;
@@ -67,7 +67,7 @@ namespace StandardUI.CodeGenerator
                 $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.RegisterAttached(\"{Name}\", typeof({nonNullablePropertyType}), typeof({TargetDestinationType}), {DefaultValue});");
         }
 
-        public void AddMainClassMethodsSource(Source destinationMembers)
+        public void GenerateMainClassMethods(Source destinationMembers)
         {
             bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
 
@@ -95,7 +95,7 @@ namespace StandardUI.CodeGenerator
 #endif
         }
 
-        public void AddAttachedClassMethodsSource(Source destinationMembers)
+        public void GenerateAttachedClassMethods(Source destinationMembers)
         {
             bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
 

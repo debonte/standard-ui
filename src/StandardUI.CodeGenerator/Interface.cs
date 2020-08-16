@@ -69,8 +69,8 @@ namespace StandardUI.CodeGenerator
                     collectionProperties.Add(modelProperty);
 #endif
 
-                property.AddDescriptorSource(descriptors);
-                property.AddMethodsSource(nonstaticMethods);
+                property.GenerateDescriptor(descriptors);
+                property.GenerateMethods(nonstaticMethods);
 
                 if (propertyName == "Children")
                     hasChildrenProperty = true;
@@ -101,9 +101,9 @@ namespace StandardUI.CodeGenerator
 
                     var attachedProperty = new AttachedProperty(_context, this, AttachedInterfaceDeclaration, getterMethodDeclaration, setterMethodDeclaration);
 
-                    attachedProperty.AddMainClassDescriptorSource(descriptors);
-                    attachedProperty.AddMainClassMethodsSource(staticMethods);
-                    attachedProperty.AddAttachedClassMethodsSource(attachedClassMethods);
+                    attachedProperty.GenerateMainClassDescriptor(descriptors);
+                    attachedProperty.GenerateMainClassMethods(staticMethods);
+                    attachedProperty.GenerateAttachedClassMethods(attachedClassMethods);
                 }
             }
 

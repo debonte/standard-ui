@@ -27,7 +27,7 @@ namespace StandardUI.CodeGenerator
             DefaultValue = context.GetDefaultValue(declaration.AttributeLists, Name, SourceType, DestinationType);
         }
 
-        public void AddDescriptorSource(Source destinationStaticMembers)
+        public void GenerateDescriptor(Source destinationStaticMembers)
         {
             if (!(Context.OutputType is XamlOutputType xamlOutputType))
                 return;
@@ -43,7 +43,7 @@ namespace StandardUI.CodeGenerator
                 $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.Register(nameof({Name}), typeof({nonNullablePropertyType}), typeof({Interface.DestinationClassName}), {DefaultValue});");
         }
 
-        public void AddMethodsSource(Source destinationMembers)
+        public void GenerateMethods(Source destinationMembers)
         {
             bool hasSetter = Declaration.AccessorList?.Accessors.Any((accessor) => accessor.Kind() == SyntaxKind.SetAccessorDeclaration) ?? false;
 
