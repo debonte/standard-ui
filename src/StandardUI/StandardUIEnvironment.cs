@@ -1,4 +1,6 @@
-﻿namespace Microsoft.StandardUI
+﻿using Microsoft.StandardUI.Media;
+
+namespace Microsoft.StandardUI
 {
     public static class StandardUIEnvironment
     {
@@ -12,5 +14,7 @@
         public static IStandardUIEnvironment Environment => _standardUIEnvironment!;
 
         public static IUIElementFactory UIElementFactory => _standardUIEnvironment.UIElementFactory;
+
+        public static IMediaFactory MediaFactory => _standardUIEnvironment.MediaFactory;
     }
 }

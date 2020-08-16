@@ -1,4 +1,5 @@
 ﻿using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
 using Microsoft.StandardUI.Shapes;
 
 namespace Microsoft.StandardUI
@@ -22,5 +23,11 @@ namespace Microsoft.StandardUI
         public static IStackPanel StackPanel() => StandardUIEnvironment.UIElementFactory.CreateStackPanel();
 
         public static IGrid Grid() => StandardUIEnvironment.UIElementFactory.CreateGrid();
+
+        public static ISolidColorBrush SolidColorBrush() => StandardUIEnvironment.MediaFactory.CreateSolidColorBrush();
+
+        public static ILinearGradientBrush LinearGradientBrush() => StandardUIEnvironment.MediaFactory.CreateLinearGradientBrush();
+
+        public static IRadialGradientBrush RadialGradientBrush() => StandardUIEnvironment.MediaFactory.CreateRadialGradientBrush();
     }
 }

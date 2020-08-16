@@ -2,8 +2,12 @@
 
 namespace Microsoft.StandardUI.Media
 {
-    public interface IGeometryFactory
+    public interface IMediaFactory
     {
+        ISolidColorBrush CreateSolidColorBrush();
+        ILinearGradientBrush CreateLinearGradientBrush();
+        IRadialGradientBrush CreateRadialGradientBrush();
+
         ILineSegment CreateLineSegment(in Point point);
         IPolyLineSegment CreatePolyLineSegment(Points points);
         IBezierSegment CreateBezierSegment(in Point point1, in Point point2, in Point point3);
