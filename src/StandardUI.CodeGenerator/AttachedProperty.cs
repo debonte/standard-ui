@@ -51,7 +51,7 @@ namespace StandardUI.CodeGenerator
             }
         }
 
-        public void GenerateMainClassDescriptor(Source destinationStaticMembers)
+        public void GenerateMainClassDescriptor(Source source)
         {
             if (!(Context.OutputType is XamlOutputType xamlOutputType))
                 return;
@@ -63,23 +63,23 @@ namespace StandardUI.CodeGenerator
 
             string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
-            destinationStaticMembers.AddLine(
+            source.AddLine(
                 $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.RegisterAttached(\"{Name}\", typeof({nonNullablePropertyType}), typeof({TargetDestinationType}), {DefaultValue});");
         }
 
-        public void GenerateMainClassMethods(Source destinationMembers)
+        public void GenerateMainClassMethods(Source source)
         {
             bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
 
-            destinationMembers.AddBlankLine();
+            source.AddBlankLineIfNonempty();
             if (Context.OutputType is XamlOutputType xamlOutputType)
             {
                 string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
-                destinationMembers.AddLine($"public static {DestinationType} Get{Name}({TargetDestinationType} {TargetParameterName}) => ({DestinationType}) {TargetParameterName}.GetValue({descriptorName});");
+                source.AddLine($"public static {DestinationType} Get{Name}({TargetDestinationType} {TargetParameterName}) => ({DestinationType}) {TargetParameterName}.GetValue({descriptorName});");
 
                 if (SetterDeclaration != null)
-                    destinationMembers.AddLine($"public static void Set{Name}({TargetDestinationType} {TargetParameterName}, {DestinationType} value) => {TargetParameterName}.SetValue({descriptorName}, value);");
+                    source.AddLine($"public static void Set{Name}({TargetDestinationType} {TargetParameterName}, {DestinationType} value) => {TargetParameterName}.SetValue({descriptorName}, value);");
             }
             else
             {
@@ -95,16 +95,16 @@ namespace StandardUI.CodeGenerator
 #endif
         }
 
-        public void GenerateAttachedClassMethods(Source destinationMembers)
+        public void GenerateAttachedClassMethods(Source source)
         {
             bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
 
-            destinationMembers.AddBlankLine();
+            source.AddBlankLineIfNonempty();
             if (Context.OutputType is XamlOutputType xamlOutputType)
             {
-                destinationMembers.AddLine($"public {DestinationType} Get{Name}({TargetSourceType} {TargetParameterName}) => {Interface.DestinationClassName}.Get{Name}(({TargetDestinationType}) {TargetParameterName});");
+                source.AddLine($"public {DestinationType} Get{Name}({TargetSourceType} {TargetParameterName}) => {Interface.DestinationClassName}.Get{Name}(({TargetDestinationType}) {TargetParameterName});");
                 if (SetterDeclaration != null)
-                    destinationMembers.AddLine($"public void Set{Name}({TargetSourceType} {TargetParameterName}, {DestinationType} value) => {Interface.DestinationClassName}.Set{Name}(({TargetDestinationType}) {TargetParameterName}, value);");
+                    source.AddLine($"public void Set{Name}({TargetSourceType} {TargetParameterName}, {DestinationType} value) => {Interface.DestinationClassName}.Set{Name}(({TargetDestinationType}) {TargetParameterName}, value);");
             }
             else
             {

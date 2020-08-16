@@ -7,22 +7,39 @@ namespace StandardUI.CodeGenerator
 {
 	public class Source
     {
-        public static int IndentSize = 4;
         public static string LineEnding = "\r\n";
 
         private List<SourceLine> _lines = new List<SourceLine>();
         private int _indent = 0;
+        private Context Context { get; }
+
+        public Source(Context context)
+        {
+            Context = context;
+        }
 
         public void AddBlankLine()
 		{
             AddLine("");
 		}
 
+        public void AddBlankLineIfNonempty()
+        {
+            if (_lines.Count > 0)
+                AddBlankLine();
+        }
+
         public void AddLine(string text)
 		{
             var sourceLine = new SourceLine(_indent, text);
             _lines.Add(sourceLine);
 		}
+
+        public void AddLines(params string[] lines)
+        {
+            foreach (var line in lines)
+                AddLine(line);
+        }
 
         public bool IsEmpty => _lines.Count == 0;
 
@@ -31,7 +48,7 @@ namespace StandardUI.CodeGenerator
         public IndentRestorer Indent()
 		{
             IndentRestorer indentRestorer = new IndentRestorer(this, _indent);
-            _indent += IndentSize;
+            _indent += Context.IndentSize;
             return indentRestorer;
 		}
 

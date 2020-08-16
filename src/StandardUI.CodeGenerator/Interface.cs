@@ -10,19 +10,20 @@ namespace StandardUI.CodeGenerator
         public static int IndentSize = 4;
         public const string RootNamespace = "Microsoft.StandardUI";
 
-        private readonly Context _context;
         private readonly NameSyntax _sourceNamespaceName;
         private readonly CompilationUnitSyntax _sourceCompilationUnit;
         private readonly QualifiedNameSyntax _destinationNamespaceName;
 
+        public Context Context { get; }
         public string DestinationClassName { get; }
         public InterfaceDeclarationSyntax Declaration { get; }
         public InterfaceDeclarationSyntax? AttachedInterfaceDeclaration { get; }
         public string Name { get; }
+        public string VariableName { get; }
 
         public Interface(Context context, InterfaceDeclarationSyntax sourceInterfaceDeclaration, InterfaceDeclarationSyntax? sourceAttachedInterfaceDeclaration)
         {
-            _context = context;
+            Context = context;
             Declaration = sourceInterfaceDeclaration;
             AttachedInterfaceDeclaration = sourceAttachedInterfaceDeclaration;
 
@@ -31,6 +32,9 @@ namespace StandardUI.CodeGenerator
                 throw new UserViewableException($"Data model interface {Name} must start with 'I'");
 
             DestinationClassName = Name.Substring(1);
+
+            // Form the default variable name for the interface by dropping the "I" and lower casing the first letter after (ICanvas => canvas)
+            VariableName = Name.Substring(1, 1).ToLower() + Name.Substring(2);
 
             if (!(Declaration.Parent is NamespaceDeclarationSyntax interfaceNamespaceDeclaration))
                 throw new UserViewableException(
@@ -42,18 +46,20 @@ namespace StandardUI.CodeGenerator
                     $"Parent of ${interfaceNamespaceDeclaration} namespace should be compilation unit, but it's a {interfaceNamespaceDeclaration.Parent.GetType()} node instead");
             _sourceCompilationUnit = compilationUnit;
 
-            _destinationNamespaceName = _context.ToDestinationNamespaceName(_sourceNamespaceName);
+            _destinationNamespaceName = Context.ToDestinationNamespaceName(_sourceNamespaceName);
         }
 
         public void Generate()
         {
             bool hasChildrenProperty = false;
-
-            var descriptors = new Source();
-            var staticMethods = new Source();
-            var nonstaticMethods = new Source();
             var collectionProperties = new List<PropertyDeclarationSyntax>();
-            var attachedClassMethods = new Source();
+
+            var mainClassDescriptors = new Source(Context);
+            var mainClassStaticMethods = new Source(Context);
+            var mainClassNonstaticMethods = new Source(Context);
+
+            var extensionClassMethods = new Source(Context);
+            var attachedClassMethods = new Source(Context);
 
             // Add the property descriptors and accessors
             foreach (MemberDeclarationSyntax modelObjectMember in Declaration.Members)
@@ -62,15 +68,16 @@ namespace StandardUI.CodeGenerator
                     continue;
 
                 string propertyName = modelProperty.Identifier.Text;
-                var property = new Property(_context, this, modelProperty);
+                var property = new Property(Context, this, modelProperty);
 
 #if false
                 if (IsCollectionType(modelProperty.Type))
                     collectionProperties.Add(modelProperty);
 #endif
 
-                property.GenerateDescriptor(descriptors);
-                property.GenerateMethods(nonstaticMethods);
+                property.GenerateDescriptor(mainClassDescriptors);
+                property.GenerateMethods(mainClassNonstaticMethods);
+                property.GenerateExtensionClassMethods(extensionClassMethods);
 
                 if (propertyName == "Children")
                     hasChildrenProperty = true;
@@ -99,54 +106,68 @@ namespace StandardUI.CodeGenerator
                     MethodDeclarationSyntax? setterMethodDeclaration = (MethodDeclarationSyntax?)AttachedInterfaceDeclaration.Members.
                         FirstOrDefault(m => m is MethodDeclarationSyntax potentialSetter && potentialSetter.Identifier.Text == setterMethodName);
 
-                    var attachedProperty = new AttachedProperty(_context, this, AttachedInterfaceDeclaration, getterMethodDeclaration, setterMethodDeclaration);
+                    var attachedProperty = new AttachedProperty(Context, this, AttachedInterfaceDeclaration, getterMethodDeclaration, setterMethodDeclaration);
 
-                    attachedProperty.GenerateMainClassDescriptor(descriptors);
-                    attachedProperty.GenerateMainClassMethods(staticMethods);
+                    attachedProperty.GenerateMainClassDescriptor(mainClassDescriptors);
+                    attachedProperty.GenerateMainClassMethods(mainClassStaticMethods);
                     attachedProperty.GenerateAttachedClassMethods(attachedClassMethods);
                 }
             }
 
-            Source usingDeclarations = CreateUsingDeclarationsSource(!descriptors.IsEmpty);
+            Source usingDeclarations = GenerateUsingDeclarations(!mainClassDescriptors.IsEmpty);
 
             string? destinationBaseClass = GetDestinationBaseClass();
 
-            Source? constructor = CreateConstructor(collectionProperties);
+            Source? constructor = GenerateConstructor(collectionProperties);
 
-            string dervivedFrom;
+            string platformOutputDirectory = Context.GetPlatformOutputDirectory(_sourceNamespaceName);
+
+            string mainClassDerviedFrom;
             if (destinationBaseClass == null)
-                dervivedFrom = Name;
+                mainClassDerviedFrom = Name;
             else
-                dervivedFrom = $"{destinationBaseClass}, {Name}";
-
-            GenerateClassFile(usingDeclarations, DestinationClassName, dervivedFrom, constructor, descriptors, staticMethods, nonstaticMethods);
+                mainClassDerviedFrom = $"{destinationBaseClass}, {Name}";
+            Source mainClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, DestinationClassName, mainClassDerviedFrom, constructor, mainClassDescriptors, mainClassStaticMethods, mainClassNonstaticMethods);
+            mainClassSource.WriteToFile(platformOutputDirectory, DestinationClassName + ".cs");
 
             if (AttachedInterfaceDeclaration != null)
             {
+                string attachedClassName = DestinationClassName + "Attached";
                 string attachedClassDerivedFrom = AttachedInterfaceDeclaration.Identifier.Text;
-                GenerateClassFile(usingDeclarations, DestinationClassName + "Attached", attachedClassDerivedFrom, constructor: null, descriptors: null, staticMethods: null, attachedClassMethods);
+                Source attachedClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, attachedClassName, attachedClassDerivedFrom, constructor: null, descriptors: null, staticMethods: null, attachedClassMethods);
+                attachedClassSource.WriteToFile(platformOutputDirectory, attachedClassName + ".cs");
+            }
+
+            if (!extensionClassMethods.IsEmpty)
+            {
+                string extensionsClassName = DestinationClassName + "Extensions";
+                Source extensionsClassSource = GenerateStaticClassFile(GenerateExtensionsClassUsingDeclarations(), _sourceNamespaceName, extensionsClassName, extensionClassMethods);
+                extensionsClassSource.WriteToFile(Context.GetSharedOutputDirectory(_sourceNamespaceName), extensionsClassName + ".cs");
             }
         }
 
-        public void GenerateClassFile(Source usingDeclarations, string className, string derivedFrom, Source? constructor, Source? descriptors, Source? staticMethods, Source? nonstaticMethods)
+        public Source GenerateClassFile(Source usingDeclarations, NameSyntax namespaceName, string className, string derivedFrom, Source? constructor, Source? descriptors, Source? staticMethods, Source? nonstaticMethods)
         {
-            Source fileSource = new Source();
+            Source fileSource = new Source(Context);
 
-            fileSource.AddLine($"// This file is generated from {Name}.cs. Update the source file to change its contents.");
-            fileSource.AddBlankLine();
+            GenerateFileHeader(fileSource);
 
-            fileSource.AddSource(usingDeclarations);
             if (!usingDeclarations.IsEmpty)
+            {
+                fileSource.AddSource(usingDeclarations);
                 fileSource.AddBlankLine();
+            }
 
-            fileSource.AddLine($"namespace {_destinationNamespaceName}");
-            fileSource.AddLine("{");
+            fileSource.AddLines(
+                $"namespace {namespaceName}",
+                "{");
 
             using (fileSource.Indent())
             {
-                fileSource.AddLine($"public class {className} : {derivedFrom}");
-                fileSource.AddLine("{");
-                using (var indentRestorer = fileSource.Indent())
+                fileSource.AddLines(
+                    $"public class {className} : {derivedFrom}",
+                    "{");
+                using (fileSource.Indent())
                 {
                     if (descriptors != null)
                         fileSource.AddSource(descriptors);
@@ -157,23 +178,65 @@ namespace StandardUI.CodeGenerator
                     if (nonstaticMethods != null)
                         fileSource.AddSource(nonstaticMethods);
                 }
-                fileSource.AddLine("}");
+                fileSource.AddLine(
+                    "}");
             }
 
-            fileSource.AddLine("}");
+            fileSource.AddLine(
+                "}");
 
-            string outputDirectory = _context.GetOutputDirectory(_sourceNamespaceName);
-            fileSource.WriteToFile(outputDirectory, className + ".cs");
+            return fileSource;
         }
 
-        public OutputType OutputType => _context.OutputType;
+        public Source GenerateStaticClassFile(Source usingDeclarations, NameSyntax namespaceName, string className, Source staticMethods)
+        {
+            Source fileSource = new Source(Context);
 
-        private Source? CreateConstructor(List<PropertyDeclarationSyntax> collectionProperties)
+            GenerateFileHeader(fileSource);
+
+            if (!usingDeclarations.IsEmpty)
+            {
+                fileSource.AddSource(usingDeclarations);
+                fileSource.AddBlankLine();
+            }
+
+            fileSource.AddLines(
+                $"namespace {namespaceName}",
+                "{");
+
+            using (fileSource.Indent())
+            {
+                fileSource.AddLines(
+                    $"public static class {className}",
+                    "{");
+                using (fileSource.Indent())
+                {
+                    fileSource.AddSource(staticMethods);
+                }
+                fileSource.AddLine(
+                    "}");
+            }
+
+            fileSource.AddLine(
+                "}");
+
+            return fileSource;
+        }
+
+        private void GenerateFileHeader(Source fileSource)
+        {
+            fileSource.AddLine($"// This file is generated from {Name}.cs. Update the source file to change its contents.");
+            fileSource.AddBlankLine();
+        }
+
+        public OutputType OutputType => Context.OutputType;
+
+        private Source? GenerateConstructor(List<PropertyDeclarationSyntax> collectionProperties)
         {
             if (collectionProperties.Count == 0)
                 return null;
 
-            Source constructor = new Source();
+            Source constructor = new Source(Context);
 
             constructor.AddLine($"public {DestinationClassName}()");
             constructor.AddLine("{");
@@ -184,7 +247,7 @@ namespace StandardUI.CodeGenerator
                 foreach (PropertyDeclarationSyntax property in collectionProperties)
                 {
                     string propertyName = property.Identifier.Text;
-                    TypeSyntax destinationPropertyType = _context.ToDestinationType(property.Type);
+                    TypeSyntax destinationPropertyType = Context.ToDestinationType(property.Type);
 
                     constructor.AddLine($"{propertyName} = new {destinationPropertyType}()");
                 }
@@ -195,9 +258,9 @@ namespace StandardUI.CodeGenerator
             return constructor;
         }
 
-        private Source CreateUsingDeclarationsSource(bool hasPropertyDescriptors)
+        private Source GenerateUsingDeclarations(bool hasPropertyDescriptors)
         {
-            Source usingDeclarations = new Source();
+            Source source = new Source(Context);
 
             var usingNames = new Dictionary<string, NameSyntax>();
 
@@ -207,7 +270,7 @@ namespace StandardUI.CodeGenerator
                 AddUsing(usingNames, sourceUsingName);
 
                 if (sourceUsingName.ToString().StartsWith("Microsoft.StandardUI."))
-                    AddUsing(usingNames, _context.ToDestinationNamespaceName(sourceUsingName));
+                    AddUsing(usingNames, Context.ToDestinationNamespaceName(sourceUsingName));
             }
 
             AddUsing(usingNames, _sourceNamespaceName);
@@ -229,13 +292,24 @@ namespace StandardUI.CodeGenerator
             if (DestinationTypeHasTypeConverterAttribute())
                 AddUsing(usingNames, QualifiedName(OutputType.RootNamespace, IdentifierName("Converters")));
 
-            var usingDirectives = new List<UsingDirectiveSyntax>();
             foreach (NameSyntax name in usingNames.Values)
             {
-                usingDeclarations.AddLine($"using {name};");
+                source.AddLine($"using {name};");
             }
 
-            return usingDeclarations;
+            return source;
+        }
+
+        private Source GenerateExtensionsClassUsingDeclarations()
+        {
+            Source source = new Source(Context);
+
+            foreach (UsingDirectiveSyntax sourceUsing in _sourceCompilationUnit.Usings)
+            {
+                source.AddLine($"using {sourceUsing.Name};");
+            }
+
+            return source;
         }
 
         private static void AddUsing(Dictionary<string, NameSyntax> usingNames, NameSyntax name)
@@ -247,7 +321,7 @@ namespace StandardUI.CodeGenerator
 
         private bool DestinationTypeHasTypeConverterAttribute()
         {
-            return _context.OutputType is XamlOutputType &&
+            return Context.OutputType is XamlOutputType &&
                    (DestinationClassName == "Geometry" || DestinationClassName == "Brush");
         }
 
@@ -265,7 +339,7 @@ namespace StandardUI.CodeGenerator
                 else return OutputType.DefaultBaseClassName;
             }
             else
-                return _context.ToDestinationType(baseInterface).ToString();
+                return Context.ToDestinationType(baseInterface).ToString();
         }
     }
 }

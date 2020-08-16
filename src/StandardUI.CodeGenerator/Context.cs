@@ -9,9 +9,9 @@ namespace StandardUI.CodeGenerator
 {
     public class Context
     {
-        public static int IndentSize = 4;
         public const string RootNamespace = "Microsoft.StandardUI";
 
+        public int IndentSize { get; } = 4;
         public Workspace Workspace { get; }
         public string RootDirectory { get; }
         public OutputType OutputType { get; }
@@ -232,7 +232,17 @@ namespace StandardUI.CodeGenerator
             throw new UserViewableException($"Property {propertyName} has no [DefaultValue] attribute nor hardcoded default");
         }
 
-        public string GetOutputDirectory(NameSyntax namespaceName)
+        public string GetSharedOutputDirectory(NameSyntax namespaceName)
+        {
+            string outputDirectory = Path.Combine(RootDirectory, "src", "StandardUI", "generated");
+            string? childNamespace = GetChildNamespace(namespaceName);
+            if (childNamespace != null)
+                outputDirectory = Path.Combine(outputDirectory, childNamespace);
+
+            return outputDirectory;
+        }
+
+        public string GetPlatformOutputDirectory(NameSyntax namespaceName)
         {
             string outputDirectory = Path.Combine(RootDirectory, "src", OutputType.ProjectBaseDirectory, "generated");
             string? childNamespace = GetChildNamespace(namespaceName);

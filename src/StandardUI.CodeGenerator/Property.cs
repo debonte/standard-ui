@@ -11,6 +11,7 @@ namespace StandardUI.CodeGenerator
         public Context Context { get; }
         public Interface Interface { get; }
         public PropertyDeclarationSyntax Declaration { get; }
+        public bool HasSetter { get; }
         public string Name { get; }
         public TypeSyntax SourceType { get; }
         public TypeSyntax DestinationType { get; }
@@ -21,6 +22,7 @@ namespace StandardUI.CodeGenerator
             Context = context;
             Interface = intface;
             Declaration = declaration;
+            HasSetter = declaration.AccessorList?.Accessors.Any((accessor) => accessor.Kind() == SyntaxKind.SetAccessorDeclaration) ?? false;
             Name = declaration.Identifier.Text;
             SourceType = declaration.Type.WithoutTrivia();
             DestinationType = context.ToDestinationType(SourceType);
@@ -43,10 +45,8 @@ namespace StandardUI.CodeGenerator
                 $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.Register(nameof({Name}), typeof({nonNullablePropertyType}), typeof({Interface.DestinationClassName}), {DefaultValue});");
         }
 
-        public void GenerateMethods(Source destinationMembers)
+        public void GenerateMethods(Source source)
         {
-            bool hasSetter = Declaration.AccessorList?.Accessors.Any((accessor) => accessor.Kind() == SyntaxKind.SetAccessorDeclaration) ?? false;
-
             bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
 
             SyntaxTrivia xmlCommentTrivia = Declaration.GetLeadingTrivia().FirstOrDefault(t =>
@@ -66,20 +66,24 @@ namespace StandardUI.CodeGenerator
                 modifiers = TokenList(Token(SyntaxKind.PublicKeyword));
 #endif
 
-            destinationMembers.AddBlankLine();
+            source.AddBlankLineIfNonempty();
             if (Context.OutputType is XamlOutputType xamlOutputType)
             {
                 string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
-                destinationMembers.AddLine($"public {DestinationType} {Name}");
-                destinationMembers.AddLine("{");
-                using (var indentRestorer = destinationMembers.Indent())
+                source.AddLines(
+                    $"public {DestinationType} {Name}",
+                    "{");
+                using (source.Indent())
                 {
-                    destinationMembers.AddLine($"get => ({DestinationType}) GetValue({descriptorName});");
-                    if (hasSetter)
-                        destinationMembers.AddLine($"set => SetValue({descriptorName}, value);");
+                    source.AddLine(
+                        $"get => ({DestinationType}) GetValue({descriptorName});");
+                    if (HasSetter)
+                        source.AddLine(
+                            $"set => SetValue({descriptorName}, value);");
                 }
-                destinationMembers.AddLine("}");
+                source.AddLine(
+                    "}");
             }
             else
             {
@@ -129,16 +133,41 @@ namespace StandardUI.CodeGenerator
                     setterAssignment = $"{Name} = ({DestinationType}) value";
                 }
 
-                destinationMembers.AddLine($"{SourceType} {Interface.Name}.{Name}");
-                destinationMembers.AddLine("{");
-                using (var indentRestorer = destinationMembers.Indent())
+                source.AddLines(
+                    $"{SourceType} {Interface.Name}.{Name}",
+                    "{");
+                using (source.Indent())
                 {
-                    destinationMembers.AddLine($"get => {getterValue};");
-                    if (hasSetter)
-                        destinationMembers.AddLine($"set => {setterAssignment};");
+                    source.AddLine(
+                        $"get => {getterValue};");
+                    if (HasSetter)
+                        source.AddLine(
+                            $"set => {setterAssignment};");
                 }
-                destinationMembers.AddLine("}");
+                source.AddLine(
+                    "}");
             }
+        }
+
+        public void GenerateExtensionClassMethods(Source source)
+        {
+            if (!HasSetter)
+                return;
+
+            string interfaceVariableName = Interface.VariableName;
+
+            source.AddBlankLineIfNonempty();
+            source.AddLines(
+                $"public static T {Name}<T>(this T {interfaceVariableName}, {SourceType} value) where T : {Interface.Name}",
+                "{");
+            using (source.Indent())
+            {
+                source.AddLines(
+                    $"{interfaceVariableName}.{Name} = value;",
+                    $"return {interfaceVariableName};");
+            }
+            source.AddLine(
+                "}");
         }
     }
 }
