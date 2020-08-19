@@ -1,20 +1,24 @@
 ﻿using Microsoft.StandardUI.Media;
+using System;
 
 namespace Microsoft.StandardUI
 {
     public static class StandardUIEnvironment
     {
-        private static IStandardUIEnvironment _standardUIEnvironment;
+        public static IStandardUIEnvironment Instance { get; private set; } = UnintializedStandardUIEnvironment.Instance;
 
         public static void Init(IStandardUIEnvironment environment)
         {
-            _standardUIEnvironment = environment;
+            if (!object.ReferenceEquals(Instance, UnintializedStandardUIEnvironment.Instance))
+                throw new InvalidOperationException($"StandardUIEnviornment.Init already called. Current environment is of type {Instance.GetType()}");
+
+            Instance = environment;
         }
 
-        public static IStandardUIEnvironment Environment => _standardUIEnvironment!;
+        public static IUIElementFactory UIElementFactory => Instance.UIElementFactory;
 
-        public static IUIElementFactory UIElementFactory => _standardUIEnvironment.UIElementFactory;
+        public static IMediaFactory MediaFactory => Instance.MediaFactory;
 
-        public static IMediaFactory MediaFactory => _standardUIEnvironment.MediaFactory;
+        public static IVisualEnvironment VisualEnvironment => Instance.VisualEnvironment;
     }
 }
