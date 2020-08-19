@@ -5,16 +5,14 @@
         public static readonly Point Default = new Point(0, 0);
         public static readonly Point CenterDefault = new Point(0.5, 0.5);
 
+        public double X { get; set; }
+        public double Y { get; set; }
 
         public Point(double x, double y)
         {
             X = x;
             Y = y;
         }
-
-        public double X { get; }
-
-        public double Y { get; }
 
         public Point WithX(double x) => new Point(x, Y);
 

@@ -7,14 +7,13 @@
     {
         public static readonly Size Default = new Size(0, 0);
 
+        public double Height { get; set; }
+        public double Width { get; set; }
+
         public Size(double width, double height)
         {
             Width = width;
             Height = height;
         }
-
-        public double Height { get; }
-
-        public double Width { get; }
     }
 }

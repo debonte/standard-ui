@@ -8,24 +8,24 @@
         public static readonly Color Default = new Color(0, 0, 0, 0);
 
         /// <summary>
-        /// Gets the sRGB alpha channel value of the color.
+        /// Gets or sets the sRGB alpha channel value of the color.
         /// </summary>
-        public byte A { get; }
+        public byte A { get; set; }
 
         /// <summary>
-        /// Gets the sRGB blue channel value of the color.
+        /// Gets or sets the sRGB blue channel value of the color.
         /// </summary>
-        public byte B { get; }
+        public byte B { get; set; }
 
         /// <summary>
-        /// Gets the sRGB green channel value of the color.
+        /// Gets or sets the sRGB green channel value of the color.
         /// </summary>
-        public byte G { get; }
+        public byte G { get; set; }
 
         /// <summary>
-        /// Gets the sRGB red channel value of the color.
+        /// Gets or sets the sRGB red channel value of the color.
         /// </summary>
-        public byte R { get; }
+        public byte R { get; set; }
 
         public static Color FromArgb(byte a, byte r, byte g, byte b) => new Color(a, r, g, b);
 
