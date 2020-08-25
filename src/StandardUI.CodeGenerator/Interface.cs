@@ -334,8 +334,8 @@ namespace StandardUI.CodeGenerator
 
             if (baseInterface == null)
             {
-                if (Declaration.Identifier.Text == "IUIElement")
-                    return OutputType.UIElementBaseClassName;
+                if (Declaration.Identifier.Text == "IFrameworkElement")
+                    return OutputType.FrameworkElementBaseClassName;
                 else return OutputType.DefaultBaseClassName;
             }
             else
