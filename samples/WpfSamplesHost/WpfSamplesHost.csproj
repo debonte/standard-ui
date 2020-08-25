@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.Skia\StandardUI.VisualEnvironment.Skia.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj" />
     <ProjectReference Include="..\..\src\StandardUI.WPF\StandardUI.Wpf.csproj" />
+    <ProjectReference Include="..\Microcharts\Microcharts.csproj" />
+    <ProjectReference Include="..\SimpleControls\SimpleControls.csproj" />
   </ItemGroup>
 
 </Project>

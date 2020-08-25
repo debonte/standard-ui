@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:WpfHost"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <StackPanel Name="controlStack">
+        <Label Content="Hello there"/>
 
-    </Grid>
+
+    </StackPanel>
 </Window>
