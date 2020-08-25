@@ -1,6 +1,4 @@
-﻿using Microsoft.StandardUI.Shapes;
-
-namespace Microsoft.StandardUI.Controls
+﻿namespace Microsoft.StandardUI.Controls
 {
     public static class CanvasExtensions
     {
