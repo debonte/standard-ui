@@ -1,6 +1,5 @@
 ﻿namespace Microsoft.StandardUI
 {
-    [UIModelObject]
     public interface IUIElement
     {
         /// <summary>
