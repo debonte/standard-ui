@@ -4,7 +4,7 @@ using Microsoft.StandardUI.Shapes;
 
 namespace Microsoft.StandardUI
 {
-    public static class FactoryExtensions
+    public static class FactoryStatics
     {
         public static IEllipse Ellipse() => StandardUIEnvironment.UIElementFactory.CreateEllipse();
 
