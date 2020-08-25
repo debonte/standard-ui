@@ -1,6 +1,6 @@
 # .NET Standard UI
 
-.NET Standard UI enables building UI, especially controls, that runs across multiple UI frameworks - WPF, UWP, WinUI, Xamarin.Forms, .NET MAUI, Uno, and more. A .NET Standard UI control is a single .NET Standard assembly, that works on all supported UI frameworks.
+.NET Standard UI enables building UI, especially controls, that runs across multiple UI frameworks - WPF, UWP, WinUI, Xamarin.Forms, .NET MAUI, Uno, Avalonia, and more. A .NET Standard UI control is a single .NET Standard assembly, that works on all supported UI frameworks.
 
 .NET Standard UI is similar in some ways to [XAML Standard](https://github.com/microsoft/xaml-standard), but this is a binary standard, not just aligned naming conventions. A binary standard is much more useful, at it allows writing shared code. The standard objects can be used
 from XAML or from code.
