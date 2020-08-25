@@ -10,5 +10,7 @@ namespace Microsoft.StandardUI.SkiaVisualizer
         {
             SKPicture = sKPicture;
         }
+
+        public object NativeVisual => SKPicture;
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Microsoft.StandardUI
 {
-    public class IVisual
+    public interface IVisual
     {
+        object NativeVisual { get; }
     }
 }

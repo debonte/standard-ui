@@ -31,6 +31,14 @@
 
         public static Color FromRgb(byte r, byte g, byte b) => FromArgb(255, r, g, b);
 
+        public static Color FromHex(string hex)
+        {
+            if (!FromHex(hex, out Color value))
+                throw new System.FormatException($"Color '{hex}' isn't a valid hex color");
+
+            return value;
+        }
+
         public static bool FromHex(string hex, out Color color)
         {
             color = Color.Default;
