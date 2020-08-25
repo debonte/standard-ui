@@ -1,8 +1,13 @@
 ﻿// Copyright (c) Aloïs DENIEL. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Shapes;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
+using static Microsoft.StandardUI.FactoryStatics;
 
 namespace Microcharts
 {
@@ -101,27 +106,16 @@ namespace Microcharts
         /// <param name="color">The fill color.</param>
         /// <param name="size">The point size.</param>
         /// <param name="mode">The point mode.</param>
-        public static void DrawPoint(this SKCanvas canvas, SKPoint point, SKColor color, float size, PointMode mode)
+        public static void DrawPoint(this ICanvas canvas, Point point, Color color, float size, PointMode mode)
         {
-            using (var paint = new SKPaint
-            {
-                Style = SKPaintStyle.Fill,
-                IsAntialias = true,
-                Color = color,
-            })
-            {
-                switch (mode)
-                {
-                    case PointMode.Square:
-                        canvas.DrawRect(SKRect.Create(point.X - (size / 2), point.Y - (size / 2), size, size), paint);
-                        break;
+            IShape shape;
+            if (mode == PointMode.Square)
+                shape = Rectangle();
+            else if (mode == PointMode.Circle)
+                shape = Ellipse();
+            else return;
 
-                    case PointMode.Circle:
-                        paint.IsAntialias = true;
-                        canvas.DrawCircle(point.X, point.Y, size / 2, paint);
-                        break;
-                }
-            }
+            canvas.Add(point.X - (size / 2), point.Y - (size / 2), shape.Width(size).Height(size).Fill(SolidColorBrush().Color(color)));
         }
 
         /// <summary>

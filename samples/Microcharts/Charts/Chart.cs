@@ -9,40 +9,29 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
 using SkiaSharp;
+using static Microsoft.StandardUI.FactoryStatics;
 
 namespace Microcharts
 {
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class Chart : INotifyPropertyChanged
+    public abstract class Chart : StandardUIUserControl, INotifyPropertyChanged
     {
-        #region Fields
-
         private IEnumerable<ChartEntry> entries;
-
-        private float animationProgress, margin = 20, labelTextSize = 16;
-
-        private SKColor backgroundColor = SKColors.White;
-
-        private SKColor labelColor = SKColors.Gray;
-
+        private float animationProgress;
+        private double margin = 20, labelTextSize = 16;
+        private Color backgroundColor = Colors.White;
+        private Color labelColor = Colors.Gray;
         private SKTypeface typeface;
-
-        private float? internalMinValue, internalMaxValue;
-
+        private double? internalMinValue, internalMaxValue;
         private bool isAnimated = true, isAnimating = false;
-
         private TimeSpan animationDuration = TimeSpan.FromSeconds(1.5f);
-
         private Task invalidationPlanification;
-
         private CancellationTokenSource animationCancellation;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.Chart"/> class.
@@ -51,10 +40,6 @@ namespace Microcharts
         {
             PropertyChanged += OnPropertyChanged;
         }
-
-        #endregion
-
-        #region Events
 
         /// <summary>
         /// Occurs when property changed.
@@ -65,8 +50,6 @@ namespace Microcharts
         /// Occurs when the chart is invalidated.
         /// </summary>
         public event EventHandler Invalidated;
-
-        #endregion
 
         #region Properties
 
@@ -124,7 +107,7 @@ namespace Microcharts
         /// Gets or sets the global margin.
         /// </summary>
         /// <value>The margin.</value>
-        public float Margin
+        public double Margin
         {
             get => margin;
             set => Set(ref margin, value);
@@ -148,7 +131,7 @@ namespace Microcharts
         /// Gets or sets the text size of the labels.
         /// </summary>
         /// <value>The size of the label text.</value>
-        public float LabelTextSize
+        public double LabelTextSize
         {
             get => labelTextSize;
             set => Set(ref labelTextSize, value);
@@ -164,7 +147,7 @@ namespace Microcharts
         /// Gets or sets the color of the chart background.
         /// </summary>
         /// <value>The color of the background.</value>
-        public SKColor BackgroundColor
+        public Color BackgroundColor
         {
             get => backgroundColor;
             set => Set(ref backgroundColor, value);
@@ -174,7 +157,7 @@ namespace Microcharts
         /// Gets or sets the color of the labels.
         /// </summary>
         /// <value>The color of the labels.</value>
-        public SKColor LabelColor
+        public Color LabelColor
         {
             get => labelColor;
             set => Set(ref labelColor, value);
@@ -195,7 +178,7 @@ namespace Microcharts
         /// minimal entry value.
         /// </summary>
         /// <value>The minimum value.</value>
-        public float MinValue
+        public double MinValue
         {
             get
             {
@@ -220,7 +203,7 @@ namespace Microcharts
         /// maximum entry value.
         /// </summary>
         /// <value>The minimum value.</value>
-        public float MaxValue
+        public double MaxValue
         {
             get
             {
@@ -249,7 +232,7 @@ namespace Microcharts
         /// Gets or sets the internal minimum value (that can be null).
         /// </summary>
         /// <value>The internal minimum value.</value>
-        protected float? InternalMinValue
+        protected double? InternalMinValue
         {
             get => internalMinValue;
             set
@@ -265,7 +248,7 @@ namespace Microcharts
         /// Gets or sets the internal max value (that can be null).
         /// </summary>
         /// <value>The internal max value.</value>
-        protected float? InternalMaxValue
+        protected double? InternalMaxValue
         {
             get => internalMaxValue;
             set
@@ -287,15 +270,23 @@ namespace Microcharts
 
         #region Methods
 
+        public void Build()
+        {
+            ICanvas canvas = Canvas() .Width(Width) .Height(Height);
+            Draw(canvas, (int) Width, (int) Height);
+
+            Content = canvas;
+        }
+
         /// <summary>
         /// Draw the  graph onto the specified canvas.
         /// </summary>
         /// <param name="canvas">The canvas.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public void Draw(SKCanvas canvas, int width, int height)
+        public void Draw(ICanvas canvas, int width, int height)
         {
-            canvas.Clear(BackgroundColor);
+            //canvas.Clear(BackgroundColor);
 
             DrawableChartArea = new SKRect(0, 0, width, height);
 
@@ -308,7 +299,7 @@ namespace Microcharts
         /// <param name="canvas">The canvas.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public abstract void DrawContent(SKCanvas canvas, int width, int height);
+        public abstract void DrawContent(ICanvas canvas, int width, int height);
 
         /// <summary>
         /// Draws caption elements on the right or left side of the chart.
@@ -319,8 +310,9 @@ namespace Microcharts
         /// <param name="entries">The entries.</param>
         /// <param name="isLeft">If set to <c>true</c> is left.</param>
         /// <param name="isGraphCentered">Should the chart in the center always?</param>
-        protected void DrawCaptionElements(SKCanvas canvas, int width, int height, List<ChartEntry> entries, bool isLeft, bool isGraphCentered)
+        protected void DrawCaptionElements(ICanvas canvas, int width, int height, List<ChartEntry> entries, bool isLeft, bool isGraphCentered)
         {
+#if LATER
             var totalMargin = 2 * Margin;
             var availableHeight = height - (2 * totalMargin);
             var x = isLeft ? Margin : (width - Margin - LabelTextSize);
@@ -342,9 +334,9 @@ namespace Microcharts
                 {
                     var captionMargin = LabelTextSize * 0.60f;
                     var captionX = isLeft ? Margin : width - Margin - LabelTextSize;
-                    var valueColor = entry.Color.WithAlpha((byte)(entry.Color.Alpha * AnimationProgress));
-                    var lblColor = entry.TextColor.WithAlpha((byte)(entry.TextColor.Alpha * AnimationProgress));
-                    var rect = SKRect.Create(captionX, y, LabelTextSize, LabelTextSize);
+                    var valueColor = entry.Color.WithA((byte)(entry.Color.A * AnimationProgress));
+                    var lblColor = entry.TextColor.WithA((byte)(entry.TextColor.A * AnimationProgress));
+                    var rect = new Rect(captionX, y, LabelTextSize, LabelTextSize);
 
                     using (var paint = new SKPaint
                     {
@@ -396,6 +388,7 @@ namespace Microcharts
                     }
                 }
             }
+#endif
         }
 
         /// <summary>
@@ -444,9 +437,6 @@ namespace Microcharts
             }
         }
 
-
-        #region Weak event handlers
-
         /// <summary>
         /// Adds a weak event handler to observe invalidate changes.
         /// </summary>
@@ -460,8 +450,6 @@ namespace Microcharts
             weakHandler.Subsribe();
             return weakHandler;
         }
-
-        #endregion
 
         /// <summary>
         /// Animates the view.
@@ -565,8 +553,6 @@ namespace Microcharts
             }
         }
 
-        #region INotifyPropertyChanged
-
         /// <summary>
         /// Raises the property change.
         /// </summary>
@@ -596,8 +582,6 @@ namespace Microcharts
             return false;
         }
 
-        #endregion
-
-        #endregion
+#endregion
     }
 }

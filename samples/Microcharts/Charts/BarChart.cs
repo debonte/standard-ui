@@ -7,7 +7,7 @@ using Microsoft.StandardUI;
 using Microsoft.StandardUI.Controls;
 using Microsoft.StandardUI.Media;
 using Microsoft.StandardUI.Shapes;
-using static Microsoft.StandardUI.FactoryExtensions;
+using static Microsoft.StandardUI.FactoryStatics;
 using SkiaSharp;
 
 namespace Microcharts
@@ -19,8 +19,6 @@ namespace Microcharts
     /// </summary>
     public class BarChart : PointChart
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.BarChart"/> class.
         /// </summary>
@@ -29,19 +27,11 @@ namespace Microcharts
             PointSize = 0;
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets or sets the bar background area alpha.
         /// </summary>
         /// <value>The bar area alpha.</value>
         public byte BarAreaAlpha { get; set; } = 32;
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Draws the content of the chart onto the specified canvas.
@@ -49,7 +39,7 @@ namespace Microcharts
         /// <param name="canvas">The output canvas.</param>
         /// <param name="width">The width of the chart.</param>
         /// <param name="height">The height of the chart.</param>
-        public override void DrawContent(SKCanvas canvas, int width, int height)
+        public override void DrawContent(ICanvas canvas, int width, int height)
         {
             if (Entries != null)
             {
@@ -62,7 +52,7 @@ namespace Microcharts
                 var headerHeight = CalculateFooterHeaderHeight(valueLabelSizes, ValueLabelOrientation);
 
                 var itemSize = CalculateItemSize(width, height, footerHeight, headerHeight);
-                var origin = CalculateYOrigin(itemSize.Height, headerHeight);
+                var origin = CalculateYOrigin((float) itemSize.Height, headerHeight);
                 var points = CalculatePoints(itemSize, origin, headerHeight);
 
                 DrawBarAreas(canvas, points, itemSize, headerHeight);
@@ -81,7 +71,7 @@ namespace Microcharts
         /// <param name="itemSize">The item size.</param>
         /// <param name="origin">The origin.</param>
         /// <param name="headerHeight">The Header height.</param>
-        protected void DrawBars(ICanvas canvas, Point[] points, Size itemSize, float origin, float headerHeight)
+        protected void DrawBars(ICanvas canvas, Point[] points, Size itemSize, double origin, double headerHeight)
         {
             const float MinBarHeight = 4;
             if (points.Length > 0)
@@ -91,27 +81,19 @@ namespace Microcharts
                     var entry = Entries.ElementAt(i);
                     var point = points[i];
 
-                    using (var paint = new SKPaint
+                    var x = point.X - (itemSize.Width / 2);
+                    var y = Math.Min(origin, point.Y);
+                    var height = Math.Max(MinBarHeight, Math.Abs(origin - point.Y));
+                    if (height < MinBarHeight)
                     {
-                        Style = SKPaintStyle.Fill,
-                        Color = entry.Color,
-                    })
-                    {
-                        var x = point.X - (itemSize.Width / 2);
-                        var y = Math.Min(origin, point.Y);
-                        var height = Math.Max(MinBarHeight, Math.Abs(origin - point.Y));
-                        if (height < MinBarHeight)
+                        height = MinBarHeight;
+                        if (y + height > Margin + itemSize.Height)
                         {
-                            height = MinBarHeight;
-                            if (y + height > Margin + itemSize.Height)
-                            {
-                                y = headerHeight + itemSize.Height - height;
-                            }
+                            y = headerHeight + itemSize.Height - height;
                         }
-
-                        var rect = SKRect.Create(x, y, itemSize.Width, height);
-                        canvas.DrawRect(rect, paint);
                     }
+
+                    canvas.Add(x, y, Rectangle() .Width(itemSize.Width) .Height(height) .Fill(SolidColorBrush().Color(entry.Color)));
                 }
             }
         }
@@ -123,7 +105,7 @@ namespace Microcharts
         /// <param name="points">The entry points.</param>
         /// <param name="itemSize">The item size.</param>
         /// <param name="headerHeight">The header height.</param>
-        protected void DrawBarAreas(ICanvas canvas, Point[] points, Size itemSize, float headerHeight)
+        protected void DrawBarAreas(ICanvas canvas, Point[] points, Size itemSize, double headerHeight)
         {
             if (points.Length > 0 && PointAreaAlpha > 0)
             {
@@ -132,28 +114,18 @@ namespace Microcharts
                     var entry = Entries.ElementAt(i);
                     var point = points[i];
 
-                    using (var paint = new SKPaint
-                    {
-                        Style = SKPaintStyle.Fill,
-                        Color = entry.Color.WithAlpha((byte)(this.BarAreaAlpha * this.AnimationProgress)),
-                    })
-                    {
-                        var max = entry.Value > 0 ? headerHeight : headerHeight + itemSize.Height;
-                        var height = Math.Abs(max - point.Y);
-                        var y = Math.Min(max, point.Y);
-                        canvas.DrawRect(SKRect.Create(point.X - (itemSize.Width / 2), y, itemSize.Width, height), paint);
+                    var color = entry.Color.WithA((byte)(this.BarAreaAlpha * this.AnimationProgress));
+                    var brush = SolidColorBrush();
+                    brush.Color = color;
 
-                        var rect = Rectangle();
-                        rect.Width = itemSize.Width;
-                        rect.Height = height;
+                    var max = entry.Value > 0 ? headerHeight : headerHeight + itemSize.Height;
+                    var height = Math.Abs(max - point.Y);
+                    var y = Math.Min(max, point.Y);
 
-                        canvas.Children.Add(rect);
-                    }
+                    canvas.Add(point.X - (itemSize.Width / 2), y, Rectangle().Width(itemSize.Width).Height(height).Fill(brush));
                 }
             }
 
         }
-
-        #endregion
     }
 }

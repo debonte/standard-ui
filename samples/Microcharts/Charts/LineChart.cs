@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Aloïs DENIEL. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+#if LATER
+
 using System.Linq;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
 using SkiaSharp;
 
 namespace Microcharts
@@ -13,8 +17,6 @@ namespace Microcharts
     /// </summary>
     public class LineChart : PointChart
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.LineChart"/> class.
         /// </summary>
@@ -22,10 +24,6 @@ namespace Microcharts
         {
             this.PointSize = 10;
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Gets or sets the size of the line.
@@ -51,11 +49,7 @@ namespace Microcharts
         /// <value>The state of the fadeout gradient.</value>
         public bool EnableYFadeOutGradient { get; set; } = false;
 
-        #endregion
-
-        #region Methods
-
-        public override void DrawContent(SKCanvas canvas, int width, int height)
+        public override void DrawContent(ICanvas canvas, int width, int height)
         {
             if (this.Entries != null)
             {
@@ -79,7 +73,7 @@ namespace Microcharts
             }
         }
 
-        protected void DrawLine(SKCanvas canvas, SKPoint[] points, SKSize itemSize)
+        protected void DrawLine(ICanvas canvas, Point[] points, Size itemSize)
         {
             if (points.Length > 1 && this.LineMode != LineMode.None)
             {
@@ -121,7 +115,7 @@ namespace Microcharts
             }
         }
 
-        protected void DrawArea(SKCanvas canvas, SKPoint[] points, SKSize itemSize, float origin)
+        protected void DrawArea(ICanvas canvas, Point[] points, Size itemSize, double origin)
         {
             if (this.LineAreaAlpha > 0 && points.Length > 1)
             {
@@ -178,7 +172,7 @@ namespace Microcharts
             return (point, currentControl, nextPoint, nextControl);
         }
 
-        private SKShader CreateXGradient(SKPoint[] points, byte alpha = 255)
+        private SKShader CreateXGradient(Point[] points, byte alpha = 255)
         {
             var startX = points.First().X;
             var endX = points.Last().X;
@@ -187,12 +181,12 @@ namespace Microcharts
             return SKShader.CreateLinearGradient(
                 new SKPoint(startX, 0),
                 new SKPoint(endX, 0),
-                this.Entries.Select(x => x.Color.WithAlpha(alpha)).ToArray(),
+                this.Entries.Select(x => x.Color.WithA(alpha)).ToArray(),
                 null,
                 SKShaderTileMode.Clamp);
         }
 
-        private SKShader CreateYGradient(SKPoint[] points, byte alpha = 255)
+        private SKShader CreateYGradient(Point[] points, byte alpha = 255)
         {
             var startY = points.Max(i => i.Y);
             var endY = 0;
@@ -204,7 +198,7 @@ namespace Microcharts
                 null,
                 SKShaderTileMode.Clamp);
         }
-
-        #endregion
     }
 }
+
+#endif

@@ -8,17 +8,9 @@ namespace Microcharts
 
     internal static class RadialHelpers
     {
-        #region Constants
-
         public const float PI = (float)Math.PI;
-
         private const float UprightAngle = PI / 2f;
-
         private const float TotalAngle = 2f * PI;
-
-        #endregion
-
-        #region Sectors
 
         public static SKPoint GetCirclePoint(float r, float angle)
         {
@@ -82,7 +74,5 @@ namespace Microcharts
 
             return path;
         }
-
-        #endregion
     }
 }

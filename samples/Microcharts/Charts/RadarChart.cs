@@ -7,6 +7,7 @@ using SkiaSharp;
 
 namespace Microcharts
 {
+#if LATER
     /// <summary>
     /// ![chart](../images/Radar.png)
     ///
@@ -14,13 +15,13 @@ namespace Microcharts
     /// </summary>
     public class RadarChart : Chart
     {
-        #region Constants
+#region Constants
 
         private const float Epsilon = 0.01f;
 
-        #endregion
+#endregion
 
-        #region Properties
+#region Properties
 
         /// <summary>
         /// Gets or sets the size of the line.
@@ -58,9 +59,9 @@ namespace Microcharts
 
         private float ValueRange => this.AbsoluteMaximum - this.AbsoluteMinimum;
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         public override void DrawContent(SKCanvas canvas, int width, int height)
         {
@@ -207,6 +208,7 @@ namespace Microcharts
             }
         }
 
-        #endregion
+#endregion
     }
+#endif
 }

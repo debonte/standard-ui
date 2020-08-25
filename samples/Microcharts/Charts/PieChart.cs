@@ -3,6 +3,7 @@
 
 namespace Microcharts
 {
+#if LATER
     /// <summary>
     /// ![chart](../images/Donut.png)
     ///
@@ -10,7 +11,7 @@ namespace Microcharts
     /// </summary>
     public class PieChart : DonutChart
     {
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.PieChart"/> class.
@@ -20,6 +21,7 @@ namespace Microcharts
             this.HoleRadius = 0;
         }
 
-        #endregion
+#endregion
     }
+#endif
 }

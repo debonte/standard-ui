@@ -8,6 +8,7 @@ using SkiaSharp;
 
 namespace Microcharts
 {
+#if LATER
     /// <summary>
     /// ![chart](../images/Donut.png)
     ///
@@ -15,7 +16,7 @@ namespace Microcharts
     /// </summary>
     public class DonutChart : Chart
     {
-        #region Properties
+#region Properties
 
         /// <summary>
         /// Gets or sets the radius of the hole in the center of the chart.
@@ -33,9 +34,9 @@ namespace Microcharts
         /// </summary>
         public GraphPosition GraphPosition { get; set; } = GraphPosition.AutoFill;
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         public override void DrawContent(SKCanvas canvas, int width, int height)
         {
@@ -134,6 +135,7 @@ namespace Microcharts
             DrawCaptionElements(canvas, width, height, leftValues, true, isGraphCentered);
         }
 
-        #endregion
+#endregion
     }
+#endif
 }

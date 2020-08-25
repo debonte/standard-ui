@@ -3,15 +3,13 @@
 
 namespace Microcharts
 {
-    using SkiaSharp;
+    using Microsoft.StandardUI;
 
     /// <summary>
     /// A data entry for a chart.
     /// </summary>
     public class ChartEntry
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.ChartEntry"/> class.
         /// </summary>
@@ -20,10 +18,6 @@ namespace Microcharts
         {
             this.Value = value;
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Gets the value.
@@ -47,14 +41,12 @@ namespace Microcharts
         /// Gets or sets the color of the fill.
         /// </summary>
         /// <value>The color of the fill.</value>
-        public SKColor Color { get; set; } = SKColors.Black;
+        public Color Color { get; set; } = Colors.Black;
 
         /// <summary>
         /// Gets or sets the color of the text (for the caption label).
         /// </summary>
         /// <value>The color of the text.</value>
-        public SKColor TextColor { get; set; } = SKColors.Gray;
-
-        #endregion
+        public Color TextColor { get; set; } = Colors.Gray;
     }
 }
