@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfSamplesHost", "samples\W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.VisualEnvironment.Skia", "src\StandardUI.VisualEnvironment.Skia\StandardUI.VisualEnvironment.Skia.csproj", "{7B85BF7F-1265-4A34-9865-A371FB3D71F8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleControls", "samples\SimpleControls\SimpleControls.csproj", "{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardUI.VisualEnvironment.WpfNative", "src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj", "{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{7B85BF7F-1265-4A34-9865-A371FB3D71F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B85BF7F-1265-4A34-9865-A371FB3D71F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B85BF7F-1265-4A34-9865-A371FB3D71F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +66,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EE5B826C-4409-4566-ABA1-9081ED5FF3E4} = {9B71283D-A4A6-480E-9A9B-AD446F08CCC5}
 		{6947DA6C-110C-4175-A38A-030F33CA3420} = {9B71283D-A4A6-480E-9A9B-AD446F08CCC5}
+		{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2} = {9B71283D-A4A6-480E-9A9B-AD446F08CCC5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5981247F-FDA6-460F-8B83-6AFBEE114226}
