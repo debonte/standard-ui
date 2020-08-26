@@ -8,6 +8,8 @@ namespace Microsoft.StandardUI.Wpf
     public class UIElementFactory : IUIElementFactory
     {
         public ICanvas CreateCanvas() => new Canvas();
+        public ICanvasAttached CanvasAttached => Controls.CanvasAttached.Instance;
+
         public IEllipse CreateEllipse() => new Ellipse();
         public IGrid CreateGrid() => new Grid();
         public ILine CreateLine() => new Line();

@@ -23,6 +23,16 @@ namespace Microsoft.StandardUI.Wpf
         private WriteableBitmap? _bitmap;
         private bool _ignorePixelScaling;
 
+        public void Measure(Size availableSize)
+        {
+            Measure(availableSize.ToWpfSize());
+        }
+
+        public void Arrange(Rect finalRect)
+        {
+            Arrange(finalRect.ToWpfRect());
+        }
+
         public bool IgnorePixelScaling
         {
             get => _ignorePixelScaling;
@@ -32,6 +42,8 @@ namespace Microsoft.StandardUI.Wpf
                 InvalidateVisual();
             }
         }
+
+        Size IUIElement.DesiredSize => throw new System.NotImplementedException();
 
         protected override void OnRender(DrawingContext drawingContext)
         {
