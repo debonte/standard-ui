@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Microsoft.StandardUI.Wpf.Converters
+namespace System.StandardUI.Wpf.Converters
 {
 	public class GeometryTypeConverter : TypeConverterBase
 	{

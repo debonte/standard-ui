@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.StandardUI;
-using Microsoft.StandardUI.Controls;
+using System.StandardUI;
+using System.StandardUI.Controls;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
 

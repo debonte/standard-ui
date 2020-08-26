@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     [UIModelObject]
     public interface ISetterCollection : IList<ISetter>

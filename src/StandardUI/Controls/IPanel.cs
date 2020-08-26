@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI.Controls
+﻿namespace System.StandardUI.Controls
 {
     [UIModelObject]
     public interface IPanel : IUIElement

@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.StandardUI.Media
+namespace System.StandardUI.Media
 {
     public static class PathGeometryExtensions
     {

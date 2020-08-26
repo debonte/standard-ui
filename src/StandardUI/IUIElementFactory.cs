@@ -1,7 +1,7 @@
-﻿using Microsoft.StandardUI.Controls;
-using Microsoft.StandardUI.Shapes;
+﻿using System.StandardUI.Controls;
+using System.StandardUI.Shapes;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public interface IUIElementFactory
     {

@@ -1,12 +1,11 @@
-﻿using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Shapes;
-using Microsoft.StandardUI.SkiaVisualizer;
-using System;
+﻿using System.StandardUI.Media;
+using System.StandardUI.Shapes;
+using System.StandardUI.SkiaVisualizer;
 using System.Windows.Media;
-using PenLineCap = Microsoft.StandardUI.Media.PenLineCap;
-using PenLineJoin = Microsoft.StandardUI.Media.PenLineJoin;
+using PenLineCap = System.StandardUI.Media.PenLineCap;
+using PenLineJoin = System.StandardUI.Media.PenLineJoin;
 
-namespace Microsoft.StandardUI.VisualEnvironment.WpfNative
+namespace System.StandardUI.VisualEnvironment.WpfNative
 {
     public class WpfNativeVisualizer : IVisualizer
     {

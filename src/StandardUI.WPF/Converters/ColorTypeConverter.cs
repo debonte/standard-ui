@@ -1,8 +1,8 @@
-using Microsoft.StandardUI.Converters;
+using System.StandardUI.Converters;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Microsoft.StandardUI.Wpf.Converters
+namespace System.StandardUI.Wpf.Converters
 {
 	public class ColorTypeConverter : TypeConverterBase
 	{

@@ -1,8 +1,8 @@
 // This file is generated from IVisualStateManager.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI;
+using System.StandardUI;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class VisualStateManager : System.Windows.DependencyObject, IVisualStateManager
     {

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI.Media
+﻿namespace System.StandardUI.Media
 {
     [UIModelObject]
     public interface IGeometry

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI.Controls
+﻿namespace System.StandardUI.Controls
 {
     public static class CanvasExtensions
     {

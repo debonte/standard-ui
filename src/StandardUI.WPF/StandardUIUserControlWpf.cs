@@ -1,6 +1,6 @@
-﻿using Microsoft.StandardUI.Controls;
+﻿using System.StandardUI.Controls;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class StandardUIUserControlWpf : UIElement
     {

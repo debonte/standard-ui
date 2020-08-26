@@ -1,9 +1,9 @@
-﻿using Microsoft.StandardUI.Controls;
-using Microsoft.StandardUI.Shapes;
-using Microsoft.StandardUI.Wpf.Controls;
-using Microsoft.StandardUI.Wpf.Shapes;
+﻿using System.StandardUI.Controls;
+using System.StandardUI.Shapes;
+using System.StandardUI.Wpf.Controls;
+using System.StandardUI.Wpf.Shapes;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class UIElementFactory : IUIElementFactory
     {

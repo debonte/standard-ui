@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
     public class DefaultValueAttribute : Attribute

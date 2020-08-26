@@ -1,9 +1,9 @@
 // This file is generated from IScaleTransform.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Media;
+using System.StandardUI.Media;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf.Media
+namespace System.StandardUI.Wpf.Media
 {
     public class ScaleTransform : Transform, IScaleTransform
     {

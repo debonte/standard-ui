@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI
+﻿namespace System.StandardUI
 {
     /// <summary>
     /// Describes a color in terms of alpha, red, green, and blue channels.

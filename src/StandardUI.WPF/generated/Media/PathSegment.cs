@@ -1,8 +1,8 @@
 // This file is generated from IPathSegment.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Media;
+using System.StandardUI.Media;
 
-namespace Microsoft.StandardUI.Wpf.Media
+namespace System.StandardUI.Wpf.Media
 {
     public class PathSegment : System.Windows.DependencyObject, IPathSegment
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using Microsoft.StandardUI.Wpf.Converters;
+using System.StandardUI.Wpf.Converters;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     [TypeConverter(typeof(SizeTypeConverter))]
     public struct SizeWpf

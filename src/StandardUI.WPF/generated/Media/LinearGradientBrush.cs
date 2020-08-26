@@ -1,9 +1,9 @@
 // This file is generated from ILinearGradientBrush.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Media;
+using System.StandardUI.Media;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf.Media
+namespace System.StandardUI.Wpf.Media
 {
     public class LinearGradientBrush : GradientBrush, ILinearGradientBrush
     {

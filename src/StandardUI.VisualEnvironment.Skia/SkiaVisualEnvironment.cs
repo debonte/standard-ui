@@ -1,7 +1,7 @@
 ﻿using SkiaSharp;
 using System;
 
-namespace Microsoft.StandardUI.SkiaVisualizer
+namespace System.StandardUI.SkiaVisualizer
 {
     public class SkiaVisualEnvironment : IVisualEnvironment
     {

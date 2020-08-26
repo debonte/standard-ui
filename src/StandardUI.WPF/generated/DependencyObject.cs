@@ -1,8 +1,8 @@
 // This file is generated from IDependencyObject.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI;
+using System.StandardUI;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class DependencyObject : System.Windows.DependencyObject, IDependencyObject
     {

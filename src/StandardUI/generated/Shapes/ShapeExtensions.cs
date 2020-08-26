@@ -1,8 +1,8 @@
 // This file is generated from IShape.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Media;
+using System.StandardUI.Media;
 
-namespace Microsoft.StandardUI.Shapes
+namespace System.StandardUI.Shapes
 {
     public static class ShapeExtensions
     {

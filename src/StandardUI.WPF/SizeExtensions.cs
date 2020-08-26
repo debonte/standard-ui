@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI.Wpf
+﻿namespace System.StandardUI.Wpf
 {
     public static class SizeExtensions
     {

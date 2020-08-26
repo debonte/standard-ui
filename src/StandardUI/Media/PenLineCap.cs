@@ -1,4 +1,4 @@
-namespace Microsoft.StandardUI.Media
+namespace System.StandardUI.Media
 {
     /// <summary>
     /// Describes the shape at the end of a line or segment.

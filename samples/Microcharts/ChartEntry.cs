@@ -3,7 +3,7 @@
 
 namespace Microcharts
 {
-    using Microsoft.StandardUI;
+    using System.StandardUI;
 
     /// <summary>
     /// A data entry for a chart.

@@ -1,9 +1,9 @@
 // This file is generated from IRectangle.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Shapes;
+using System.StandardUI.Shapes;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf.Shapes
+namespace System.StandardUI.Wpf.Shapes
 {
     public class Rectangle : Shape, IRectangle
     {

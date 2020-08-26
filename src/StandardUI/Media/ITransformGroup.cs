@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microsoft.StandardUI.Media
+namespace System.StandardUI.Media
 {
 	[UIModelObject]
     public interface ITransformGroup : ITransform

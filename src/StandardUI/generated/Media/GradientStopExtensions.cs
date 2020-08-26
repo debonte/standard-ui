@@ -1,6 +1,6 @@
 // This file is generated from IGradientStop.cs. Update the source file to change its contents.
 
-namespace Microsoft.StandardUI.Media
+namespace System.StandardUI.Media
 {
     public static class GradientStopExtensions
     {

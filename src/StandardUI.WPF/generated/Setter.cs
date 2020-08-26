@@ -1,9 +1,9 @@
 // This file is generated from ISetter.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI;
+using System.StandardUI;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class Setter : DependencyObject, ISetter
     {

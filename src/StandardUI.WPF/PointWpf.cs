@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
-using Microsoft.StandardUI.Wpf.Converters;
+using System.StandardUI.Wpf.Converters;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     [TypeConverter(typeof(PointTypeConverter))]
     public struct PointWpf
 
     {
-        public static readonly PointWpf Default = new PointWpf(Microsoft.StandardUI.Point.Default);
-        public static readonly PointWpf CenterDefault = new PointWpf(Microsoft.StandardUI.Point.CenterDefault);
+        public static readonly PointWpf Default = new PointWpf(Point.Default);
+        public static readonly PointWpf CenterDefault = new PointWpf(Point.CenterDefault);
 
 
         public Point Point { get; }

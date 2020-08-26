@@ -1,10 +1,10 @@
 // This file is generated from IGradientBrush.cs. Update the source file to change its contents.
 
 using System.Collections.Generic;
-using Microsoft.StandardUI.Media;
+using System.StandardUI.Media;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf.Media
+namespace System.StandardUI.Wpf.Media
 {
     public class GradientBrush : Brush, IGradientBrush
     {

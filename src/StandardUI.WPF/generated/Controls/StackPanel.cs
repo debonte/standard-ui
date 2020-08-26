@@ -1,8 +1,8 @@
 // This file is generated from IStackPanel.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Controls;
+using System.StandardUI.Controls;
 
-namespace Microsoft.StandardUI.Wpf.Controls
+namespace System.StandardUI.Wpf.Controls
 {
     public class StackPanel : Panel, IStackPanel
     {

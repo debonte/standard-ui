@@ -1,11 +1,11 @@
-﻿using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Wpf.Media;
+﻿using System.StandardUI.Media;
+using System.StandardUI.Wpf.Media;
 using System;
 using System.Collections;
 using System.Linq;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public static class PropertyUtils
     {

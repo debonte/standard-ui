@@ -1,11 +1,11 @@
 // This file is generated from IPolygon.cs. Update the source file to change its contents.
 
-using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Wpf.Media;
-using Microsoft.StandardUI.Shapes;
+using System.StandardUI.Media;
+using System.StandardUI.Wpf.Media;
+using System.StandardUI.Shapes;
 using System.Windows;
 
-namespace Microsoft.StandardUI.Wpf.Shapes
+namespace System.StandardUI.Wpf.Shapes
 {
     public class Polygon : Shape, IPolygon
     {

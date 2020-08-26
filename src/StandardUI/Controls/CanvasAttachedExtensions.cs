@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.StandardUI.Controls
+namespace System.StandardUI.Controls
 {
     public static class CanvasAttachedExtensions
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public struct Points
     {

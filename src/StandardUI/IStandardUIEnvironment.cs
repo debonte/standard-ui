@@ -1,6 +1,6 @@
-﻿using Microsoft.StandardUI.Media;
+﻿using System.StandardUI.Media;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public interface IStandardUIEnvironment
     {

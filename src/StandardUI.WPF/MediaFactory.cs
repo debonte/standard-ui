@@ -1,8 +1,8 @@
-﻿using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Wpf.Media;
+﻿using System.StandardUI.Media;
+using System.StandardUI.Wpf.Media;
 using System.Collections.Generic;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     public class MediaFactory : IMediaFactory
     {

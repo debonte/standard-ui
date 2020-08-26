@@ -1,6 +1,6 @@
-﻿using Microsoft.StandardUI.Media;
+﻿using System.StandardUI.Media;
 
-namespace Microsoft.StandardUI.Shapes
+namespace System.StandardUI.Shapes
 {
     [UIModelObject]
     public interface IPolyline : IShape

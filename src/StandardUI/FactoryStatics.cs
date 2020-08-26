@@ -1,8 +1,8 @@
-﻿using Microsoft.StandardUI.Controls;
-using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Shapes;
+﻿using System.StandardUI.Controls;
+using System.StandardUI.Media;
+using System.StandardUI.Shapes;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public static class FactoryStatics
     {

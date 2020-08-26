@@ -1,7 +1,7 @@
-﻿using Microsoft.StandardUI.Media;
+﻿using System.StandardUI.Media;
 using System;
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public static class StandardUIEnvironment
     {

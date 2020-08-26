@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI
+﻿namespace System.StandardUI
 {
     /// <summary>
     /// Implements a data structure for describing a property as a path below another property, or

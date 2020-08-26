@@ -1,8 +1,8 @@
 ﻿using Microcharts;
-using Microsoft.StandardUI;
-using Microsoft.StandardUI.SkiaVisualizer;
-using Microsoft.StandardUI.VisualEnvironment.WpfNative;
-using Microsoft.StandardUI.Wpf;
+using System.StandardUI;
+using System.StandardUI.SkiaVisualizer;
+using System.StandardUI.VisualEnvironment.WpfNative;
+using System.StandardUI.Wpf;
 using SimpleControls;
 using System.Windows;
 using System.Windows.Controls;

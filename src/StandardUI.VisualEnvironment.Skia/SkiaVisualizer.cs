@@ -1,10 +1,10 @@
-﻿using Microsoft.StandardUI.Media;
-using Microsoft.StandardUI.Shapes;
+﻿using System.StandardUI.Media;
+using System.StandardUI.Shapes;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.StandardUI.SkiaVisualizer
+namespace System.StandardUI.SkiaVisualizer
 {
     public class SkiaVisualizer : IVisualizer
     {

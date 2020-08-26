@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
-using Microsoft.StandardUI.Wpf.Converters;
+using System.StandardUI.Wpf.Converters;
 
-namespace Microsoft.StandardUI.Wpf
+namespace System.StandardUI.Wpf
 {
     [TypeConverter(typeof(ColorTypeConverter))]
     public struct ColorWpf
     {
-        public static readonly ColorWpf Default = new ColorWpf(Microsoft.StandardUI.Color.Default);
+        public static readonly ColorWpf Default = new ColorWpf(System.StandardUI.Color.Default);
         public static readonly ColorWpf Transparent = new ColorWpf(Colors.Transparent);
 
         public static ColorWpf FromColor(Color color) => new ColorWpf(color);

@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace Microsoft.StandardUI.SkiaVisualizer
+namespace System.StandardUI.SkiaVisualizer
 {
     public class SkiaVisual : IVisual
     {

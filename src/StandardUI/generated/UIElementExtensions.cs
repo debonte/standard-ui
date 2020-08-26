@@ -1,6 +1,6 @@
 // This file is generated from IUIElement.cs. Update the source file to change its contents.
 
-namespace Microsoft.StandardUI
+namespace System.StandardUI
 {
     public static class UIElementExtensions
     {

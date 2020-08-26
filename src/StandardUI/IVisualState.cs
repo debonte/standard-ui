@@ -1,4 +1,4 @@
-﻿namespace Microsoft.StandardUI
+﻿namespace System.StandardUI
 {
     [UIModelObject]
     public interface IVisualState : IDependencyObject
