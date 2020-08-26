@@ -19,6 +19,8 @@ namespace Microsoft.StandardUI
 
         ICanvas CreateCanvas();
 
+        ICanvasAttached CanvasAttached { get; }
+
         IStackPanel CreateStackPanel();
 
         IGrid CreateGrid();

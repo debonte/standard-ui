@@ -1,11 +1,17 @@
-﻿namespace Microsoft.StandardUI.Controls
+﻿using System;
+
+namespace Microsoft.StandardUI.Controls
 {
     public static class CanvasAttachedExtensions
     {
-        public static double GetCanvasLeft(this IUIElement element) => 0;
-        public static void SetCanvasLeft(this IUIElement element, double length) { }
+        private static Lazy<ICanvasAttached> LazyCanvasAttached = new Lazy<ICanvasAttached>(() => StandardUIEnvironment.Instance.UIElementFactory.CanvasAttached);
 
-        public static double GetCanvasTop(this IUIElement element) => 0;
-        public static void SetCanvasTop(this IUIElement element, double length) { }
+        public static ICanvasAttached CanvasAttached => LazyCanvasAttached.Value;
+
+        public static double GetCanvasLeft(this IUIElement element) => CanvasAttached.GetLeft(element);
+        public static void SetCanvasLeft(this IUIElement element, double length) => CanvasAttached.SetLeft(element, length);
+
+        public static double GetCanvasTop(this IUIElement element) => CanvasAttached.GetTop(element);
+        public static void SetCanvasTop(this IUIElement element, double length) => CanvasAttached.SetLeft(element, length);
     }
 }
