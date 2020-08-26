@@ -5,11 +5,10 @@ using System.Windows;
 
 namespace System.StandardUI.Wpf
 {
-    public class TargetPropertyPath : System.Windows.DependencyObject, ITargetPropertyPath
+    public class TargetPropertyPath : Windows.DependencyObject, ITargetPropertyPath
     {
-        public static readonly System.Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(PropertyPath), typeof(TargetPropertyPath), null);
-        public static readonly System.Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(object), typeof(TargetPropertyPath), null);
-        
+        public static readonly Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(PropertyPath), typeof(TargetPropertyPath), null);
+        public static readonly Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(object), typeof(TargetPropertyPath), null);
         public PropertyPath Property
         {
             get => (PropertyPath) GetValue(PropertyProperty);

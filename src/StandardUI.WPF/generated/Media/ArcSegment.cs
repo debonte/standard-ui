@@ -7,12 +7,11 @@ namespace System.StandardUI.Wpf.Media
 {
     public class ArcSegment : PathSegment, IArcSegment
     {
-        public static readonly System.Windows.DependencyProperty PointProperty = PropertyUtils.Register(nameof(Point), typeof(PointWpf), typeof(ArcSegment), PointWpf.Default);
-        public static readonly System.Windows.DependencyProperty SizeProperty = PropertyUtils.Register(nameof(Size), typeof(SizeWpf), typeof(ArcSegment), SizeWpf.Default);
-        public static readonly System.Windows.DependencyProperty RotationAngleProperty = PropertyUtils.Register(nameof(RotationAngle), typeof(double), typeof(ArcSegment), 0.0);
-        public static readonly System.Windows.DependencyProperty IsLargeArcProperty = PropertyUtils.Register(nameof(IsLargeArc), typeof(bool), typeof(ArcSegment), false);
-        public static readonly System.Windows.DependencyProperty SweepDirectionProperty = PropertyUtils.Register(nameof(SweepDirection), typeof(SweepDirection), typeof(ArcSegment), SweepDirection.Counterclockwise);
-        
+        public static readonly Windows.DependencyProperty PointProperty = PropertyUtils.Register(nameof(Point), typeof(PointWpf), typeof(ArcSegment), PointWpf.Default);
+        public static readonly Windows.DependencyProperty SizeProperty = PropertyUtils.Register(nameof(Size), typeof(SizeWpf), typeof(ArcSegment), SizeWpf.Default);
+        public static readonly Windows.DependencyProperty RotationAngleProperty = PropertyUtils.Register(nameof(RotationAngle), typeof(double), typeof(ArcSegment), 0.0);
+        public static readonly Windows.DependencyProperty IsLargeArcProperty = PropertyUtils.Register(nameof(IsLargeArc), typeof(bool), typeof(ArcSegment), false);
+        public static readonly Windows.DependencyProperty SweepDirectionProperty = PropertyUtils.Register(nameof(SweepDirection), typeof(SweepDirection), typeof(ArcSegment), SweepDirection.Counterclockwise);
         public PointWpf Point
         {
             get => (PointWpf) GetValue(PointProperty);

@@ -4,7 +4,7 @@ using System.StandardUI;
 
 namespace System.StandardUI.Wpf
 {
-    public class VisualStateManager : System.Windows.DependencyObject, IVisualStateManager
+    public class VisualStateManager : Windows.DependencyObject, IVisualStateManager
     {
     }
 }

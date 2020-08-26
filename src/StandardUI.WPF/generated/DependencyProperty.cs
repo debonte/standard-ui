@@ -4,7 +4,7 @@ using System.StandardUI;
 
 namespace System.StandardUI.Wpf
 {
-    public class DependencyProperty : System.Windows.DependencyObject, IDependencyProperty
+    public class DependencyProperty : Windows.DependencyObject, IDependencyProperty
     {
     }
 }

@@ -7,9 +7,8 @@ namespace System.StandardUI.Wpf
 {
     public class VisualState : DependencyObject, IVisualState
     {
-        public static readonly System.Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualState), "");
-        public static readonly System.Windows.DependencyProperty SettersProperty = PropertyUtils.Register(nameof(Setters), typeof(SetterCollection), typeof(VisualState), null);
-        
+        public static readonly Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualState), "");
+        public static readonly Windows.DependencyProperty SettersProperty = PropertyUtils.Register(nameof(Setters), typeof(SetterCollection), typeof(VisualState), null);
         public string Name
         {
             get => (string) GetValue(NameProperty);

@@ -6,13 +6,12 @@ using System.Windows;
 
 namespace System.StandardUI.Wpf.Media
 {
-    public class PathFigure : System.Windows.DependencyObject, IPathFigure
+    public class PathFigure : Windows.DependencyObject, IPathFigure
     {
-        public static readonly System.Windows.DependencyProperty SegmentsProperty = PropertyUtils.Register(nameof(Segments), typeof(IEnumerable<IPathSegment>), typeof(PathFigure), null);
-        public static readonly System.Windows.DependencyProperty StartPointProperty = PropertyUtils.Register(nameof(StartPoint), typeof(PointWpf), typeof(PathFigure), PointWpf.Default);
-        public static readonly System.Windows.DependencyProperty IsClosedProperty = PropertyUtils.Register(nameof(IsClosed), typeof(bool), typeof(PathFigure), false);
-        public static readonly System.Windows.DependencyProperty IsFilledProperty = PropertyUtils.Register(nameof(IsFilled), typeof(bool), typeof(PathFigure), true);
-        
+        public static readonly Windows.DependencyProperty SegmentsProperty = PropertyUtils.Register(nameof(Segments), typeof(IEnumerable<IPathSegment>), typeof(PathFigure), null);
+        public static readonly Windows.DependencyProperty StartPointProperty = PropertyUtils.Register(nameof(StartPoint), typeof(PointWpf), typeof(PathFigure), PointWpf.Default);
+        public static readonly Windows.DependencyProperty IsClosedProperty = PropertyUtils.Register(nameof(IsClosed), typeof(bool), typeof(PathFigure), false);
+        public static readonly Windows.DependencyProperty IsFilledProperty = PropertyUtils.Register(nameof(IsFilled), typeof(bool), typeof(PathFigure), true);
         public IEnumerable<IPathSegment> Segments
         {
             get => (IEnumerable<IPathSegment>) GetValue(SegmentsProperty);

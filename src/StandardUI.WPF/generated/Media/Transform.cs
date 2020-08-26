@@ -4,7 +4,7 @@ using System.StandardUI.Media;
 
 namespace System.StandardUI.Wpf.Media
 {
-    public class Transform : System.Windows.DependencyObject, ITransform
+    public class Transform : Windows.DependencyObject, ITransform
     {
     }
 }

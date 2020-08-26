@@ -9,8 +9,7 @@ namespace System.StandardUI.Wpf.Shapes
 {
     public class Path : Shape, IPath
     {
-        public static readonly System.Windows.DependencyProperty DataProperty = PropertyUtils.Register(nameof(Data), typeof(Geometry), typeof(Path), null);
-        
+        public static readonly Windows.DependencyProperty DataProperty = PropertyUtils.Register(nameof(Data), typeof(Geometry), typeof(Path), null);
         public Geometry Data
         {
             get => (Geometry) GetValue(DataProperty);

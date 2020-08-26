@@ -7,8 +7,7 @@ namespace System.StandardUI.Wpf.Media
 {
     public class SolidColorBrush : Brush, ISolidColorBrush
     {
-        public static readonly System.Windows.DependencyProperty ColorProperty = PropertyUtils.Register(nameof(Color), typeof(ColorWpf), typeof(SolidColorBrush), ColorWpf.Default);
-        
+        public static readonly Windows.DependencyProperty ColorProperty = PropertyUtils.Register(nameof(Color), typeof(ColorWpf), typeof(SolidColorBrush), ColorWpf.Default);
         public ColorWpf Color
         {
             get => (ColorWpf) GetValue(ColorProperty);

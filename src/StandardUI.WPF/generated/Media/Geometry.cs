@@ -7,11 +7,10 @@ using System.StandardUI.Wpf.Converters;
 
 namespace System.StandardUI.Wpf.Media
 {
-    public class Geometry : System.Windows.DependencyObject, IGeometry
+    public class Geometry : Windows.DependencyObject, IGeometry
     {
-        public static readonly System.Windows.DependencyProperty StandardFlatteningToleranceProperty = PropertyUtils.Register(nameof(StandardFlatteningTolerance), typeof(double), typeof(Geometry), 0.25);
-        public static readonly System.Windows.DependencyProperty TransformProperty = PropertyUtils.Register(nameof(Transform), typeof(Transform), typeof(Geometry), null);
-        
+        public static readonly Windows.DependencyProperty StandardFlatteningToleranceProperty = PropertyUtils.Register(nameof(StandardFlatteningTolerance), typeof(double), typeof(Geometry), 0.25);
+        public static readonly Windows.DependencyProperty TransformProperty = PropertyUtils.Register(nameof(Transform), typeof(Transform), typeof(Geometry), null);
         public double StandardFlatteningTolerance
         {
             get => (double) GetValue(StandardFlatteningToleranceProperty);

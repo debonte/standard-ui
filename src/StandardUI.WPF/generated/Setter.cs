@@ -7,10 +7,9 @@ namespace System.StandardUI.Wpf
 {
     public class Setter : DependencyObject, ISetter
     {
-        public static readonly System.Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(DependencyProperty), typeof(Setter), null);
-        public static readonly System.Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(TargetPropertyPath), typeof(Setter), null);
-        public static readonly System.Windows.DependencyProperty ValueProperty = PropertyUtils.Register(nameof(Value), typeof(object), typeof(Setter), null);
-        
+        public static readonly Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(DependencyProperty), typeof(Setter), null);
+        public static readonly Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(TargetPropertyPath), typeof(Setter), null);
+        public static readonly Windows.DependencyProperty ValueProperty = PropertyUtils.Register(nameof(Value), typeof(object), typeof(Setter), null);
         public DependencyProperty? Property
         {
             get => (DependencyProperty?) GetValue(PropertyProperty);

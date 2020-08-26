@@ -7,10 +7,9 @@ namespace System.StandardUI.Wpf.Media
 {
     public class RadialGradientBrush : GradientBrush, IRadialGradientBrush
     {
-        public static readonly System.Windows.DependencyProperty CenterProperty = PropertyUtils.Register(nameof(Center), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
-        public static readonly System.Windows.DependencyProperty GradientOriginProperty = PropertyUtils.Register(nameof(GradientOrigin), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
-        public static readonly System.Windows.DependencyProperty RadiusXProperty = PropertyUtils.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), 0.5);
-        
+        public static readonly Windows.DependencyProperty CenterProperty = PropertyUtils.Register(nameof(Center), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
+        public static readonly Windows.DependencyProperty GradientOriginProperty = PropertyUtils.Register(nameof(GradientOrigin), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
+        public static readonly Windows.DependencyProperty RadiusXProperty = PropertyUtils.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), 0.5);
         public PointWpf Center
         {
             get => (PointWpf) GetValue(CenterProperty);

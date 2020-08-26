@@ -6,7 +6,7 @@ using System.StandardUI.Wpf.Converters;
 
 namespace System.StandardUI.Wpf.Media
 {
-    public class Brush : System.Windows.DependencyObject, IBrush
+    public class Brush : Windows.DependencyObject, IBrush
     {
     }
 }

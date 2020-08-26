@@ -5,11 +5,10 @@ using System.Windows;
 
 namespace System.StandardUI.Wpf.Media
 {
-    public class GradientStop : System.Windows.DependencyObject, IGradientStop
+    public class GradientStop : Windows.DependencyObject, IGradientStop
     {
-        public static readonly System.Windows.DependencyProperty ColorProperty = PropertyUtils.Register(nameof(Color), typeof(ColorWpf), typeof(GradientStop), ColorWpf.Default);
-        public static readonly System.Windows.DependencyProperty OffsetProperty = PropertyUtils.Register(nameof(Offset), typeof(double), typeof(GradientStop), 0.0);
-        
+        public static readonly Windows.DependencyProperty ColorProperty = PropertyUtils.Register(nameof(Color), typeof(ColorWpf), typeof(GradientStop), ColorWpf.Default);
+        public static readonly Windows.DependencyProperty OffsetProperty = PropertyUtils.Register(nameof(Offset), typeof(double), typeof(GradientStop), 0.0);
         public ColorWpf Color
         {
             get => (ColorWpf) GetValue(ColorProperty);
