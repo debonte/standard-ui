@@ -59,6 +59,7 @@ namespace StandardUI.CodeGenerator
             var mainClassNonstaticMethods = new Source(Context);
 
             var extensionClassMethods = new Source(Context);
+            var attachedClassStaticData = new Source(Context);
             var attachedClassMethods = new Source(Context);
 
             // Add the property descriptors and accessors
@@ -134,7 +135,10 @@ namespace StandardUI.CodeGenerator
             {
                 string attachedClassName = DestinationClassName + "Attached";
                 string attachedClassDerivedFrom = AttachedInterfaceDeclaration.Identifier.Text;
-                Source attachedClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, attachedClassName, attachedClassDerivedFrom, constructor: null, descriptors: null, staticMethods: null, attachedClassMethods);
+
+                attachedClassStaticData.AddLine($"public static {attachedClassName} Instance = new {attachedClassName}();");
+
+                Source attachedClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, attachedClassName, attachedClassDerivedFrom, constructor: null, descriptors: attachedClassStaticData, staticMethods: null, attachedClassMethods);
                 attachedClassSource.WriteToFile(platformOutputDirectory, attachedClassName + ".cs");
             }
 
