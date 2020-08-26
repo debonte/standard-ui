@@ -10,6 +10,7 @@ namespace System.StandardUI.Wpf.Media
         public static readonly Windows.DependencyProperty AngleProperty = PropertyUtils.Register(nameof(Angle), typeof(double), typeof(RotateTransform), 0.0);
         public static readonly Windows.DependencyProperty CenterXProperty = PropertyUtils.Register(nameof(CenterX), typeof(double), typeof(RotateTransform), 0.0);
         public static readonly Windows.DependencyProperty CenterYProperty = PropertyUtils.Register(nameof(CenterY), typeof(double), typeof(RotateTransform), 0.0);
+        
         public double Angle
         {
             get => (double) GetValue(AngleProperty);

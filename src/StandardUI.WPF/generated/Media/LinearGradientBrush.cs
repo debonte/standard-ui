@@ -9,6 +9,7 @@ namespace System.StandardUI.Wpf.Media
     {
         public static readonly Windows.DependencyProperty StartPointProperty = PropertyUtils.Register(nameof(StartPoint), typeof(PointWpf), typeof(LinearGradientBrush), PointWpf.Default);
         public static readonly Windows.DependencyProperty EndPointProperty = PropertyUtils.Register(nameof(EndPoint), typeof(PointWpf), typeof(LinearGradientBrush), PointWpf.Default);
+        
         public PointWpf StartPoint
         {
             get => (PointWpf) GetValue(StartPointProperty);

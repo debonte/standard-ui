@@ -12,6 +12,7 @@ namespace System.StandardUI.Wpf.Media
         public static readonly Windows.DependencyProperty StartPointProperty = PropertyUtils.Register(nameof(StartPoint), typeof(PointWpf), typeof(PathFigure), PointWpf.Default);
         public static readonly Windows.DependencyProperty IsClosedProperty = PropertyUtils.Register(nameof(IsClosed), typeof(bool), typeof(PathFigure), false);
         public static readonly Windows.DependencyProperty IsFilledProperty = PropertyUtils.Register(nameof(IsFilled), typeof(bool), typeof(PathFigure), true);
+        
         public IEnumerable<IPathSegment> Segments
         {
             get => (IEnumerable<IPathSegment>) GetValue(SegmentsProperty);

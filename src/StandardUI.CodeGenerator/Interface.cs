@@ -173,8 +173,11 @@ namespace StandardUI.CodeGenerator
                     "{");
                 using (fileSource.Indent())
                 {
-                    if (descriptors != null)
+                    if (descriptors != null && !descriptors.IsEmpty)
+                    {
                         fileSource.AddSource(descriptors);
+                        fileSource.AddBlankLine();
+                    }
                     if (staticMethods != null)
                         fileSource.AddSource(staticMethods);
                     if (constructor != null)

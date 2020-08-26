@@ -9,6 +9,7 @@ namespace System.StandardUI.Wpf
     {
         public static readonly Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(PropertyPath), typeof(TargetPropertyPath), null);
         public static readonly Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(object), typeof(TargetPropertyPath), null);
+        
         public PropertyPath Property
         {
             get => (PropertyPath) GetValue(PropertyProperty);

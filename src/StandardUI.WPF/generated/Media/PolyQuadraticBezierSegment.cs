@@ -8,6 +8,7 @@ namespace System.StandardUI.Wpf.Media
     public class PolyQuadraticBezierSegment : PathSegment, IPolyQuadraticBezierSegment
     {
         public static readonly Windows.DependencyProperty PointsProperty = PropertyUtils.Register(nameof(Points), typeof(PointsWpf), typeof(PolyQuadraticBezierSegment), PointsWpf.Default);
+        
         public PointsWpf Points
         {
             get => (PointsWpf) GetValue(PointsProperty);

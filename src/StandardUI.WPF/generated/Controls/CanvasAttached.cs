@@ -8,6 +8,7 @@ namespace System.StandardUI.Wpf.Controls
     public class CanvasAttached : ICanvasAttached
     {
         public static CanvasAttached Instance = new CanvasAttached();
+        
         public double GetLeft(IUIElement element) => Canvas.GetLeft((UIElement) element);
         public void SetLeft(IUIElement element, double value) => Canvas.SetLeft((UIElement) element, value);
         

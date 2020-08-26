@@ -11,6 +11,7 @@ namespace System.StandardUI.Wpf.Media
         public static readonly Windows.DependencyProperty GradientStopsProperty = PropertyUtils.Register(nameof(GradientStops), typeof(IEnumerable<IGradientStop>), typeof(GradientBrush), null);
         public static readonly Windows.DependencyProperty MappingModeProperty = PropertyUtils.Register(nameof(MappingMode), typeof(BrushMappingMode), typeof(GradientBrush), BrushMappingMode.RelativeToBoundingBox);
         public static readonly Windows.DependencyProperty SpreadMethodProperty = PropertyUtils.Register(nameof(SpreadMethod), typeof(GradientSpreadMethod), typeof(GradientBrush), GradientSpreadMethod.Pad);
+        
         public IEnumerable<IGradientStop> GradientStops
         {
             get => (IEnumerable<IGradientStop>) GetValue(GradientStopsProperty);

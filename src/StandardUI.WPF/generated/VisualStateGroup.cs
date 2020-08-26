@@ -10,6 +10,7 @@ namespace System.StandardUI.Wpf
         public static readonly Windows.DependencyProperty CurrentStateProperty = PropertyUtils.Register(nameof(CurrentState), typeof(VisualState), typeof(VisualStateGroup), null);
         public static readonly Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualStateGroup), "");
         public static readonly Windows.DependencyProperty StatesProperty = PropertyUtils.Register(nameof(States), typeof(VisualStateCollection), typeof(VisualStateGroup), null);
+        
         public VisualState CurrentState
         {
             get => (VisualState) GetValue(CurrentStateProperty);

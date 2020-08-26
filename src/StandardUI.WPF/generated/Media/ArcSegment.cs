@@ -12,6 +12,7 @@ namespace System.StandardUI.Wpf.Media
         public static readonly Windows.DependencyProperty RotationAngleProperty = PropertyUtils.Register(nameof(RotationAngle), typeof(double), typeof(ArcSegment), 0.0);
         public static readonly Windows.DependencyProperty IsLargeArcProperty = PropertyUtils.Register(nameof(IsLargeArc), typeof(bool), typeof(ArcSegment), false);
         public static readonly Windows.DependencyProperty SweepDirectionProperty = PropertyUtils.Register(nameof(SweepDirection), typeof(SweepDirection), typeof(ArcSegment), SweepDirection.Counterclockwise);
+        
         public PointWpf Point
         {
             get => (PointWpf) GetValue(PointProperty);

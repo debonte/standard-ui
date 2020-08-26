@@ -9,6 +9,7 @@ namespace System.StandardUI.Wpf.Media
     public class TransformGroup : Transform, ITransformGroup
     {
         public static readonly Windows.DependencyProperty ChildrenProperty = PropertyUtils.Register(nameof(Children), typeof(IEnumerable<ITransform>), typeof(TransformGroup), null);
+        
         public IEnumerable<ITransform> Children
         {
             get => (IEnumerable<ITransform>) GetValue(ChildrenProperty);

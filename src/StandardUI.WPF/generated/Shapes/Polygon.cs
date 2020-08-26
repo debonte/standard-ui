@@ -11,6 +11,7 @@ namespace System.StandardUI.Wpf.Shapes
     {
         public static readonly Windows.DependencyProperty FillRuleProperty = PropertyUtils.Register(nameof(FillRule), typeof(FillRule), typeof(Polygon), FillRule.EvenOdd);
         public static readonly Windows.DependencyProperty PointsProperty = PropertyUtils.Register(nameof(Points), typeof(PointsWpf), typeof(Polygon), PointsWpf.Default);
+        
         public FillRule FillRule
         {
             get => (FillRule) GetValue(FillRuleProperty);

@@ -9,6 +9,7 @@ namespace System.StandardUI.Wpf.Controls
     {
         public static readonly Windows.DependencyProperty LeftProperty = PropertyUtils.RegisterAttached("Left", typeof(double), typeof(UIElement), 0.0);
         public static readonly Windows.DependencyProperty TopProperty = PropertyUtils.RegisterAttached("Top", typeof(double), typeof(UIElement), 0.0);
+        
         public static double GetLeft(UIElement element) => (double) element.GetValue(LeftProperty);
         public static void SetLeft(UIElement element, double value) => element.SetValue(LeftProperty, value);
         

@@ -15,6 +15,7 @@ namespace System.StandardUI.Wpf.Shapes
         public static readonly Windows.DependencyProperty StrokeMiterLimitProperty = PropertyUtils.Register(nameof(StrokeMiterLimit), typeof(double), typeof(Shape), 10.0);
         public static readonly Windows.DependencyProperty StrokeLineCapProperty = PropertyUtils.Register(nameof(StrokeLineCap), typeof(PenLineCap), typeof(Shape), PenLineCap.Flat);
         public static readonly Windows.DependencyProperty StrokeLineJoinProperty = PropertyUtils.Register(nameof(StrokeLineJoin), typeof(PenLineJoin), typeof(Shape), PenLineJoin.Miter);
+        
         public Brush? Fill
         {
             get => (Brush?) GetValue(FillProperty);
