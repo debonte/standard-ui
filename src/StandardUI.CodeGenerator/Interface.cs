@@ -8,7 +8,7 @@ namespace StandardUI.CodeGenerator
     public class Interface
     {
         public static int IndentSize = 4;
-        public const string RootNamespace = "Microsoft.StandardUI";
+        public const string RootNamespace = "System.StandardUI";
 
         private readonly NameSyntax _sourceNamespaceName;
         private readonly CompilationUnitSyntax _sourceCompilationUnit;
@@ -269,7 +269,7 @@ namespace StandardUI.CodeGenerator
                 NameSyntax sourceUsingName = sourceUsing.Name;
                 AddUsing(usingNames, sourceUsingName);
 
-                if (sourceUsingName.ToString().StartsWith("Microsoft.StandardUI."))
+                if (sourceUsingName.ToString().StartsWith("System.StandardUI."))
                     AddUsing(usingNames, Context.ToDestinationNamespaceName(sourceUsingName));
             }
 

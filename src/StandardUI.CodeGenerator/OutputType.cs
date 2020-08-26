@@ -8,7 +8,7 @@ namespace StandardUI.CodeGenerator
 {
     public abstract class OutputType
     {
-        public static QualifiedNameSyntax MicrosoftStandardUI = QualifiedName(IdentifierName("Microsoft"), IdentifierName("StandardUI"));
+        public static QualifiedNameSyntax SystemStandardUI = QualifiedName(IdentifierName("System"), IdentifierName("StandardUI"));
 
         public abstract string ProjectBaseDirectory { get; }
         public abstract QualifiedNameSyntax RootNamespace { get; }
@@ -31,10 +31,10 @@ namespace StandardUI.CodeGenerator
         public static readonly WpfXamlOutputType Instance = new WpfXamlOutputType();
 
         public override string ProjectBaseDirectory => "StandardUI.Wpf";
-        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("Wpf"));
-        public override string DependencyPropertyClassName => "System.Windows.DependencyProperty";
-        public override string? FrameworkElementBaseClassName => "System.Windows.UIElement";
-        public override string? DefaultBaseClassName => "System.Windows.DependencyObject";
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("Wpf"));
+        public override string DependencyPropertyClassName => "Windows.DependencyProperty";
+        public override string? FrameworkElementBaseClassName => "Windows.UIElement";
+        public override string? DefaultBaseClassName => "Windows.DependencyObject";
         public override string WrapperSuffix => "Wpf";
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
@@ -61,7 +61,7 @@ namespace StandardUI.CodeGenerator
         public static readonly UwpXamlOutputType Instance = new UwpXamlOutputType();
 
         public override string ProjectBaseDirectory => "StandardUI.UWP";
-        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("UWP"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("UWP"));
         public override string DependencyPropertyClassName => "DependencyProperty";
         public override string? FrameworkElementBaseClassName => "Windows.UI.Xaml.UIElement";
         public override string? DefaultBaseClassName => "DependencyObject";
@@ -77,7 +77,7 @@ namespace StandardUI.CodeGenerator
         public static readonly XamarinFormsXamlOutputType Instance = new XamarinFormsXamlOutputType();
 
         public override string ProjectBaseDirectory => Path.Combine("XamarinForms", "StandardUI.XamarinForms");
-        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("XamarinForms"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("XamarinForms"));
         public override string DependencyPropertyClassName => "BindableProperty";
         public override string? FrameworkElementBaseClassName => "VisualElement";
         public override string? DefaultBaseClassName => "BindableObject";
@@ -96,7 +96,7 @@ namespace StandardUI.CodeGenerator
         public static readonly StandardModelOutputType Instance = new StandardModelOutputType();
 
         public override string ProjectBaseDirectory => Path.Combine("StandardUI", "StandardModel");
-        public override QualifiedNameSyntax RootNamespace => QualifiedName(MicrosoftStandardUI, IdentifierName("StandardModel"));
+        public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("StandardModel"));
         public override string? FrameworkElementBaseClassName => "ObjectWithCascadingNotifications";
         public override string? DefaultBaseClassName => "ObjectWithCascadingNotifications";
 
