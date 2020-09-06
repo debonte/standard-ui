@@ -16,8 +16,6 @@ namespace Microcharts
     /// </summary>
     public class DonutChart : Chart
     {
-#region Properties
-
         /// <summary>
         /// Gets or sets the radius of the hole in the center of the chart.
         /// </summary>
@@ -33,10 +31,6 @@ namespace Microcharts
         /// Gets or sets whether the graph should be drawn in the center or automatically fill the space.
         /// </summary>
         public GraphPosition GraphPosition { get; set; } = GraphPosition.AutoFill;
-
-#endregion
-
-#region Methods
 
         public override void DrawContent(SKCanvas canvas, int width, int height)
         {
@@ -134,8 +128,6 @@ namespace Microcharts
             DrawCaptionElements(canvas, width, height, rightValues, false, isGraphCentered);
             DrawCaptionElements(canvas, width, height, leftValues, true, isGraphCentered);
         }
-
-#endregion
     }
 #endif
 }

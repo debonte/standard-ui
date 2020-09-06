@@ -13,13 +13,15 @@ using System.StandardUI;
 using System.StandardUI.Controls;
 using SkiaSharp;
 using static System.StandardUI.FactoryStatics;
+using System.StandardUI.Shapes;
+using System.StandardUI.Media;
 
 namespace Microcharts
 {
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class Chart : StandardUIUserControl, INotifyPropertyChanged
+    public abstract class Chart : StandardUserControl, INotifyPropertyChanged
     {
         private IEnumerable<ChartEntry> entries;
         private float animationProgress;
@@ -264,11 +266,9 @@ namespace Microcharts
         /// Gets the drawable chart area (is set <see cref="DrawCaptionElements"/>).
         /// This is the total chart size minus the area allocated by caption elements.
         /// </summary>
-        protected SKRect DrawableChartArea { get; private set; }
+        protected Rect DrawableChartArea { get; private set; }
 
         #endregion
-
-        #region Methods
 
         public void Build()
         {
@@ -288,7 +288,7 @@ namespace Microcharts
         {
             //canvas.Clear(BackgroundColor);
 
-            DrawableChartArea = new SKRect(0, 0, width, height);
+            DrawableChartArea = new Rect(0, 0, width, height);
 
             DrawContent(canvas, width, height);
         }
@@ -312,7 +312,6 @@ namespace Microcharts
         /// <param name="isGraphCentered">Should the chart in the center always?</param>
         protected void DrawCaptionElements(ICanvas canvas, int width, int height, List<ChartEntry> entries, bool isLeft, bool isGraphCentered)
         {
-#if LATER
             var totalMargin = 2 * Margin;
             var availableHeight = height - (2 * totalMargin);
             var x = isLeft ? Margin : (width - Margin - LabelTextSize);
@@ -338,14 +337,12 @@ namespace Microcharts
                     var lblColor = entry.TextColor.WithA((byte)(entry.TextColor.A * AnimationProgress));
                     var rect = new Rect(captionX, y, LabelTextSize, LabelTextSize);
 
-                    using (var paint = new SKPaint
-                    {
-                        Style = SKPaintStyle.Fill,
-                        Color = valueColor
-                    })
-                    {
-                        canvas.DrawRect(rect, paint);
-                    }
+                    var rectangle = Rectangle()
+                        .Fill(SolidColorBrush().Color(valueColor))
+                        .Width(rect.Width)
+                        .Height(rect.Height);
+
+                    canvas.Add(rect.X, rect.Y, rectangle);
 
                     if (isLeft)
                     {
@@ -356,9 +353,11 @@ namespace Microcharts
                         captionX -= captionMargin;
                     }
 
-                    canvas.DrawCaptionLabels(entry.Label, lblColor, UnicodeMode, UnicodeLanguage, entry.ValueLabel, valueColor, LabelTextSize, new SKPoint(captionX, y + (LabelTextSize / 2)), isLeft ? SKTextAlign.Left : SKTextAlign.Right, Typeface, out var labelBounds);
+                    canvas.DrawCaptionLabels(entry.Label, lblColor, UnicodeMode, UnicodeLanguage, entry.ValueLabel, valueColor, LabelTextSize,
+                        new Point(captionX, y + (LabelTextSize / 2)), isLeft ? TextAlignment.Left : TextAlignment.Right, Typeface, out var labelBounds);
                     labelBounds.Union(rect);
 
+#if LATER
                     if (DrawDebugRectangles)
                     {
                         using (var paint = new SKPaint
@@ -371,24 +370,25 @@ namespace Microcharts
                             canvas.DrawRect(labelBounds, paint);
                         }
                     }
+#endif
 
                     if (isLeft)
                     {
-                        DrawableChartArea = new SKRect(Math.Max(DrawableChartArea.Left, labelBounds.Right), 0, DrawableChartArea.Right, DrawableChartArea.Bottom);
+                        DrawableChartArea = new Rect(Math.Max(DrawableChartArea.Left, labelBounds.Right), 0, DrawableChartArea.Right, DrawableChartArea.Bottom);
                     }
                     else
                     {   // Draws the chart centered for right labelmode only
                         var left = isGraphCentered == true ? Math.Abs(width - DrawableChartArea.Right) : 0;
-                        DrawableChartArea = new SKRect(left, 0, Math.Min(DrawableChartArea.Right, labelBounds.Left), DrawableChartArea.Bottom);
+                        DrawableChartArea = new Rect(left, 0, Math.Min(DrawableChartArea.Right, labelBounds.Left), DrawableChartArea.Bottom);
                     }
 
                     if (entries.Count == 0 && isGraphCentered)
-                    {   // Draws the chart centered if there isn't any left values
-                        DrawableChartArea = new SKRect(Math.Abs(width - DrawableChartArea.Right), 0, DrawableChartArea.Right, DrawableChartArea.Bottom);
+                    {
+                        // Draws the chart centered if there isn't any left values
+                        DrawableChartArea = new Rect(Math.Abs(width - DrawableChartArea.Right), 0, DrawableChartArea.Right, DrawableChartArea.Bottom);
                     }
                 }
             }
-#endif
         }
 
         /// <summary>
@@ -581,7 +581,5 @@ namespace Microcharts
 
             return false;
         }
-
-#endregion
     }
 }

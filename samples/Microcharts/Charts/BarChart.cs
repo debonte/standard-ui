@@ -8,7 +8,6 @@ using System.StandardUI.Controls;
 using System.StandardUI.Media;
 using System.StandardUI.Shapes;
 using static System.StandardUI.FactoryStatics;
-using SkiaSharp;
 
 namespace Microcharts
 {
@@ -93,7 +92,8 @@ namespace Microcharts
                         }
                     }
 
-                    canvas.Add(x, y, Rectangle() .Width(itemSize.Width) .Height(height) .Fill(SolidColorBrush().Color(entry.Color)));
+                    var barRect = Rectangle() .Width(itemSize.Width) .Height(height) .Fill(SolidColorBrush() .Color(entry.Color));
+                    canvas.Add(x, y, barRect);
                 }
             }
         }
@@ -115,17 +115,16 @@ namespace Microcharts
                     var point = points[i];
 
                     var color = entry.Color.WithA((byte)(this.BarAreaAlpha * this.AnimationProgress));
-                    var brush = SolidColorBrush();
-                    brush.Color = color;
+                    var brush = SolidColorBrush(). Color(color);
 
                     var max = entry.Value > 0 ? headerHeight : headerHeight + itemSize.Height;
                     var height = Math.Abs(max - point.Y);
                     var y = Math.Min(max, point.Y);
 
-                    canvas.Add(point.X - (itemSize.Width / 2), y, Rectangle().Width(itemSize.Width).Height(height).Fill(brush));
+                    var barArea = Rectangle() .Width(itemSize.Width) .Height(height) .Fill(brush);
+                    canvas.Add(point.X - (itemSize.Width / 2), y, barArea);
                 }
             }
-
         }
     }
 }

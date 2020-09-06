@@ -7,8 +7,10 @@ using System.Globalization;
 using System.Linq;
 using System.StandardUI;
 using System.StandardUI.Controls;
+using static System.StandardUI.FactoryStatics;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
+using System.StandardUI.Media;
 
 namespace Microcharts
 {
@@ -212,9 +214,8 @@ namespace Microcharts
         /// <param name="isTop"></param>
         /// <param name="itemSize"></param>
         /// <param name="height"></param>
-        protected void DrawLabels(ICanvas canvas,string[] texts, Point[] points, Rect[] sizes, Color[] colors, Orientation orientation, bool isTop, Size itemSize, float height)
+        protected void DrawLabels(ICanvas canvas, string[] texts, Point[] points, Rect[] sizes, Color[] colors, Orientation orientation, bool isTop, Size itemSize, float height)
         {
-#if LATER
             if (points.Length > 0)
             {
                 var maxWidth = sizes.Max(x => x.Width);
@@ -224,74 +225,78 @@ namespace Microcharts
                     var entry = Entries.ElementAt(i);
                     var point = points[i];
 
+                    double x, y;
+
                     if (!string.IsNullOrEmpty(entry.ValueLabel))
                     {
-                        using (new SKAutoCanvasRestore(canvas))
+                        /*
+                        paint.TextSize = LabelTextSize;
+                        paint.IsAntialias = true;
+                        paint.Color = colors[i];
+                        paint.IsStroke = false;
+                        paint.Typeface = base.Typeface;
+                        */
+                        var bounds = sizes[i];
+                        var text = texts[i];
+
+                        if (orientation == Orientation.Vertical)
                         {
-                            using (var paint = new SKPaint())
+#if LATER
+                            var y = point.Y;
+
+                            if (isTop)
                             {
-                                paint.TextSize = LabelTextSize;
-                                paint.IsAntialias = true;
-                                paint.Color = colors[i];
-                                paint.IsStroke = false;
-                                paint.Typeface = base.Typeface;
-                                var bounds = sizes[i];
-                                var text = texts[i];
-
-                                if (orientation == Orientation.Vertical)
-                                {
-                                    var y = point.Y;
-
-                                    if (isTop)
-                                    {
-                                        y -= bounds.Width;
-                                    }
-
-                                    canvas.RotateDegrees(90);
-                                    canvas.Translate(y, -point.X + (bounds.Height / 2));
-                                }
-                                else
-                                {
-                                    if (bounds.Width > itemSize.Width)
-                                    {
-                                        text = text.Substring(0, Math.Min(3, text.Length));
-                                        paint.MeasureText(text, ref bounds);
-                                    }
-
-                                    if (bounds.Width > itemSize.Width)
-                                    {
-                                        text = text.Substring(0, Math.Min(1, text.Length));
-                                        paint.MeasureText(text, ref bounds);
-                                    }
-
-                                    var y = point.Y;
-
-                                    if (isTop)
-                                    {
-                                        y -= bounds.Height;
-                                    }
-
-                                    canvas.Translate(point.X - (bounds.Width / 2), y);
-                                }
-
-                                if (UnicodeMode && !float.TryParse(text, NumberStyles.Any, null, out _))
-                                {
-                                    using (var tf = SKFontManager.Default.MatchCharacter(UnicodeLanguage))
-                                    using (var shaper = new SKShaper(tf))
-                                    {
-                                        canvas.DrawShapedText(shaper, text, 0, 0, paint);
-                                    }
-                                }
-                                else
-                                {
-                                    canvas.DrawText(text, 0, 0, paint);
-                                }
+                                y -= bounds.Width;
                             }
+
+                            canvas.RotateDegrees(90);
+                            canvas.Translate(y, -point.X + (bounds.Height / 2));
+#endif
+                            continue;
+                        }
+                        else
+                        {
+#if LATER
+                            if (bounds.Width > itemSize.Width)
+                            {
+                                text = text.Substring(0, Math.Min(3, text.Length));
+                                paint.MeasureText(text, ref bounds);
+                            }
+
+                            if (bounds.Width > itemSize.Width)
+                            {
+                                text = text.Substring(0, Math.Min(1, text.Length));
+                                paint.MeasureText(text, ref bounds);
+                            }
+#endif
+
+                            y = point.Y;
+
+                            if (isTop)
+                                y -= bounds.Height;
+
+                            x = point.X - (bounds.Width / 2);
+                            //canvas.Translate(point.X - (bounds.Width / 2), y);
+                        }
+
+                        if (UnicodeMode && !float.TryParse(text, NumberStyles.Any, null, out _))
+                        {
+#if LATER
+                            using (var tf = SKFontManager.Default.MatchCharacter(UnicodeLanguage))
+                            using (var shaper = new SKShaper(tf))
+                            {
+                                canvas.DrawShapedText(shaper, text, 0, 0, paint);
+                            }
+#endif
+                        }
+                        else
+                        {
+                            var textBlock = TextBlock() .Text(text) .Width(100) .Height(LabelTextSize * 2) .Foreground(SolidColorBrush().Color(colors[i])) .FontSize(LabelTextSize);
+                            canvas.Add(x, y, textBlock);
                         }
                     }
                 }
             }
-#endif
         }
 
         /// <summary>

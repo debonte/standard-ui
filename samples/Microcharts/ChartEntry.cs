@@ -23,7 +23,7 @@ namespace Microcharts
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
-        public float Value { get; }
+        public double Value { get; }
 
         /// <summary>
         /// Gets or sets the caption label.
