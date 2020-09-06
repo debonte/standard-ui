@@ -2,9 +2,8 @@
 {
     public static class SizeExtensions
     {
-        public static System.Windows.Size ToWpfSize(this Size size)
-        {
-            return new System.Windows.Size(size.Width, size.Height);
-        }
+        public static Windows.Size ToWpfSize(this Size size) => new Windows.Size(size.Width, size.Height);
+
+        public static Size FromWpfSize(Windows.Size size) => new Size(size.Width, size.Height);
     }
 }
