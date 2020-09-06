@@ -5,6 +5,7 @@ using System.StandardUI;
 using System.StandardUI.Controls;
 using System.StandardUI.Media;
 using System.StandardUI.Shapes;
+using System.StandardUI.Text;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
 using static System.StandardUI.FactoryStatics;
@@ -13,12 +14,12 @@ namespace Microcharts
 {
     internal static class CanvasExtensions
     {
-        public static void DrawCaptionLabels(this SKCanvas canvas, string label, SKColor labelColor, bool labelIsUnicode, char unicodeLang, string value, SKColor valueColor, float textSize, SKPoint point, SKTextAlign horizontalAlignment, SKTypeface typeface, out SKRect totalBounds)
+        public static void DrawCaptionLabels(this ICanvas canvas, string label, Color labelColor, bool labelIsUnicode, char unicodeLang, string value, Color valueColor, double textSize, Point point, TextAlignment horizontalAlignment, SKTypeface typeface, out Rect totalBounds)
         {
             var hasLabel = !string.IsNullOrEmpty(label);
             var hasValueLabel = !string.IsNullOrEmpty(value);
 
-            totalBounds = new SKRect();
+            totalBounds = new Rect();
 
             if (hasLabel || hasValueLabel)
             {
@@ -28,72 +29,60 @@ namespace Microcharts
 
                 if (hasLabel)
                 {
-                    using (var paint = new SKPaint
-                    {
-                        TextSize = textSize,
-                        IsAntialias = true,
-                        Color = labelColor,
-                        IsStroke = false,
-                        TextAlign = horizontalAlignment,
-                        Typeface = typeface
-                    })
-                    {
-                        var bounds = new SKRect();
-                        var text = label;
-                        paint.MeasureText(text, ref bounds);
+                    // TODO: Add support for typeface
+                    var labelTextBlock = TextBlock()
+                        .Text(label)
+                        .FontSize(textSize)
+                        .Foreground(SolidColorBrush().Color(labelColor))
+                        .TextAlignment(horizontalAlignment);
 
-                        var y = point.Y - ((bounds.Top + bounds.Bottom) / 2) - space;
 
-                        if (labelIsUnicode)
-                        {
-                            using (var tf = SKFontManager.Default.MatchCharacter(unicodeLang))
-                            using (var shaper = new SKShaper(tf))
-                            {
-                                canvas.DrawShapedText(shaper, text, 0, 0, paint);
-                            }
-                        }
-                        else
-                        {
-                            canvas.DrawText(text, point.X, y, paint);
-                        }
+                    labelTextBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    Size labelSize = labelTextBlock.DesiredSize;
 
-                        var labelBounds = GetAbsolutePositionRect(point.X, y, bounds, horizontalAlignment);
-                        totalBounds = labelBounds.Standardized;
-                    }
+                    //var bounds = new Rect();
+                    //paint.MeasureText(text, ref bounds);
+
+                    var y = point.Y - (labelSize.Height / 2) - space;
+
+                    //canvas.DrawText(text, point.X, y, paint);
+                    canvas.Add(point.X, y, labelTextBlock);
+
+                    //Rect labelBounds = GetAbsolutePositionRect(point.X, y, labelSize, horizontalAlignment);
+                    //totalBounds = labelBounds.Standardized;
                 }
 
                 if (hasValueLabel)
                 {
-                    using (var paint = new SKPaint()
+                    // TODO: Add support for typeface
+                    var valueTextBlock = TextBlock()
+                        .Text(value)
+                        .FontSize(textSize)
+                        .FontWeight(FontWeights.Bold)
+                        .Foreground(SolidColorBrush().Color(valueColor))
+                        .TextAlignment(horizontalAlignment);
+
+                    valueTextBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    Size valueSize = valueTextBlock.DesiredSize;
+
+                    //var bounds = new Rect();
+                    //paint.MeasureText(text, ref bounds);
+
+                    var y = point.Y - (valueSize.Height / 2) + space;
+
+                    canvas.Add(point.X, y, valueTextBlock);
+
+#if LATER
+                    var valueBounds = GetAbsolutePositionRect(point.X, y, bounds, horizontalAlignment);
+                    if (totalBounds.IsEmpty)
                     {
-                        TextSize = textSize,
-                        IsAntialias = true,
-                        FakeBoldText = true,
-                        Color = valueColor,
-                        IsStroke = false,
-                        TextAlign = horizontalAlignment,
-                        Typeface = typeface
-                    })
-                    {
-                        var bounds = new SKRect();
-                        var text = value;
-                        paint.MeasureText(text, ref bounds);
-
-                        var y = point.Y - ((bounds.Top + bounds.Bottom) / 2) + space;
-
-                        canvas.DrawText(text, point.X, y, paint);
-
-                        var valueBounds = GetAbsolutePositionRect(point.X, y, bounds, horizontalAlignment);
-
-                        if (totalBounds.IsEmpty)
-                        {
-                            totalBounds = valueBounds;
-                        }
-                        else
-                        {
-                            totalBounds.Union(valueBounds);
-                        }
+                        totalBounds = valueBounds;
                     }
+                    else
+                    {
+                        totalBounds.Union(valueBounds);
+                    }
+#endif
                 }
             }
         }
@@ -127,8 +116,9 @@ namespace Microcharts
         /// <param name="endPoint">The end point.</param>
         /// <param name="endColor">The end color.</param>
         /// <param name="size">The stroke size.</param>
-        public static void DrawGradientLine(this SKCanvas canvas, SKPoint startPoint, SKColor startColor, SKPoint endPoint, SKColor endColor, float size)
+        public static void DrawGradientLine(this ICanvas canvas, Point startPoint, Color startColor, Point endPoint, Color endColor, double size)
         {
+#if false
             using (var shader = SKShader.CreateLinearGradient(startPoint, endPoint, new[] { startColor, endColor }, null, SKShaderTileMode.Clamp))
             {
                 using (var paint = new SKPaint
@@ -142,8 +132,10 @@ namespace Microcharts
                     canvas.DrawLine(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y, paint);
                 }
             }
+#endif
         }
 
+#if LATER
         /// <summary>
         /// Gets the absolute bounds of a given rectangle, aligned at a given position.
         /// </summary>
@@ -152,30 +144,32 @@ namespace Microcharts
         /// <param name="bounds">The bounds of the rectangle.</param>
         /// <param name="horizontalAlignment">The alignment of the rectangle, relative to x/y.</param>
         /// <returns></returns>
-        private static SKRect GetAbsolutePositionRect(float x, float y, SKRect bounds, SKTextAlign horizontalAlignment)
+        private static Rect GetAbsolutePositionRect(double x, double y, Rect bounds, TextAlignment horizontalAlignment)
         {
-            var captionBounds = new SKRect
+            var captionBounds = new Rect
             {
-                Left = x + bounds.Left,
-                Top = y + bounds.Top
+                X = x + bounds.Left,
+                Y = y + bounds.Top
             };
 
+            // TODO: This logic doesn't seem right
             switch (horizontalAlignment)
             {
-                case SKTextAlign.Left:
-                    captionBounds.Right = captionBounds.Left + bounds.Width;
+                case TextAlignment.Left:
+                    captionBounds.Width = bounds.Width;
                     break;
-                case SKTextAlign.Center:
-                    captionBounds.Right = captionBounds.Left + bounds.Width / 2;
+                case TextAlignment.Center:
+                    captionBounds.Width = bounds.Width / 2;
                     break;
-                case SKTextAlign.Right:
-                    captionBounds.Right = captionBounds.Left - bounds.Width;
+                case TextAlignment.Right:
+                    captionBounds.Width = -bounds.Width;
                     break;
             }
 
-            captionBounds.Bottom = captionBounds.Top + bounds.Height;
+            captionBounds.Height = bounds.Height;
 
             return captionBounds;
         }
+#endif
     }
 }
