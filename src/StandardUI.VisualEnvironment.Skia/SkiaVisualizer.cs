@@ -3,6 +3,7 @@ using System.StandardUI.Shapes;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.StandardUI.Controls;
 
 namespace System.StandardUI.SkiaVisualizer
 {
@@ -89,6 +90,28 @@ namespace System.StandardUI.SkiaVisualizer
             DrawShapePath(skPath, rectangle);
         }
 
+        public void DrawTextBlock(ITextBlock textBlock)
+        {
+            IBrush? foreground = textBlock.Foreground;
+            if (foreground != null)
+            {
+                using SKPaint paint = new SKPaint
+                {
+                    Style = SKPaintStyle.Fill,
+                    TextSize = (float)textBlock.FontSize,
+                    IsAntialias = true
+                };
+
+                InitSkiaPaintForBrush(paint, foreground, textBlock);
+
+                SKRect textBounds = new SKRect();
+                paint.MeasureText(textBlock.Text, ref textBounds);
+                float baseline = -textBounds.Top;
+
+                _skCanvas.DrawText(textBlock.Text, 0, baseline, paint);
+            }
+        }
+
         public IVisual End()
         {
             SKPicture skPicture = _skPictureRecorder!.EndRecording();
@@ -144,18 +167,18 @@ namespace System.StandardUI.SkiaVisualizer
             }
         }
 
-        private static void InitSkiaPaintForBrush(SKPaint paint, IBrush brush, IShape shape)
+        private static void InitSkiaPaintForBrush(SKPaint paint, IBrush brush, IUIElement uiElement)
         {
             if (brush is ISolidColorBrush solidColorBrush)
                 paint.Color = ToSkiaColor(solidColorBrush.Color);
             else if (brush is IGradientBrush gradientBrush)
-                paint.Shader = ToSkiaShader(gradientBrush, shape);
+                paint.Shader = ToSkiaShader(gradientBrush, uiElement);
             else throw new InvalidOperationException($"Brush type {brush.GetType()} isn't currently supported");
         }
 
         public static SKColor ToSkiaColor(Color color) => new SKColor(color.R, color.G, color.B, color.A);
 
-        public static SKShader ToSkiaShader(IGradientBrush gradientBrush, IShape shape)
+        public static SKShader ToSkiaShader(IGradientBrush gradientBrush, IUIElement uiElement)
         {
             SKShaderTileMode tileMode = gradientBrush.SpreadMethod switch
             {
@@ -175,27 +198,27 @@ namespace System.StandardUI.SkiaVisualizer
 
             if (gradientBrush is ILinearGradientBrush linearGradientBrush)
             {
-                SKPoint skiaStartPoint = GradientBrushPointToSkiaPoint(linearGradientBrush.StartPoint, gradientBrush, shape);
-                SKPoint skiaEndPoint = GradientBrushPointToSkiaPoint(linearGradientBrush.EndPoint, gradientBrush, shape);
+                SKPoint skiaStartPoint = GradientBrushPointToSkiaPoint(linearGradientBrush.StartPoint, gradientBrush, uiElement);
+                SKPoint skiaEndPoint = GradientBrushPointToSkiaPoint(linearGradientBrush.EndPoint, gradientBrush, uiElement);
 
                 return SKShader.CreateLinearGradient(skiaStartPoint, skiaEndPoint, skColors.ToArray(), skiaColorPositions.ToArray(), tileMode);
             }
             else if (gradientBrush is IRadialGradientBrush radialGradientBrush)
             {
-                SKPoint skiaCenterPoint = GradientBrushPointToSkiaPoint(radialGradientBrush.Center, gradientBrush, shape);
+                SKPoint skiaCenterPoint = GradientBrushPointToSkiaPoint(radialGradientBrush.Center, gradientBrush, uiElement);
 
-                float radius = (float)(radialGradientBrush.RadiusX * shape.Width);
+                float radius = (float)(radialGradientBrush.RadiusX * uiElement.Width);
                 return SKShader.CreateRadialGradient(skiaCenterPoint, radius, skColors.ToArray(), skiaColorPositions.ToArray(), tileMode);
             }
             else throw new InvalidOperationException($"GradientBrush type {gradientBrush.GetType()} is unknown");
         }
 
-        public static SKPoint GradientBrushPointToSkiaPoint(Point point, IGradientBrush gradientBrush, IShape shape)
+        public static SKPoint GradientBrushPointToSkiaPoint(Point point, IGradientBrush gradientBrush, IUIElement uiElement)
         {
             if (gradientBrush.MappingMode == BrushMappingMode.RelativeToBoundingBox)
                 return new SKPoint(
-                    (float)(point.X * shape.Width),
-                    (float)(point.Y * shape.Height));
+                    (float)(point.X * uiElement.Width),
+                    (float)(point.Y * uiElement.Height));
             else
                 return new SKPoint((float)point.X, (float)point.Y);
         }

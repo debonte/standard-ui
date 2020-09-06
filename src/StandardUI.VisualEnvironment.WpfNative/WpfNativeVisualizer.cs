@@ -1,4 +1,5 @@
-﻿using System.StandardUI.Media;
+﻿using System.StandardUI.Controls;
+using System.StandardUI.Media;
 using System.StandardUI.Shapes;
 using System.StandardUI.SkiaVisualizer;
 using System.Windows.Media;
@@ -94,6 +95,11 @@ namespace System.StandardUI.VisualEnvironment.WpfNative
                 _drawingContext!.DrawRoundedRectangle(wpfBurush, wpfPen, wpfRect, rectangle.RadiusX, rectangle.RadiusY);
             else
                 _drawingContext!.DrawRectangle(wpfBurush, wpfPen, wpfRect);
+        }
+
+        public void DrawTextBlock(ITextBlock textBlock)
+        {
+            throw new NotImplementedException();
         }
 
         public IVisual End()

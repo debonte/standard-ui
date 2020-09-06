@@ -1,5 +1,6 @@
 ﻿using System.StandardUI.Shapes;
 using System;
+using System.StandardUI.Controls;
 
 namespace System.StandardUI
 {
@@ -17,6 +18,7 @@ namespace System.StandardUI
         void DrawPolygon(IPolygon polygon);
         void DrawPolyline(IPolyline polyline);
         void DrawRectangle(IRectangle rectangle);
+        void DrawTextBlock(ITextBlock textBlock);
         IVisual End();
     }
 }
