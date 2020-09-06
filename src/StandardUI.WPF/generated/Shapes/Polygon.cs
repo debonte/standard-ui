@@ -28,5 +28,10 @@ namespace System.StandardUI.Wpf.Shapes
             get => Points.Points;
             set => Points = new PointsWpf(value);
         }
+
+        public override void OnDraw(IVisualizer visualizer)
+        {
+            visualizer.DrawPolygon(this);
+        }
     }
 }

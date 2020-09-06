@@ -35,5 +35,10 @@ namespace System.StandardUI.Wpf.Shapes
             get => (double) GetValue(Y2Property);
             set => SetValue(Y2Property, value);
         }
+
+        public override void OnDraw(IVisualizer visualizer)
+        {
+            visualizer.DrawLine(this);
+        }
     }
 }
