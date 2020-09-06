@@ -4,7 +4,7 @@ using System.StandardUI.Controls;
 
 namespace System.StandardUI.Wpf.Controls
 {
-    public class Grid : Panel, IGrid
+    public partial class Grid : Panel, IGrid
     {
     }
 }

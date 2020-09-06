@@ -1,6 +1,6 @@
 ﻿namespace System.StandardUI.Controls
 {
-    public class StandardUIUserControl : StandardUIControl
+    public class StandardUserControl : StandardControl
     {
         public IUIElement? Content { get; set; }
 

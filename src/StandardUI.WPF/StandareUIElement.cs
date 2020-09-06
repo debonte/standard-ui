@@ -18,7 +18,7 @@ namespace System.StandardUI.Wpf
         }
     }
 
-    public class UIElement : System.Windows.FrameworkElement, IUIElement
+    public class StandardUIElement : FrameworkElement, IUIElement
     {
         private WriteableBitmap? _bitmap;
         private bool _ignorePixelScaling;
@@ -43,7 +43,7 @@ namespace System.StandardUI.Wpf
             }
         }
 
-        Size IUIElement.DesiredSize => throw new System.NotImplementedException();
+        Size IUIElement.DesiredSize => SizeExtensions.FromWpfSize(DesiredSize);
 
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -58,7 +58,7 @@ namespace System.StandardUI.Wpf
 
             IVisual visual;
             using (IVisualizer visualizer = visualEnvironment.CreateVisualizer(cullingRect)) {
-                Draw(visualizer);
+                OnDraw(visualizer);
                 visual = visualizer.End();
             }
 
@@ -119,10 +119,14 @@ namespace System.StandardUI.Wpf
             if (_ignorePixelScaling)
                 return new SizeInPixels((int)w, (int)h);
 
+            // TODO: Put this back once fix NRE
+#if false
             Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
             scaleX = m.M11;
             scaleY = m.M22;
             return new SizeInPixels((int)(w * scaleX), (int)(h * scaleY));
+#endif
+            return new SizeInPixels((int)w, (int)h);
 
             bool IsPositive(double value)
             {
@@ -130,7 +134,7 @@ namespace System.StandardUI.Wpf
             }
         }
 
-        public virtual void Draw(IVisualizer visualizer)
+        public virtual void OnDraw(IVisualizer visualizer)
         {
         }
     }

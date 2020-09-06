@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace System.StandardUI.Wpf.Controls
 {
-    public class Canvas : Panel, ICanvas
+    public partial class Canvas : Panel, ICanvas
     {
         public static readonly Windows.DependencyProperty LeftProperty = PropertyUtils.RegisterAttached("Left", typeof(double), typeof(UIElement), 0.0);
         public static readonly Windows.DependencyProperty TopProperty = PropertyUtils.RegisterAttached("Top", typeof(double), typeof(UIElement), 0.0);

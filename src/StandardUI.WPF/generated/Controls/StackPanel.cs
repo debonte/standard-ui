@@ -4,7 +4,7 @@ using System.StandardUI.Controls;
 
 namespace System.StandardUI.Wpf.Controls
 {
-    public class StackPanel : Panel, IStackPanel
+    public partial class StackPanel : Panel, IStackPanel
     {
     }
 }
