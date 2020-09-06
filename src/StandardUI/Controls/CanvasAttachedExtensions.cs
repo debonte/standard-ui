@@ -12,6 +12,6 @@ namespace System.StandardUI.Controls
         public static void SetCanvasLeft(this IUIElement element, double length) => CanvasAttached.SetLeft(element, length);
 
         public static double GetCanvasTop(this IUIElement element) => CanvasAttached.GetTop(element);
-        public static void SetCanvasTop(this IUIElement element, double length) => CanvasAttached.SetLeft(element, length);
+        public static void SetCanvasTop(this IUIElement element, double length) => CanvasAttached.SetTop(element, length);
     }
 }

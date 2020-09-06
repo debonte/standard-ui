@@ -16,7 +16,7 @@
             return new Size();
         }
 
-        public static Size ArrangeOverride(this ICanvas canvas, Size arrangeSize)
+        public static Size ArrangeOverrideImpl(this ICanvas canvas, Size arrangeSize)
         {
             //Canvas arranges children at their DesiredSize.
             //This means that Margin on children is actually respected and added
