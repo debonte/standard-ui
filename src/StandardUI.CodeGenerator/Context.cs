@@ -79,6 +79,8 @@ namespace StandardUI.CodeGenerator
             }
             else if (IsNonwrappedObjectType(typeName))
                 return identifierName;
+            else if (typeName == "IUIElement")
+                return IdentifierName("StandardUIElement");
             else if (typeName.StartsWith("I"))
                 return IdentifierName(typeName.Substring(1));
             else
@@ -97,6 +99,12 @@ namespace StandardUI.CodeGenerator
         public bool IsWrappableType(string typeName)
         {
             return typeName == "Color" || typeName == "Point" || typeName == "Points" || typeName == "Size" || typeName == "DataSource";
+        }
+
+        public static bool IsPanelSubclass(InterfaceDeclarationSyntax interfaceDeclaration)
+        {
+            TypeSyntax? baseInterface = interfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
+            return baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IPanel";
         }
 
         public bool IsWrappedType(string typeName)
@@ -147,7 +155,7 @@ namespace StandardUI.CodeGenerator
             }
         }
 
-        public ExpressionSyntax GetDefaultValue(SyntaxList<AttributeListSyntax> attributeLists, string propertyName, TypeSyntax sourcePropertyType, TypeSyntax destinationPropertyType)
+        public ExpressionSyntax GetDefaultValue(SyntaxList<AttributeListSyntax> attributeLists, string propertyName, TypeSyntax sourcePropertyType)
         {
             foreach (AttributeListSyntax attributeList in attributeLists)
             {

@@ -37,9 +37,9 @@ namespace StandardUI.CodeGenerator
             SourceType = getterDeclaration.ReturnType;
             DestinationType = context.ToDestinationType(SourceType);
             TargetSourceType = targetParameter.Type!;
-            TargetDestinationType = context.ToDestinationType(TargetSourceType);
+            TargetDestinationType = TargetSourceType.ToString() == "IUIElement" ? context.OutputType.DestinationTypeForUIElementAttachedTarget : context.ToDestinationType(TargetSourceType);
             TargetParameterName = targetParameter.Identifier.Text;
-            DefaultValue = context.GetDefaultValue(getterDeclaration.AttributeLists, propertyName, SourceType, DestinationType);
+            DefaultValue = context.GetDefaultValue(getterDeclaration.AttributeLists, propertyName, SourceType);
 
             if (setterDeclaration != null)
             {
@@ -69,8 +69,6 @@ namespace StandardUI.CodeGenerator
 
         public void GenerateMainClassMethods(Source source)
         {
-            bool classPropertyTypeDiffersFromInterface = SourceType.ToString() != DestinationType.ToString();
-
             source.AddBlankLineIfNonempty();
             if (Context.OutputType is XamlOutputType xamlOutputType)
             {

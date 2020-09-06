@@ -26,7 +26,7 @@ namespace StandardUI.CodeGenerator
             Name = declaration.Identifier.Text;
             SourceType = declaration.Type.WithoutTrivia();
             DestinationType = context.ToDestinationType(SourceType);
-            DefaultValue = context.GetDefaultValue(declaration.AttributeLists, Name, SourceType, DestinationType);
+            DefaultValue = context.GetDefaultValue(declaration.AttributeLists, Name, SourceType);
         }
 
         public void GenerateDescriptor(Source destinationStaticMembers)
