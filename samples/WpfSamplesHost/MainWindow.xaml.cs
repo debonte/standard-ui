@@ -19,27 +19,42 @@ namespace WpfHost
             WpfStandardUIEnvironment.Init(new SkiaVisualEnvironment());
             InitializeComponent();
 
-            /*
             var radialGauge = new RadialGauge();
             radialGauge.Width = 100;
             radialGauge.Height = 100;
 
-            var radialGaugeWpf = new StandardUIUserControlWpf(radialGauge);
+            var radialGaugeWpf = new StandardUserControlWpf(radialGauge);
+            radialGaugeWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(radialGaugeWpf);
-            */
 
             var barChart = new BarChart()
             {
                 Entries = CreateChartEntries(),
-                LabelTextSize = 60,
+                LabelTextSize = 14,
                 LabelOrientation = Microcharts.Orientation.Horizontal,
-                Width = 200,
-                Height = 200
+                IsAnimated = false,
+                Width = 400,
+                Height = 400,
             };
             barChart.Build();
 
-            var barChartWpf = new StandardUIUserControlWpf(barChart);
+            var barChartWpf = new StandardUserControlWpf(barChart);
+            barChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(barChartWpf);
+
+            var radarChart = new RadarChart()
+            {
+                Entries = CreateChartEntries(),
+                LabelTextSize = 14,
+                IsAnimated = false,
+                Width = 400,
+                Height = 400,
+            };
+            radarChart.Build();
+
+            var radarChartWpf = new StandardUserControlWpf(radarChart);
+            radarChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
+            controlStack.Children.Add(radarChartWpf);
         }
 
         public static ChartEntry[] CreateChartEntries()
