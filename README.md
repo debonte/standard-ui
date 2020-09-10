@@ -26,8 +26,9 @@ This project is an evolution of my [XGraphics](https://github.com/BretJohnson/XG
 
 # Current APIs
 
-## Shapes and Drawing
-Shapes:
+### Shapes and Drawing
+
+_Shapes:_
 [IShape](StandardUI/Shapes/IShape.cs),
 [IEllipse](StandardUI/Shapes/IEllipse.cs),
 [ILine](StandardUI/Shapes/ILine.cs),
@@ -36,7 +37,7 @@ Shapes:
 [IPolyline](StandardUI/Shapes/IPolyline.cs),
 [IRectangle](StandardUI/Shapes/IRectangle.cs)
 
-Geometries:
+_Geometries:_
 [IGeometry](StandardUI/Media/IGeometry.cs),
 [IArcSegement](StandardUI/Media/IArcSegement.cs),
 [IBezierSegment](StandardUI/Media/IBezierSegment.cs),
@@ -48,14 +49,14 @@ Geometries:
 [IPolyQuadraticBezierSegment](StandardUI/Media/IPolyQuadraticBezierSegment.cs)
 [IQuadraticBezierSegment](StandardUI/Media/IQuadraticBezierSegment.cs)
 
-Transforms:
+_Transforms:_
 [ITransform](StandardUI/Media/ITransform.cs),
 [IRotateTransform](StandardUI/Media/IRotateTransform.cs),
 [IScaleTransform](StandardUI/Media/IScaleTransform.cs),
 [ITransformGroup](StandardUI/Media/ITransformGroup.cs),
 [ITranslateTransform](StandardUI/Media/ITranslateTransform.cs)
 
-Brushes and Strokes:
+_Brushes and Strokes:_
 [BrushMappingMode](StandardUI/Media/BrushMappingMode.cs),
 [FillMode](StandardUI/Media/FillMode.cs),
 [GradientStreamMethod](StandardUI/Media/GradientStreamMethod.cs),
@@ -73,18 +74,27 @@ Shapes are [IUIElements](StandardUI/IUIElement.cs) that can be used as children 
 
 Geometries, transforms, and brushes all help support the drawing.
 
-## Layout
+### Layout
 
 [IPanel](StandardUI/Controls/IPanel.cs),
 [IStackPanel](StandardUI/Controls/IStackPanel.cs),
 [IGrid](StandardUI/Controls/IGrid.cs),
 [ICanvas](StandardUI/Controls/ICanvas.cs)
 
-## Text
+### Text
 
 [ITextBlock](StandardUI/Controls/ITextBlock.cs),
 [FontStyle](StandardUI/Text/FontStyle.cs),
 [FontWeight](StandardUI/Text/FontWeight.cs),
-[FontWeights](StandardUI/Controls/FontWeights.cs)
+[FontWeights](StandardUI/Text/FontWeights.cs)
 
 Text output is another core piece of drawn UI.
+
+### Control hierarchy
+
+[IUIElement](StandardUI/IUIElement.cs),
+[IUIElementCollection](StandardUI/Controls/IUIElementCollection.cs),
+[IControl](StandardUI/Controls/IControl.cs),
+[IUserControl](StandardUI/Controls/IUserControl.cs)
+
+
