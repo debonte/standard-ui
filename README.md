@@ -29,72 +29,70 @@ This project is an evolution of my [XGraphics](https://github.com/BretJohnson/XG
 ### Shapes and Drawing
 
 _Shapes:_
-[IShape](StandardUI/Shapes/IShape.cs),
-[IEllipse](StandardUI/Shapes/IEllipse.cs),
-[ILine](StandardUI/Shapes/ILine.cs),
-[IPath](StandardUI/Shapes/IPath.cs),
-[IPolygon](StandardUI/Shapes/IPolygon.cs),
-[IPolyline](StandardUI/Shapes/IPolyline.cs),
-[IRectangle](StandardUI/Shapes/IRectangle.cs)
+[IShape](src/StandardUI/Shapes/IShape.cs),
+[IEllipse](src/StandardUI/Shapes/IEllipse.cs),
+[ILine](src/StandardUI/Shapes/ILine.cs),
+[IPath](src/StandardUI/Shapes/IPath.cs),
+[IPolygon](src/StandardUI/Shapes/IPolygon.cs),
+[IPolyline](src/StandardUI/Shapes/IPolyline.cs),
+[IRectangle](src/StandardUI/Shapes/IRectangle.cs)
 
 _Geometries:_
-[IGeometry](StandardUI/Media/IGeometry.cs),
-[IArcSegement](StandardUI/Media/IArcSegement.cs),
-[IBezierSegment](StandardUI/Media/IBezierSegment.cs),
-[ILineSegment](StandardUI/Media/ILineSegment.cs),
-[IPathFigure](StandardUI/Media/IPathFigure.cs),
-[IPathGeometry](StandardUI/Media/IPathGeometry.cs),
-[IPathSegment](StandardUI/Media/IPathSegment.cs),
-[IPolyBezierSegment](StandardUI/Media/IPolyBezierSegment.cs)
-[IPolyQuadraticBezierSegment](StandardUI/Media/IPolyQuadraticBezierSegment.cs)
-[IQuadraticBezierSegment](StandardUI/Media/IQuadraticBezierSegment.cs)
+[IGeometry](src/StandardUI/Media/IGeometry.cs),
+[IArcSegement](src/StandardUI/Media/IArcSegement.cs),
+[IBezierSegment](src/StandardUI/Media/IBezierSegment.cs),
+[ILineSegment](src/StandardUI/Media/ILineSegment.cs),
+[IPathFigure](src/StandardUI/Media/IPathFigure.cs),
+[IPathGeometry](src/StandardUI/Media/IPathGeometry.cs),
+[IPathSegment](src/StandardUI/Media/IPathSegment.cs),
+[IPolyBezierSegment](src/StandardUI/Media/IPolyBezierSegment.cs)
+[IPolyQuadraticBezierSegment](src/StandardUI/Media/IPolyQuadraticBezierSegment.cs)
+[IQuadraticBezierSegment](src/StandardUI/Media/IQuadraticBezierSegment.cs)
 
 _Transforms:_
-[ITransform](StandardUI/Media/ITransform.cs),
-[IRotateTransform](StandardUI/Media/IRotateTransform.cs),
-[IScaleTransform](StandardUI/Media/IScaleTransform.cs),
-[ITransformGroup](StandardUI/Media/ITransformGroup.cs),
-[ITranslateTransform](StandardUI/Media/ITranslateTransform.cs)
+[ITransform](src/StandardUI/Media/ITransform.cs),
+[IRotateTransform](src/StandardUI/Media/IRotateTransform.cs),
+[IScaleTransform](src/StandardUI/Media/IScaleTransform.cs),
+[ITransformGroup](src/StandardUI/Media/ITransformGroup.cs),
+[ITranslateTransform](src/StandardUI/Media/ITranslateTransform.cs)
 
 _Brushes and Strokes:_
-[BrushMappingMode](StandardUI/Media/BrushMappingMode.cs),
-[FillMode](StandardUI/Media/FillMode.cs),
-[GradientStreamMethod](StandardUI/Media/GradientStreamMethod.cs),
-[IGradientBrush](StandardUI/Media/IGradientBrush.cs),
-[ILinearGradientBrush](StandardUI/Media/ILinearGradientBrush.cs),
-[IRadialGradientBrush](StandardUI/Media/IRadialGradientBrush.cs),
-[ISolidColorBrush](StandardUI/Media/ISolidColorBrush.cs),
-[PenLineCap](StandardUI/Media/PenLineCap.cs),
-[PenLineJoin](StandardUI/Media/PenLineJoin.cs),
-[SweepDirection](StandardUI/Media/SweepDirection.cs)
+[BrushMappingMode](src/StandardUI/Media/BrushMappingMode.cs),
+[FillMode](src/StandardUI/Media/FillMode.cs),
+[GradientStreamMethod](src/StandardUI/Media/GradientStreamMethod.cs),
+[IGradientBrush](src/StandardUI/Media/IGradientBrush.cs),
+[ILinearGradientBrush](src/StandardUI/Media/ILinearGradientBrush.cs),
+[IRadialGradientBrush](src/StandardUI/Media/IRadialGradientBrush.cs),
+[ISolidColorBrush](src/StandardUI/Media/ISolidColorBrush.cs),
+[PenLineCap](src/StandardUI/Media/PenLineCap.cs),
+[PenLineJoin](src/StandardUI/Media/PenLineJoin.cs),
+[SweepDirection](src/StandardUI/Media/SweepDirection.cs)
 
 All of these APIs are nearly identical to UWP, WPF, and Xamarin.Forms 4.8 (which added shape and brush support).
 
-Shapes are [IUIElements](StandardUI/IUIElement.cs) that can be used as children to build the visual representation of a control, often as part of a control template. That's the same model used by UWP/WPF/Forms.
+Shapes are [IUIElements](src/StandardUI/IUIElement.cs) that can be used as children to build the visual representation of a control, often as part of a control template. That's the same model used by UWP/WPF/Forms.
 
 Geometries, transforms, and brushes all help support the drawing.
 
 ### Layout
 
-[IPanel](StandardUI/Controls/IPanel.cs),
-[IStackPanel](StandardUI/Controls/IStackPanel.cs),
-[IGrid](StandardUI/Controls/IGrid.cs),
-[ICanvas](StandardUI/Controls/ICanvas.cs)
+[IPanel](src/StandardUI/Controls/IPanel.cs),
+[IStackPanel](src/StandardUI/Controls/IStackPanel.cs),
+[IGrid](src/StandardUI/Controls/IGrid.cs),
+[ICanvas](src/StandardUI/Controls/ICanvas.cs)
 
 ### Text
 
-[ITextBlock](StandardUI/Controls/ITextBlock.cs),
-[FontStyle](StandardUI/Text/FontStyle.cs),
-[FontWeight](StandardUI/Text/FontWeight.cs),
-[FontWeights](StandardUI/Text/FontWeights.cs)
-
-Text output is another core piece of drawn UI.
+[ITextBlock](src/StandardUI/Controls/ITextBlock.cs),
+[FontStyle](src/StandardUI/Text/FontStyle.cs),
+[FontWeight](src/StandardUI/Text/FontWeight.cs),
+[FontWeights](src/StandardUI/Text/FontWeights.cs)
 
 ### Control hierarchy
 
-[IUIElement](StandardUI/IUIElement.cs),
-[IUIElementCollection](StandardUI/Controls/IUIElementCollection.cs),
-[IControl](StandardUI/Controls/IControl.cs),
-[IUserControl](StandardUI/Controls/IUserControl.cs)
+[IUIElement](src/StandardUI/IUIElement.cs),
+[IUIElementCollection](src/StandardUI/Controls/IUIElementCollection.cs),
+[IControl](src/StandardUI/Controls/IControl.cs),
+[IUserControl](src/StandardUI/Controls/IUserControl.cs)
 
 
