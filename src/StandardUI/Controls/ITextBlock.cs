@@ -38,6 +38,7 @@ namespace System.StandardUI.Controls
         /// <summary>
         /// Gets or sets a value that indicates the horizontal alignment of text content.
         /// </summary>
+        [DefaultValue(TextAlignment.Left)]
         TextAlignment TextAlignment { get; set; }
     }
 }
