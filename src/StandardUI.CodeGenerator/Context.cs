@@ -98,7 +98,7 @@ namespace StandardUI.CodeGenerator
 
         public bool IsWrappableType(string typeName)
         {
-            return typeName == "Color" || typeName == "Point" || typeName == "Points" || typeName == "Size" || typeName == "DataSource";
+            return typeName == "Color" || typeName == "Point" || typeName == "Points" || typeName == "Size" || typeName == "DataSource" || typeName == "FontWeight";
         }
 
         public static bool IsPanelSubclass(InterfaceDeclarationSyntax interfaceDeclaration)
@@ -125,7 +125,8 @@ namespace StandardUI.CodeGenerator
         public static bool IsEnumType(string typeName)
         {
             return typeName == "SweepDirection" || typeName == "FillRule" || typeName == "GradientSpreadMethod" ||
-                   typeName == "BrushMappingMode" || typeName == "PenLineCap" || typeName == "PenLineJoin" || typeName == "LoadingStatus";
+                   typeName == "BrushMappingMode" || typeName == "PenLineCap" || typeName == "PenLineJoin" || typeName == "LoadingStatus" ||
+                   typeName == "TextAlignment" || typeName == "FontStyle";
         }
 
         public static bool IsCollectionType(TypeSyntax type, out string elementType)
@@ -207,7 +208,8 @@ namespace StandardUI.CodeGenerator
                 (propertyTypeName.Identifier.Text == "Color" ||
                 propertyTypeName.Identifier.Text == "Point" ||
                 propertyTypeName.Identifier.Text == "Points" ||
-                propertyTypeName.Identifier.Text == "Size") )
+                propertyTypeName.Identifier.Text == "Size" ||
+                propertyTypeName.Identifier.Text == "FontWeight") )
             {
                 // WithoutTrivia is needed here to remove any comment before the type, so the comment isn't written to the output
                 propertyTypeName = propertyTypeName.WithoutTrivia();
