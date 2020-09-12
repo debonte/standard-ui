@@ -291,7 +291,12 @@ namespace Microcharts
                         }
                         else
                         {
-                            var textBlock = TextBlock() .Text(text) .Width(100) .Height(LabelTextSize * 2) .Foreground(SolidColorBrush().Color(colors[i])) .FontSize(LabelTextSize);
+                            var textBlock = TextBlock()
+                                .Text(text)
+                                .Width(100)
+                                .Height(LabelTextSize * 2)
+                                .Foreground(SolidColorBrush().Color(colors[i]))
+                                .FontSize(LabelTextSize);
                             canvas.Add(x, y, textBlock);
                         }
                     }
