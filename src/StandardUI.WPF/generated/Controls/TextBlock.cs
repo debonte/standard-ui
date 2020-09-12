@@ -5,7 +5,6 @@ using System.StandardUI.Wpf.Media;
 using System.StandardUI.Text;
 using System.StandardUI.Wpf.Text;
 using System.StandardUI.Controls;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Controls
 {
@@ -63,5 +62,11 @@ namespace System.StandardUI.Wpf.Controls
             get => (TextAlignment) GetValue(TextAlignmentProperty);
             set => SetValue(TextAlignmentProperty, value);
         }
+
+        public override void OnDraw(IVisualizer visualizer)
+        {
+            visualizer.DrawTextBlock(this);
+        }
+
     }
 }
