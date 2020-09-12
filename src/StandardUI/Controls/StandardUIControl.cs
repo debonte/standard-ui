@@ -1,6 +1,6 @@
 ﻿namespace System.StandardUI.Controls
 {
-    public abstract class StandardControl : IUIElement
+    public abstract class StandardUIControl : IUIElement
     {
         public double Width { get; set; } = double.NaN;
         public double MinWidth { get; set; } = 0.0;

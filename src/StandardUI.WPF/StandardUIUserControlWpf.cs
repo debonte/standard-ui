@@ -3,11 +3,11 @@ using System.Windows.Media;
 
 namespace System.StandardUI.Wpf
 {
-    public class StandardUserControlWpf : StandardUIElement
+    public class StandardUIUserControlWpf : StandardUIElement
     {
-        private StandardUserControl _userControl;
+        private StandardUIUserControl _userControl;
 
-        public StandardUserControlWpf(StandardUserControl userControl)
+        public StandardUIUserControlWpf(StandardUIUserControl userControl)
         {
             _userControl = userControl;
 

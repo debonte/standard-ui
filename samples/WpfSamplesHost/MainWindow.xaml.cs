@@ -23,7 +23,7 @@ namespace WpfHost
             radialGauge.Width = 100;
             radialGauge.Height = 100;
 
-            var radialGaugeWpf = new StandardUserControlWpf(radialGauge);
+            var radialGaugeWpf = new StandardUIUserControlWpf(radialGauge);
             radialGaugeWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(radialGaugeWpf);
 
@@ -38,7 +38,7 @@ namespace WpfHost
             };
             barChart.Build();
 
-            var barChartWpf = new StandardUserControlWpf(barChart);
+            var barChartWpf = new StandardUIUserControlWpf(barChart);
             barChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(barChartWpf);
 
@@ -52,7 +52,7 @@ namespace WpfHost
             };
             radarChart.Build();
 
-            var radarChartWpf = new StandardUserControlWpf(radarChart);
+            var radarChartWpf = new StandardUIUserControlWpf(radarChart);
             radarChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(radarChartWpf);
         }

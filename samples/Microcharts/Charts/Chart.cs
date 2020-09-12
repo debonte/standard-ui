@@ -21,7 +21,7 @@ namespace Microcharts
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class Chart : StandardUserControl, INotifyPropertyChanged
+    public abstract class Chart : StandardUIUserControl, INotifyPropertyChanged
     {
         private IEnumerable<ChartEntry> entries;
         private float animationProgress;
