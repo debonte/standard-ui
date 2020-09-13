@@ -1,7 +1,6 @@
 // This file is generated from IGeometry.cs. Update the source file to change its contents.
 
 using System.StandardUI.Media;
-using System.Windows;
 using System.ComponentModel;
 using System.StandardUI.Wpf.Converters;
 

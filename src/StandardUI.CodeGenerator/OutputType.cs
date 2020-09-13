@@ -34,7 +34,7 @@ namespace StandardUI.CodeGenerator
         public override string ProjectBaseDirectory => "StandardUI.Wpf";
         public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("Wpf"));
         public override string DependencyPropertyClassName => "Windows.DependencyProperty";
-        public override TypeSyntax DestinationTypeForUIElementAttachedTarget => IdentifierName("UIElement");
+        public override TypeSyntax DestinationTypeForUIElementAttachedTarget => QualifiedName(IdentifierName("Windows"), IdentifierName("UIElement"));
         public override string? DefaultBaseClassName => "Windows.DependencyObject";
         public override string WrapperSuffix => "Wpf";
 
@@ -42,8 +42,10 @@ namespace StandardUI.CodeGenerator
         {
             var usings = new List<QualifiedNameSyntax>();
 
+#if NOT_NEEDED
             if (hasPropertyDescriptors)
                 usings.Add(QualifiedName(IdentifierName("System"), IdentifierName("Windows")));
+#endif
             if (hasTypeConverterAttribute)
                 usings.Add(QualifiedName(IdentifierName("System"), IdentifierName("ComponentModel")));
 

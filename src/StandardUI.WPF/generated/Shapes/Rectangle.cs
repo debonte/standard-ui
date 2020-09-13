@@ -1,7 +1,6 @@
 // This file is generated from IRectangle.cs. Update the source file to change its contents.
 
 using System.StandardUI.Shapes;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Shapes
 {
@@ -21,10 +20,7 @@ namespace System.StandardUI.Wpf.Shapes
             get => (double) GetValue(RadiusYProperty);
             set => SetValue(RadiusYProperty, value);
         }
-
-        public override void OnDraw(IVisualizer visualizer)
-        {
-            visualizer.DrawRectangle(this);
-        }
+        
+        public override void OnDraw(IVisualizer visualizer) => visualizer.DrawRectangle(this);
     }
 }

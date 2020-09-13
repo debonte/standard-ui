@@ -1,7 +1,6 @@
 // This file is generated from ILine.cs. Update the source file to change its contents.
 
 using System.StandardUI.Shapes;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Shapes
 {
@@ -35,10 +34,7 @@ namespace System.StandardUI.Wpf.Shapes
             get => (double) GetValue(Y2Property);
             set => SetValue(Y2Property, value);
         }
-
-        public override void OnDraw(IVisualizer visualizer)
-        {
-            visualizer.DrawLine(this);
-        }
+        
+        public override void OnDraw(IVisualizer visualizer) => visualizer.DrawLine(this);
     }
 }

@@ -3,7 +3,6 @@
 using System.StandardUI.Media;
 using System.StandardUI.Wpf.Media;
 using System.StandardUI.Shapes;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Shapes
 {

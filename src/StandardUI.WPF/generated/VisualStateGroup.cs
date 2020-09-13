@@ -1,7 +1,6 @@
 // This file is generated from IVisualStateGroup.cs. Update the source file to change its contents.
 
 using System.StandardUI;
-using System.Windows;
 
 namespace System.StandardUI.Wpf
 {

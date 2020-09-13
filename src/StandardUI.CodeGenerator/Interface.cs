@@ -84,6 +84,13 @@ namespace StandardUI.CodeGenerator
                     hasChildrenProperty = true;
             }
 
+            if (Context.IncludeOnDraw(Declaration))
+            {
+                mainClassNonstaticMethods.AddBlankLineIfNonempty();
+                mainClassNonstaticMethods.AddLine(
+                    $"public override void OnDraw(IVisualizer visualizer) => visualizer.Draw{DestinationClassName}(this);");
+            }
+
             // If there are any attached properties, add the property descriptors and accessors for them
             if (AttachedInterfaceDeclaration != null)
             {

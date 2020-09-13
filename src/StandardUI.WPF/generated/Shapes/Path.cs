@@ -3,7 +3,6 @@
 using System.StandardUI.Media;
 using System.StandardUI.Wpf.Media;
 using System.StandardUI.Shapes;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Shapes
 {
@@ -21,10 +20,7 @@ namespace System.StandardUI.Wpf.Shapes
             get => Data;
             set => Data = (Geometry) value;
         }
-
-        public override void OnDraw(IVisualizer visualizer)
-        {
-            visualizer.DrawPath(this);
-        }
+        
+        public override void OnDraw(IVisualizer visualizer) => visualizer.DrawPath(this);
     }
 }

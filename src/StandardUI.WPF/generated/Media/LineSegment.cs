@@ -1,7 +1,6 @@
 // This file is generated from ILineSegment.cs. Update the source file to change its contents.
 
 using System.StandardUI.Media;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Media
 {

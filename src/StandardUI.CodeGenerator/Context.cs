@@ -107,6 +107,18 @@ namespace StandardUI.CodeGenerator
             return baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IPanel";
         }
 
+        public static bool IncludeOnDraw(InterfaceDeclarationSyntax interfaceDeclaration)
+        {
+            TypeSyntax? baseInterface = interfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
+            if (baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IShape")
+                return true;
+
+            if (interfaceDeclaration.Identifier.Text == "ITextBlock")
+                return true;
+
+            return false;
+        }
+
         public bool IsWrappedType(string typeName)
         {
             return OutputType is XamlOutputType && IsWrappableType(typeName);

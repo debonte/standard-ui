@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.StandardUI.Media;
-using System.Windows;
 
 namespace System.StandardUI.Wpf.Media
 {

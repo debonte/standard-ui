@@ -62,11 +62,7 @@ namespace System.StandardUI.Wpf.Controls
             get => (TextAlignment) GetValue(TextAlignmentProperty);
             set => SetValue(TextAlignmentProperty, value);
         }
-
-        public override void OnDraw(IVisualizer visualizer)
-        {
-            visualizer.DrawTextBlock(this);
-        }
-
+        
+        public override void OnDraw(IVisualizer visualizer) => visualizer.DrawTextBlock(this);
     }
 }
