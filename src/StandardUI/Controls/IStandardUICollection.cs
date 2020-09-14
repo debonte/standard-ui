@@ -2,7 +2,7 @@
 
 namespace System.StandardUI
 {
-    public interface IUIElementCollection : IStandardUICollection<IUIElement>
+    public interface IStandardUICollection<T> : IList<T>
     {
     }
 }
