@@ -33,8 +33,8 @@ namespace StandardUI.CodeGenerator
 
             DestinationClassName = Name.Substring(1);
 
-            // Form the default variable name for the interface by dropping the "I" and lower casing the first letter after (ICanvas => canvas)
-            VariableName = Name.Substring(1, 1).ToLower() + Name.Substring(2);
+            // Form the default variable name for the interface by dropping the "I" and lower casing the first letter(s) after (ICanvas => canvas)
+            VariableName = Context.TypeNameToVariableName(Name.Substring(1));
 
             if (!(Declaration.Parent is NamespaceDeclarationSyntax interfaceNamespaceDeclaration))
                 throw new UserViewableException(
@@ -51,11 +51,11 @@ namespace StandardUI.CodeGenerator
 
         public void Generate()
         {
-            bool hasChildrenProperty = false;
-            var collectionProperties = new List<PropertyDeclarationSyntax>();
+            var properties = new List<Property>();
 
             var mainClassStaticFields = new Source(Context);
             var mainClassStaticMethods = new Source(Context);
+            var mainClassNonstaticFields = new Source(Context);
             var mainClassNonstaticMethods = new Source(Context);
 
             var extensionClassMethods = new Source(Context);
@@ -70,18 +70,12 @@ namespace StandardUI.CodeGenerator
 
                 string propertyName = modelProperty.Identifier.Text;
                 var property = new Property(Context, this, modelProperty);
-
-#if false
-                if (IsCollectionType(modelProperty.Type))
-                    collectionProperties.Add(modelProperty);
-#endif
+                properties.Add(property);
 
                 property.GenerateDescriptor(mainClassStaticFields);
+                property.GenerateFieldIfNeeded(mainClassNonstaticFields);
                 property.GenerateMethods(mainClassNonstaticMethods);
                 property.GenerateExtensionClassMethods(extensionClassMethods);
-
-                if (propertyName == "Children")
-                    hasChildrenProperty = true;
             }
 
             if (Context.IncludeOnDraw(Declaration))
@@ -89,6 +83,18 @@ namespace StandardUI.CodeGenerator
                 mainClassNonstaticMethods.AddBlankLineIfNonempty();
                 mainClassNonstaticMethods.AddLine(
                     $"public override void OnDraw(IVisualizer visualizer) => visualizer.Draw{DestinationClassName}(this);");
+            }
+
+            // Add a special case for the WPF visual tree child methods for Panel; later we'll generalize this as needed
+            if (Name == "IPanel" && Context.OutputType is WpfXamlOutputType)
+            {
+                mainClassNonstaticMethods.AddBlankLineIfNonempty();
+
+                mainClassNonstaticMethods.AddLine(
+                    "protected override int VisualChildrenCount => _uiElementCollection.Count;");
+                mainClassNonstaticMethods.AddBlankLine();
+                mainClassNonstaticMethods.AddLine(
+                    "protected override Windows.Media.Visual GetVisualChild(int index) => (Windows.Media.Visual) _uiElementCollection[index];");
             }
 
             // If there are any attached properties, add the property descriptors and accessors for them
@@ -126,7 +132,7 @@ namespace StandardUI.CodeGenerator
 
             string? destinationBaseClass = GetDestinationBaseClass();
 
-            Source? constructor = GenerateConstructor(collectionProperties);
+            Source? constructor = GenerateConstructor(properties);
 
             string platformOutputDirectory = Context.GetPlatformOutputDirectory(_sourceNamespaceName);
 
@@ -138,8 +144,9 @@ namespace StandardUI.CodeGenerator
 
             bool isPartial = Context.IsPanelSubclass(Declaration);
 
-            Source mainClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, DestinationClassName, mainClassDerviedFrom,
-                isPartial: isPartial, constructor: constructor, staticFields: mainClassStaticFields, staticMethods: mainClassStaticMethods, nonstaticMethods: mainClassNonstaticMethods);
+            Source mainClassSource = GenerateClassFile(usingDeclarations, _destinationNamespaceName, DestinationClassName, mainClassDerviedFrom, isPartial: isPartial,
+                constructor: constructor, staticFields: mainClassStaticFields, staticMethods: mainClassStaticMethods, nonstaticFields: mainClassNonstaticFields,
+                nonstaticMethods: mainClassNonstaticMethods);
             mainClassSource.WriteToFile(platformOutputDirectory, DestinationClassName + ".cs");
 
             if (AttachedInterfaceDeclaration != null)
@@ -162,7 +169,8 @@ namespace StandardUI.CodeGenerator
             }
         }
 
-        public Source GenerateClassFile(Source usingDeclarations, NameSyntax namespaceName, string className, string derivedFrom, bool isPartial = false, Source? constructor = null, Source? staticFields = null, Source? staticMethods = null, Source? nonstaticMethods = null)
+        public Source GenerateClassFile(Source usingDeclarations, NameSyntax namespaceName, string className, string derivedFrom, bool isPartial = false,
+            Source? constructor = null, Source? staticFields = null, Source? staticMethods = null, Source? nonstaticFields = null, Source? nonstaticMethods = null)
         {
             Source fileSource = new Source(Context);
 
@@ -180,25 +188,36 @@ namespace StandardUI.CodeGenerator
 
             using (fileSource.Indent())
             {
-                string modifiers = isPartial ? "public partial" : "public";
+                Source classBody = new Source(Context);
+                if (staticFields != null && !staticFields.IsEmpty)
+                    classBody.AddSource(staticFields);
+                if (staticMethods != null && !staticMethods.IsEmpty)
+                {
+                    classBody.AddBlankLineIfNonempty();
+                    classBody.AddSource(staticMethods);
+                }
+                if (nonstaticFields != null && !nonstaticFields.IsEmpty)
+                {
+                    classBody.AddBlankLineIfNonempty();
+                    classBody.AddSource(nonstaticFields);
+                }
+                if (constructor != null && !constructor.IsEmpty)
+                {
+                    classBody.AddBlankLineIfNonempty();
+                    classBody.AddSource(constructor);
+                }
+                if (nonstaticMethods != null && !nonstaticMethods.IsEmpty)
+                {
+                    classBody.AddBlankLineIfNonempty();
+                    classBody.AddSource(nonstaticMethods);
+                }
 
+                string modifiers = isPartial ? "public partial" : "public";
                 fileSource.AddLines(
                     $"{modifiers} class {className} : {derivedFrom}",
                     "{");
                 using (fileSource.Indent())
-                {
-                    if (staticFields != null && !staticFields.IsEmpty)
-                    {
-                        fileSource.AddSource(staticFields);
-                        fileSource.AddBlankLine();
-                    }
-                    if (staticMethods != null)
-                        fileSource.AddSource(staticMethods);
-                    if (constructor != null)
-                        fileSource.AddSource(constructor);
-                    if (nonstaticMethods != null)
-                        fileSource.AddSource(nonstaticMethods);
-                }
+                    fileSource.AddSource(classBody);
                 fileSource.AddLine(
                     "}");
             }
@@ -253,29 +272,24 @@ namespace StandardUI.CodeGenerator
 
         public OutputType OutputType => Context.OutputType;
 
-        private Source? GenerateConstructor(List<PropertyDeclarationSyntax> collectionProperties)
+        private Source? GenerateConstructor(List<Property> collectionProperties)
         {
-            if (collectionProperties.Count == 0)
+            Source constructorBody = new Source(Context);
+            foreach (Property property in collectionProperties)
+                property.GenerateConstructorLinesIfNeeded(constructorBody);
+
+            if (constructorBody.IsEmpty)
                 return null;
 
             Source constructor = new Source(Context);
-
-            constructor.AddLine($"public {DestinationClassName}()");
-            constructor.AddLine("{");
-
+            constructor.AddLines(
+                $"public {DestinationClassName}()",
+                "{");
             using (constructor.Indent())
-			{
-                List<StatementSyntax> statements = new List<StatementSyntax>();
-                foreach (PropertyDeclarationSyntax property in collectionProperties)
-                {
-                    string propertyName = property.Identifier.Text;
-                    string destinationPropertyType = Context.ToDestinationType(property.Type).ToString();
-
-                    constructor.AddLine($"{propertyName} = new {destinationPropertyType}()");
-                }
-            }
-
-            constructor.AddLine("}");
+                constructor.AddSource(
+                    constructorBody);
+            constructor.AddLine(
+                "}");
 
             return constructor;
         }
@@ -349,7 +363,8 @@ namespace StandardUI.CodeGenerator
 
         private string? GetDestinationBaseClass()
         {
-            if (Context.IsCollectionType(Declaration.Identifier.Text, out string elementType))
+            string? elementType = Context.IsCollectionType(Declaration.Identifier.Text);
+            if (elementType != null)
                 return $"StandardUICollection<{elementType}>";
 
             TypeSyntax? baseInterface = Declaration.BaseList?.Types.FirstOrDefault()?.Type;

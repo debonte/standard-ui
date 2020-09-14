@@ -8,9 +8,6 @@ namespace System.StandardUI.Wpf
     {
         public static readonly Windows.DependencyProperty PathProperty = PropertyUtils.Register(nameof(Path), typeof(string), typeof(PropertyPath), "");
         
-        public string Path
-        {
-            get => (string) GetValue(PathProperty);
-        }
+        public string Path => (string) GetValue(PathProperty);
     }
 }

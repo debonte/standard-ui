@@ -66,6 +66,34 @@ namespace StandardUI.CodeGenerator
                     $"Type {sourceType.GetType()} isn't supported for model object generation");
         }
 
+        /// <summary>
+        /// Convert the type name, normally starting with an upper case character, to a variable name,
+        /// lowercasing the initial character(s) per convention.
+        /// 
+        /// element => element
+        /// Element => element
+        /// AElement => aElement
+        /// UIElement => uiElement
+        /// </summary>
+        public string TypeNameToVariableName(string typeName)
+        {
+            int upperCasePrefixCharCount = 0;
+            int length = typeName.Length;
+            for (int i = 0; i < length; ++i)
+            {
+                if (char.IsUpper(typeName[i]))
+                    ++upperCasePrefixCharCount;
+                else break;
+            }
+
+            if (upperCasePrefixCharCount == 0)
+                return typeName;
+            else if (upperCasePrefixCharCount == 1)
+                return typeName.Substring(0, 1).ToLower() + typeName.Substring(1);
+            else
+                return typeName.Substring(0, upperCasePrefixCharCount - 1).ToLower() + typeName.Substring(upperCasePrefixCharCount - 1);
+        }
+
         public NameSyntax GetIdentifierDestinationType(IdentifierNameSyntax identifierName)
         {
             string typeName = identifierName.Identifier.Text;
@@ -141,31 +169,22 @@ namespace StandardUI.CodeGenerator
                    typeName == "TextAlignment" || typeName == "FontStyle";
         }
 
-        public static bool IsCollectionType(TypeSyntax type, out string elementType)
+        public static string? IsCollectionType(TypeSyntax type)
         {
             if (!(type is IdentifierNameSyntax identiferTypeName))
-            {
-                elementType = "";
-                return false;
-            }
+                return null;
 
-            return IsCollectionType(identiferTypeName.Identifier.Text, out elementType);
+            return IsCollectionType(identiferTypeName.Identifier.Text);
         }
 
-        public static bool IsCollectionType(string typeName, out string elementType)
+        public static string? IsCollectionType(string typeName)
         {
             const string collectionSuffix = "Collection";
 
             if (typeName.EndsWith(collectionSuffix))
-            {
-                elementType = typeName.Substring(0, typeName.Length - collectionSuffix.Length);
-                return true;
-            }
+                return typeName.Substring(0, typeName.Length - collectionSuffix.Length);
             else
-            {
-                elementType = "";
-                return false;
-            }
+                return null;
         }
 
         public ExpressionSyntax GetDefaultValue(SyntaxList<AttributeListSyntax> attributeLists, string propertyName, TypeSyntax sourcePropertyType)
@@ -204,11 +223,8 @@ namespace StandardUI.CodeGenerator
                 }
             }
 
-            if (IsCollectionType(sourcePropertyType, out var _))
-            {
-                return
-                    LiteralExpression(SyntaxKind.NullLiteralExpression);
-            }
+            if (IsCollectionType(sourcePropertyType) != null)
+                return LiteralExpression(SyntaxKind.NullLiteralExpression);
             else if (sourcePropertyType is GenericNameSyntax genericName && genericName.Identifier.Text == "IEnumerable" &&
                 genericName.TypeArgumentList.Arguments.Count == 1 &&
                 genericName.TypeArgumentList.Arguments[0] is IdentifierNameSyntax elementIdentifierName)

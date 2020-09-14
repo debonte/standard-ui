@@ -10,27 +10,20 @@ namespace System.StandardUI.Wpf
         public static readonly Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualStateGroup), "");
         public static readonly Windows.DependencyProperty StatesProperty = PropertyUtils.Register(nameof(States), typeof(VisualStateCollection), typeof(VisualStateGroup), null);
         
-        public VisualState CurrentState
+        private VisualStateCollection _visualStateCollection;
+        
+        public VisualStateGroup()
         {
-            get => (VisualState) GetValue(CurrentStateProperty);
-        }
-        IVisualState IVisualStateGroup.CurrentState
-        {
-            get => CurrentState;
+            _visualStateCollection = new VisualStateCollection();
+            SetValue(StatesProperty, _visualStateCollection);
         }
         
-        public string Name
-        {
-            get => (string) GetValue(NameProperty);
-        }
+        public VisualState CurrentState => (VisualState) GetValue(CurrentStateProperty);
+        IVisualState IVisualStateGroup.CurrentState => CurrentState;
         
-        public VisualStateCollection States
-        {
-            get => (VisualStateCollection) GetValue(StatesProperty);
-        }
-        IVisualStateCollection IVisualStateGroup.States
-        {
-            get => States;
-        }
+        public string Name => (string) GetValue(NameProperty);
+        
+        public VisualStateCollection States => _visualStateCollection;
+        IVisualStateCollection IVisualStateGroup.States => States;
     }
 }

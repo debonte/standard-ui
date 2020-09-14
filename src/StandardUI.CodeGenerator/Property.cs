@@ -16,6 +16,8 @@ namespace StandardUI.CodeGenerator
         public TypeSyntax SourceType { get; }
         public TypeSyntax DestinationType { get; }
         public ExpressionSyntax DefaultValue { get; }
+        public bool IsCollection { get; }
+        public string? FieldNameIfExists { get; }
 
         public Property(Context context, Interface intface, PropertyDeclarationSyntax declaration)
         {
@@ -27,6 +29,12 @@ namespace StandardUI.CodeGenerator
             SourceType = declaration.Type.WithoutTrivia();
             DestinationType = context.ToDestinationType(SourceType);
             DefaultValue = context.GetDefaultValue(declaration.AttributeLists, Name, SourceType);
+            IsCollection = Context.IsCollectionType(SourceType) != null;
+
+            // Only collections have a field currently
+            if (IsCollection)
+                FieldNameIfExists = "_" + Context.TypeNameToVariableName(DestinationType.ToString());
+            else FieldNameIfExists = null;
         }
 
         public void GenerateDescriptor(Source destinationStaticMembers)
@@ -43,6 +51,44 @@ namespace StandardUI.CodeGenerator
 
             destinationStaticMembers.AddLine(
                 $"public static readonly {xamlOutputType.DependencyPropertyClassName} {descriptorName} = PropertyUtils.Register(nameof({Name}), typeof({nonNullablePropertyType}), typeof({Interface.DestinationClassName}), {DefaultValue});");
+        }
+
+        public void GenerateFieldIfNeeded(Source nonstaticFields)
+        {
+            if (FieldNameIfExists == null)
+                return;
+
+            nonstaticFields.AddLine(
+                $"private {DestinationType} {FieldNameIfExists};");
+        }
+
+        public void GenerateConstructorLinesIfNeeded(Source constuctorBody)
+        {
+            if (!(Context.OutputType is XamlOutputType xamlOutputType))
+                return;
+
+            if (FieldNameIfExists == null)
+                return;
+
+            string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
+
+            // Add a special case to pass parent object to UIElementCollection constructor
+            string constructorParameters = "";
+            if (DestinationType.ToString() == "UIElementCollection")
+                constructorParameters = "this";
+
+            constuctorBody.AddLines(
+                $"{FieldNameIfExists} = new {DestinationType}({constructorParameters});",
+                $"SetValue({descriptorName}, {FieldNameIfExists});");
+        }
+
+        public string? GetFieldNameIfExists()
+        {
+            // Only collections, for XAML output, have a field currently
+            if (!IsCollection)
+                return null;
+
+            return "_" + Context.TypeNameToVariableName(DestinationType.ToString());
         }
 
         public void GenerateMethods(Source source)
@@ -71,19 +117,29 @@ namespace StandardUI.CodeGenerator
             {
                 string descriptorName = xamlOutputType.GetPropertyDescriptorName(Name);
 
-                source.AddLines(
-                    $"public {DestinationType} {Name}",
-                    "{");
-                using (source.Indent())
+                string getterValue;
+                if (FieldNameIfExists != null)
+                    getterValue = $"{FieldNameIfExists}";
+                else
+                    getterValue = $"({DestinationType}) GetValue({descriptorName})";
+
+                if (!HasSetter)
+                    source.AddLine($"public {DestinationType} {Name} => {getterValue};");
+                else
                 {
-                    source.AddLine(
-                        $"get => ({DestinationType}) GetValue({descriptorName});");
-                    if (HasSetter)
+                    source.AddLines(
+                        $"public {DestinationType} {Name}",
+                        "{");
+                    using (source.Indent())
+                    {
+                        source.AddLine(
+                            $"get => {getterValue};");
                         source.AddLine(
                             $"set => SetValue({descriptorName}, value);");
+                    }
+                    source.AddLine(
+                        "}");
                 }
-                source.AddLine(
-                    "}");
             }
             else
             {
@@ -133,19 +189,26 @@ namespace StandardUI.CodeGenerator
                     setterAssignment = $"{Name} = ({DestinationType}) value";
                 }
 
-                source.AddLines(
-                    $"{SourceType} {Interface.Name}.{Name}",
-                    "{");
-                using (source.Indent())
+                if (!HasSetter)
                 {
                     source.AddLine(
-                        $"get => {getterValue};");
-                    if (HasSetter)
+                        $"{SourceType} {Interface.Name}.{Name} => {getterValue};");
+                }
+                else
+                {
+                    source.AddLines(
+                        $"{SourceType} {Interface.Name}.{Name}",
+                        "{");
+                    using (source.Indent())
+                    {
+                        source.AddLine(
+                            $"get => {getterValue};");
                         source.AddLine(
                             $"set => {setterAssignment};");
+                    }
+                    source.AddLine(
+                        "}");
                 }
-                source.AddLine(
-                    "}");
             }
         }
 
