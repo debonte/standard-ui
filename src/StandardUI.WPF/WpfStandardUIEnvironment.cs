@@ -4,8 +4,7 @@ namespace System.StandardUI.Wpf
 {
     public class WpfStandardUIEnvironment : IStandardUIEnvironment
     {
-        private UIElementFactory _uiElementFactory = new UIElementFactory();
-        private MediaFactory _mediaFactory = new MediaFactory();
+        private StandardUIFactory _uiElementFactory = new StandardUIFactory();
         private IVisualEnvironment _visualEnvironment;
 
         public static void Init(IVisualEnvironment visualEnvironment)
@@ -18,10 +17,8 @@ namespace System.StandardUI.Wpf
             _visualEnvironment = visualEnvironment;
         }
 
-        public IUIElementFactory UIElementFactory => _uiElementFactory;
-
-        public IMediaFactory MediaFactory => _mediaFactory;
-
         public IVisualEnvironment VisualEnvironment => _visualEnvironment;
+
+        public IStandardUIFactory Factory => _uiElementFactory;
     }
 }

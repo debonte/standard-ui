@@ -9,8 +9,6 @@ namespace System.StandardUI
 
         public IVisualEnvironment VisualEnvironment => throw new InvalidOperationException("StandardUIEnvironment.Init hasn't been called");
 
-        public IUIElementFactory UIElementFactory => throw new InvalidOperationException("StandardUIEnvironment.Init hasn't been called");
-
-        public IMediaFactory MediaFactory => throw new InvalidOperationException("StandardUIEnvironment.Init hasn't been called");
+        public IStandardUIFactory Factory => throw new InvalidOperationException("StandardUIEnvironment.Init hasn't been called");
     }
 }

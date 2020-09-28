@@ -1,9 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.StandardUI.Controls;
+using System.StandardUI.Media;
+using System.StandardUI.Shapes;
 
-namespace System.StandardUI.Media
+namespace System.StandardUI
 {
-    public interface IMediaFactory
+    public interface IStandardUIFactory
     {
+        /*** UI Elements ***/
+
+        ICanvas CreateCanvas();
+        ICanvasAttached CanvasAttached { get; }
+        IStackPanel CreateStackPanel();
+        IGrid CreateGrid();
+
+        IEllipse CreateEllipse();
+        ILine CreateLine();
+        IPath CreatePath();
+        IPolygon CreatePolygon();
+        IPolyline CreatePolyline();
+        IRectangle CreateRectangle();
+
+        ITextBlock CreateTextBlock();
+
+        /*** Media objects ***/
+
         ISolidColorBrush CreateSolidColorBrush();
         ILinearGradientBrush CreateLinearGradientBrush();
         IRadialGradientBrush CreateRadialGradientBrush();
@@ -19,5 +40,8 @@ namespace System.StandardUI.Media
 
         IPathGeometry CreatePathGeometry(ITransform? transform, IEnumerable<IPathFigure> figures, FillRule fillRule);
         IPathFigure CreatePathFigure(IEnumerable<IPathSegment> segments, Point startPoint, bool isClosed, bool isFilled);
+
+        /*** Infrastructure objects ***/
+        IDependencyProperty CreateDependencyProperty();
     }
 }

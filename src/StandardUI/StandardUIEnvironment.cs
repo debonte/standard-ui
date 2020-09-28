@@ -15,10 +15,8 @@ namespace System.StandardUI
             Instance = environment;
         }
 
-        public static IUIElementFactory UIElementFactory => Instance.UIElementFactory;
-
-        public static IMediaFactory MediaFactory => Instance.MediaFactory;
-
         public static IVisualEnvironment VisualEnvironment => Instance.VisualEnvironment;
+
+        public static IStandardUIFactory Factory => Instance.Factory;
     }
 }

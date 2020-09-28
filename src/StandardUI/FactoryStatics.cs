@@ -6,21 +6,21 @@ namespace System.StandardUI
 {
     public static class FactoryStatics
     {
-        public static ICanvas Canvas() => StandardUIEnvironment.UIElementFactory.CreateCanvas();
-        public static IStackPanel StackPanel() => StandardUIEnvironment.UIElementFactory.CreateStackPanel();
-        public static IGrid Grid() => StandardUIEnvironment.UIElementFactory.CreateGrid();
+        public static ICanvas Canvas() => StandardUIEnvironment.Factory.CreateCanvas();
+        public static IStackPanel StackPanel() => StandardUIEnvironment.Factory.CreateStackPanel();
+        public static IGrid Grid() => StandardUIEnvironment.Factory.CreateGrid();
 
-        public static IEllipse Ellipse() => StandardUIEnvironment.UIElementFactory.CreateEllipse();
-        public static ILine Line() => StandardUIEnvironment.UIElementFactory.CreateLine();
-        public static IPath Path() => StandardUIEnvironment.UIElementFactory.CreatePath();
-        public static IPolygon Polygon() => StandardUIEnvironment.UIElementFactory.CreatePolygon();
-        public static IPolyline Polyline() => StandardUIEnvironment.UIElementFactory.CreatePolyline();
-        public static IRectangle Rectangle() => StandardUIEnvironment.UIElementFactory.CreateRectangle();
+        public static IEllipse Ellipse() => StandardUIEnvironment.Factory.CreateEllipse();
+        public static ILine Line() => StandardUIEnvironment.Factory.CreateLine();
+        public static IPath Path() => StandardUIEnvironment.Factory.CreatePath();
+        public static IPolygon Polygon() => StandardUIEnvironment.Factory.CreatePolygon();
+        public static IPolyline Polyline() => StandardUIEnvironment.Factory.CreatePolyline();
+        public static IRectangle Rectangle() => StandardUIEnvironment.Factory.CreateRectangle();
 
-        public static ITextBlock TextBlock() => StandardUIEnvironment.UIElementFactory.CreateTextBlock();
+        public static ITextBlock TextBlock() => StandardUIEnvironment.Factory.CreateTextBlock();
 
-        public static ISolidColorBrush SolidColorBrush() => StandardUIEnvironment.MediaFactory.CreateSolidColorBrush();
-        public static ILinearGradientBrush LinearGradientBrush() => StandardUIEnvironment.MediaFactory.CreateLinearGradientBrush();
-        public static IRadialGradientBrush RadialGradientBrush() => StandardUIEnvironment.MediaFactory.CreateRadialGradientBrush();
+        public static ISolidColorBrush SolidColorBrush() => StandardUIEnvironment.Factory.CreateSolidColorBrush();
+        public static ILinearGradientBrush LinearGradientBrush() => StandardUIEnvironment.Factory.CreateLinearGradientBrush();
+        public static IRadialGradientBrush RadialGradientBrush() => StandardUIEnvironment.Factory.CreateRadialGradientBrush();
     }
 }
