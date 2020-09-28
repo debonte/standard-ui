@@ -26,6 +26,13 @@ This project is an evolution of my [XGraphics](https://github.com/BretJohnson/XG
 
 # Current APIs
 
+### Control hierarchy
+
+[IUIElement](src/StandardUI/IUIElement.cs),
+[IUIElementCollection](src/StandardUI/Controls/IUIElementCollection.cs),
+[IControl](src/StandardUI/Controls/IControl.cs),
+[IUserControl](src/StandardUI/Controls/IUserControl.cs)
+
 ### Shapes and Drawing
 
 _Shapes:_
@@ -74,13 +81,6 @@ Shapes are [IUIElements](src/StandardUI/IUIElement.cs) that can be used as child
 
 Geometries, transforms, and brushes all help support the drawing.
 
-### Layout
-
-[IPanel](src/StandardUI/Controls/IPanel.cs),
-[IStackPanel](src/StandardUI/Controls/IStackPanel.cs),
-[IGrid](src/StandardUI/Controls/IGrid.cs),
-[ICanvas](src/StandardUI/Controls/ICanvas.cs)
-
 ### Text
 
 [ITextBlock](src/StandardUI/Controls/ITextBlock.cs),
@@ -88,11 +88,16 @@ Geometries, transforms, and brushes all help support the drawing.
 [FontWeight](src/StandardUI/Text/FontWeight.cs),
 [FontWeights](src/StandardUI/Text/FontWeights.cs)
 
-### Control hierarchy
+### Other controls
 
-[IUIElement](src/StandardUI/IUIElement.cs),
-[IUIElementCollection](src/StandardUI/Controls/IUIElementCollection.cs),
-[IControl](src/StandardUI/Controls/IControl.cs),
-[IUserControl](src/StandardUI/Controls/IUserControl.cs)
+[IBorder](src/StandardUI/Controls/IBorder.cs)
+
+### Layout
+
+[IPanel](src/StandardUI/Controls/IPanel.cs),
+[IStackPanel](src/StandardUI/Controls/IStackPanel.cs),
+[IGrid](src/StandardUI/Controls/IGrid.cs),
+[ICanvas](src/StandardUI/Controls/ICanvas.cs)
+
 
 
