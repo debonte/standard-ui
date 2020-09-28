@@ -43,7 +43,7 @@ namespace StandardUI.CodeGenerator
 
             if (!(interfaceNamespaceDeclaration.Parent is CompilationUnitSyntax compilationUnit))
                 throw new UserViewableException(
-                    $"Parent of ${interfaceNamespaceDeclaration} namespace should be compilation unit, but it's a {interfaceNamespaceDeclaration.Parent.GetType()} node instead");
+                    $"Parent of ${interfaceNamespaceDeclaration} namespace should be compilation unit, but it's a {interfaceNamespaceDeclaration.Parent!.GetType()} node instead");
             _sourceCompilationUnit = compilationUnit;
 
             _destinationNamespaceName = Context.ToDestinationNamespaceName(_sourceNamespaceName);

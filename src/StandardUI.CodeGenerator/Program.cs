@@ -149,7 +149,7 @@ namespace StandardUI.CodeGenerator
             {
                 return Path.GetFullPath(path).TrimEnd('\\').ToLowerInvariant();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 // If invalid path, leave unmodified
                 return path;
