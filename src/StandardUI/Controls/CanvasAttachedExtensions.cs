@@ -4,7 +4,7 @@ namespace System.StandardUI.Controls
 {
     public static class CanvasAttachedExtensions
     {
-        private static Lazy<ICanvasAttached> LazyCanvasAttached = new Lazy<ICanvasAttached>(() => StandardUIEnvironment.Instance.UIElementFactory.CanvasAttached);
+        private static Lazy<ICanvasAttached> LazyCanvasAttached = new Lazy<ICanvasAttached>(() => StandardUIEnvironment.Instance.Factory.CanvasAttached);
 
         public static ICanvasAttached CanvasAttached => LazyCanvasAttached.Value;
 
