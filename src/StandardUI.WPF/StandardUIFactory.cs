@@ -10,6 +10,8 @@ namespace System.StandardUI.Wpf
 {
     public class StandardUIFactory : IStandardUIFactory
     {
+        /*** UI Elements ***/
+
         public ICanvas CreateCanvas() => new Canvas();
         public ICanvasAttached CanvasAttached => Controls.CanvasAttached.Instance;
         public IStackPanel CreateStackPanel() => new StackPanel();
@@ -23,6 +25,8 @@ namespace System.StandardUI.Wpf
         public IRectangle CreateRectangle() => new Rectangle();
 
         public ITextBlock CreateTextBlock() => new TextBlock();
+
+        /*** Media objects ***/
 
         public ISolidColorBrush CreateSolidColorBrush() => new SolidColorBrush();
         public ILinearGradientBrush CreateLinearGradientBrush() => new LinearGradientBrush();
@@ -38,5 +42,14 @@ namespace System.StandardUI.Wpf
         public IPolyQuadraticBezierSegment CreatePolyQuadraticBezierSegment(Points points) => throw new NotImplementedException();
         public IQuadraticBezierSegment CreateQuadraticBezierSegment(in Point point1, in Point point2) => throw new NotImplementedException();
 
+        /*** Environment peers ***/
+
+        public IStandardUIControlEnvironmentPeer CreateStandardUIControlEnvironmentPeer(StandardUIControl standardUIControl) => new StandardUIControlWpf(standardUIControl);
+
+        /*** Infrastructure objects ***/
+
+        public IUIPropertyMetadata CreatePropertyMetadata(object defaultValue) => throw new NotImplementedException();
+        public IUIPropertyMetadata CreatePropertyMetadata(object defaultValue, UIPropertyChangedCallback propertyChangedCallback) => throw new NotImplementedException();
+        public IUIProperty RegisterUIProperty(string name, Type propertyType, Type ownerType, IUIPropertyMetadata typeMetadata) => throw new NotImplementedException();
     }
 }

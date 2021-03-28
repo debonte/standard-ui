@@ -3,11 +3,11 @@ using System.Windows.Media;
 
 namespace System.StandardUI.Wpf
 {
-    public class StandardUIUserControlWpf : StandardUIElement
+    public class StandardUIUserControlWpf : StandardUIControlWpf
     {
         private StandardUIUserControl _userControl;
 
-        public StandardUIUserControlWpf(StandardUIUserControl userControl)
+        public StandardUIUserControlWpf(StandardUIUserControl userControl) : base(userControl)
         {
             _userControl = userControl;
 
@@ -21,23 +21,6 @@ namespace System.StandardUI.Wpf
             var content = (Windows.UIElement?) userControl.Content;
             if (content != null)
                 AddLogicalChild(content);
-        }
-
-        public override void OnDraw(IVisualizer visualizer)
-        {
-            _userControl.OnDraw(visualizer);
-        }
-
-        protected override Windows.Size MeasureOverride(Windows.Size constraint)
-        {
-            _userControl.Measure(new Size(constraint.Width, constraint.Height));
-            return _userControl.DesiredSize.ToWpfSize();
-        }
-
-        protected override Windows.Size ArrangeOverride(Windows.Size arrangeSize)
-        {
-            _userControl.Arrange(new Rect(0, 0, arrangeSize.Width, arrangeSize.Height));
-            return arrangeSize;
         }
 
         protected override int VisualChildrenCount => _userControl.Content != null ? 1 : 0;
