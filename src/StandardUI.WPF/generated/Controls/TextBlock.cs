@@ -8,7 +8,7 @@ using System.StandardUI.Controls;
 
 namespace System.StandardUI.Wpf.Controls
 {
-    public class TextBlock : StandardUIElement, ITextBlock
+    public class TextBlock : StandardUIFrameworkElement, ITextBlock
     {
         public static readonly Windows.DependencyProperty ForegroundProperty = PropertyUtils.Register(nameof(Foreground), typeof(Brush), typeof(TextBlock), null);
         public static readonly Windows.DependencyProperty TextProperty = PropertyUtils.Register(nameof(Text), typeof(string), typeof(TextBlock), "");
@@ -63,6 +63,6 @@ namespace System.StandardUI.Wpf.Controls
             set => SetValue(TextAlignmentProperty, value);
         }
         
-        public override void OnDraw(IVisualizer visualizer) => visualizer.DrawTextBlock(this);
+        public override void OnVisualize(IVisualizer visualizer) => visualizer.DrawTextBlock(this);
     }
 }

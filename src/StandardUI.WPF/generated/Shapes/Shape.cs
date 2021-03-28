@@ -6,7 +6,7 @@ using System.StandardUI.Shapes;
 
 namespace System.StandardUI.Wpf.Shapes
 {
-    public class Shape : StandardUIElement, IShape
+    public class Shape : StandardUIFrameworkElement, IShape
     {
         public static readonly Windows.DependencyProperty FillProperty = PropertyUtils.Register(nameof(Fill), typeof(Brush), typeof(Shape), null);
         public static readonly Windows.DependencyProperty StrokeProperty = PropertyUtils.Register(nameof(Stroke), typeof(Brush), typeof(Shape), null);

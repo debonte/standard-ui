@@ -4,7 +4,7 @@ using System.StandardUI;
 
 namespace System.StandardUI.Wpf
 {
-    public class PropertyPath : Windows.DependencyObject, IPropertyPath
+    public class PropertyPath : StandardUIDependencyObject, IPropertyPath
     {
         public static readonly Windows.DependencyProperty PathProperty = PropertyUtils.Register(nameof(Path), typeof(string), typeof(PropertyPath), "");
         

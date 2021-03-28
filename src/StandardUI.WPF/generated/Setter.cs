@@ -4,21 +4,21 @@ using System.StandardUI;
 
 namespace System.StandardUI.Wpf
 {
-    public class Setter : DependencyObject, ISetter
+    public class Setter : UIPropertyObject, ISetter
     {
-        public static readonly Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(DependencyProperty), typeof(Setter), null);
+        public static readonly Windows.DependencyProperty PropertyProperty = PropertyUtils.Register(nameof(Property), typeof(UIProperty), typeof(Setter), null);
         public static readonly Windows.DependencyProperty TargetProperty = PropertyUtils.Register(nameof(Target), typeof(TargetPropertyPath), typeof(Setter), null);
         public static readonly Windows.DependencyProperty ValueProperty = PropertyUtils.Register(nameof(Value), typeof(object), typeof(Setter), null);
         
-        public DependencyProperty? Property
+        public UIProperty? Property
         {
-            get => (DependencyProperty?) GetValue(PropertyProperty);
+            get => (UIProperty?) GetValue(PropertyProperty);
             set => SetValue(PropertyProperty, value);
         }
-        IDependencyProperty? ISetter.Property
+        IUIProperty? ISetter.Property
         {
             get => Property;
-            set => Property = (DependencyProperty?) value;
+            set => Property = (UIProperty?) value;
         }
         
         public TargetPropertyPath Target

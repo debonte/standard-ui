@@ -4,7 +4,7 @@ using System.StandardUI;
 
 namespace System.StandardUI.Wpf
 {
-    public class VisualStateGroup : DependencyObject, IVisualStateGroup
+    public class VisualStateGroup : UIPropertyObject, IVisualStateGroup
     {
         public static readonly Windows.DependencyProperty CurrentStateProperty = PropertyUtils.Register(nameof(CurrentState), typeof(VisualState), typeof(VisualStateGroup), null);
         public static readonly Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualStateGroup), "");
