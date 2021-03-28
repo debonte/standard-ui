@@ -1,13 +1,13 @@
 ﻿namespace System.StandardUI
 {
     [UIModelObject]
-    public interface ISetter : IDependencyObject
+    public interface ISetter : IUIPropertyObject
     {
         /// <summary>
         /// Gets or sets the property to apply the Value to.
         /// </summary>
         [DefaultValue(null)]
-        public IDependencyProperty? Property { get; set; }
+        public IUIProperty? Property { get; set; }
 
         /// <summary>
         /// Gets or sets the path of a property on a target element to apply the Value to.

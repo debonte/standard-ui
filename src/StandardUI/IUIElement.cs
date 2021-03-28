@@ -1,6 +1,6 @@
 ﻿namespace System.StandardUI
 {
-    public interface IUIElement
+    public interface IUIElement : IUIPropertyObject
     {
         /// <summary>
         /// The width of the object, in pixels. The default is NaN. Except for the special NaN value, this value must be equal to or greater than 0.
@@ -58,5 +58,25 @@
         /// </summary>
         /// <param name="finalRect">The final size that the parent computes for the child in layout, provided as a Rect value.</param>
         public void Arrange(Rect finalRect);
+
+        /// <summary>
+        /// Gets the X position of this UIElement, relative to its parent, computed during the arrange pass of the layout process
+        /// </summary>
+        public double ActualX { get; }
+
+        /// <summary>
+        /// Gets the Y position of this UIElement, relative to its parent, computed during the arrange pass of the layout process
+        /// </summary>
+        public double ActualY { get; }
+
+        /// <summary>
+        /// Gets the rendered width of a UIElement.
+        /// </summary>
+        public double ActualWidth { get; }
+
+        /// <summary>
+        /// Gets the rendered height of a UIElement
+        /// </summary>
+        public double ActualHeight { get; }
     }
 }

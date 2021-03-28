@@ -6,6 +6,8 @@
     /// </summary>
     public struct Thickness
     {
+        public static readonly Thickness Default = new Thickness();
+
         /// <summary>
         /// The bottom edge measure of the Thickness.
         /// </summary>

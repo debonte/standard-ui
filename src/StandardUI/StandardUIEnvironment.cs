@@ -1,7 +1,4 @@
-﻿using System.StandardUI.Media;
-using System;
-
-namespace System.StandardUI
+﻿namespace System.StandardUI
 {
     public static class StandardUIEnvironment
     {
@@ -13,10 +10,15 @@ namespace System.StandardUI
                 throw new InvalidOperationException($"StandardUIEnviornment.Init already called. Current environment is of type {Instance.GetType()}");
 
             Instance = environment;
+
+            Factory = environment.Factory;
         }
 
         public static IVisualEnvironment VisualEnvironment => Instance.VisualEnvironment;
 
-        public static IStandardUIFactory Factory => Instance.Factory;
+        /// <summary>
+        /// Cache the factory here as that's slightly more efficient than always fetching it on demand.
+        /// </summary>
+        public static IStandardUIFactory Factory { get; private set; } = new UnintializedStandardUIFactory();
     }
 }

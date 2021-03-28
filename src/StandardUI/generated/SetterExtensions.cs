@@ -4,7 +4,7 @@ namespace System.StandardUI
 {
     public static class SetterExtensions
     {
-        public static T Property<T>(this T setter, IDependencyProperty? value) where T : ISetter
+        public static T Property<T>(this T setter, IUIProperty? value) where T : ISetter
         {
             setter.Property = value;
             return setter;

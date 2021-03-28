@@ -41,7 +41,14 @@ namespace System.StandardUI
         IPathGeometry CreatePathGeometry(ITransform? transform, IEnumerable<IPathFigure> figures, FillRule fillRule);
         IPathFigure CreatePathFigure(IEnumerable<IPathSegment> segments, Point startPoint, bool isClosed, bool isFilled);
 
+        /*** Environment peers ***/
+
+        IStandardUIControlEnvironmentPeer CreateStandardUIControlEnvironmentPeer(StandardUIControl standardUIControl);
+
         /*** Infrastructure objects ***/
-        IDependencyProperty CreateDependencyProperty();
+
+        IUIPropertyMetadata CreatePropertyMetadata(object defaultValue);
+        IUIPropertyMetadata CreatePropertyMetadata(object defaultValue, UIPropertyChangedCallback propertyChangedCallback);
+        IUIProperty RegisterUIProperty(string name, Type propertyType, Type ownerType, IUIPropertyMetadata typeMetadata);
     }
 }

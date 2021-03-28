@@ -31,6 +31,7 @@ namespace System.StandardUI.Controls
         /// <summary>
         /// Gets or sets the child element to draw the border around.
         /// </summary>
+        [DefaultValue(null)]
         public IUIElement Child { get; set; }
 
         /// <summary>

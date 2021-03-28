@@ -5,6 +5,8 @@
     /// </summary>
     public struct CornerRadius
     {
+        public static readonly CornerRadius Default = new CornerRadius();
+
         /// <summary>
         /// The radius of rounding, in pixels, of the lower-left corner of the object where a CornerRadius is applied.
         /// </summary>
