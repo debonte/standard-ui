@@ -35,7 +35,7 @@ namespace StandardUI.CodeGenerator
         public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("Wpf"));
         public override string DependencyPropertyClassName => "Windows.DependencyProperty";
         public override TypeSyntax DestinationTypeForUIElementAttachedTarget => QualifiedName(IdentifierName("Windows"), IdentifierName("UIElement"));
-        public override string? DefaultBaseClassName => "Windows.DependencyObject";
+        public override string? DefaultBaseClassName => "StandardUIDependencyObject";
         public override string WrapperSuffix => "Wpf";
 
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
@@ -67,7 +67,7 @@ namespace StandardUI.CodeGenerator
         public override QualifiedNameSyntax RootNamespace => QualifiedName(SystemStandardUI, IdentifierName("UWP"));
         public override string DependencyPropertyClassName => "DependencyProperty";
         public override TypeSyntax DestinationTypeForUIElementAttachedTarget => IdentifierName("UIElement");
-        public override string? DefaultBaseClassName => "DependencyObject";
+        public override string? DefaultBaseClassName => "StandardUIDependencyObject";
         public override string WrapperSuffix => "Uwp";
         public override IEnumerable<QualifiedNameSyntax> GetUsings(bool hasPropertyDescriptors, bool hasTypeConverterAttribute)
         {

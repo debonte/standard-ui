@@ -108,7 +108,7 @@ namespace StandardUI.CodeGenerator
             else if (IsNonwrappedObjectType(typeName))
                 return identifierName;
             else if (typeName == "IUIElement")
-                return IdentifierName("StandardUIElement");
+                return IdentifierName("StandardUIFrameworkElement");
             else if (typeName.StartsWith("I"))
                 return IdentifierName(typeName.Substring(1));
             else
@@ -135,7 +135,7 @@ namespace StandardUI.CodeGenerator
             return baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IPanel";
         }
 
-        public static bool IncludeOnDraw(InterfaceDeclarationSyntax interfaceDeclaration)
+        public static bool IncludeOnVisualize(InterfaceDeclarationSyntax interfaceDeclaration)
         {
             TypeSyntax? baseInterface = interfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
             if (baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IShape")
@@ -159,14 +159,14 @@ namespace StandardUI.CodeGenerator
 
         public bool IsNonwrappedObjectType(string typeName)
         {
-            return typeName == "LoadedImage" || typeName == "Exception" || typeName == "ImageDecoder";
+            return typeName == "LoadedImage" || typeName == "Exception" || typeName == "ImageDecoder" || typeName == "Thickness" || typeName == "CornerRadius";
         }
 
         public static bool IsEnumType(string typeName)
         {
             return typeName == "SweepDirection" || typeName == "FillRule" || typeName == "GradientSpreadMethod" ||
                    typeName == "BrushMappingMode" || typeName == "PenLineCap" || typeName == "PenLineJoin" || typeName == "LoadingStatus" ||
-                   typeName == "TextAlignment" || typeName == "FontStyle";
+                   typeName == "TextAlignment" || typeName == "FontStyle" || typeName == "BackgroundSizing";
         }
 
         public static string? IsCollectionType(TypeSyntax type)
@@ -237,6 +237,8 @@ namespace StandardUI.CodeGenerator
                 propertyTypeName.Identifier.Text == "Point" ||
                 propertyTypeName.Identifier.Text == "Points" ||
                 propertyTypeName.Identifier.Text == "Size" ||
+                propertyTypeName.Identifier.Text == "Thickness" ||
+                propertyTypeName.Identifier.Text == "CornerRadius" ||
                 propertyTypeName.Identifier.Text == "FontWeight") )
             {
                 // WithoutTrivia is needed here to remove any comment before the type, so the comment isn't written to the output

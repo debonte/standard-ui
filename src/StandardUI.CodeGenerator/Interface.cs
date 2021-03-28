@@ -78,11 +78,11 @@ namespace StandardUI.CodeGenerator
                 property.GenerateExtensionClassMethods(extensionClassMethods);
             }
 
-            if (Context.IncludeOnDraw(Declaration))
+            if (Context.IncludeOnVisualize(Declaration))
             {
                 mainClassNonstaticMethods.AddBlankLineIfNonempty();
                 mainClassNonstaticMethods.AddLine(
-                    $"public override void OnDraw(IVisualizer visualizer) => visualizer.Draw{DestinationClassName}(this);");
+                    $"public override void OnVisualize(IVisualizer visualizer) => visualizer.Draw{DestinationClassName}(this);");
             }
 
             // Add a special case for the WPF visual tree child methods for Panel; later we'll generalize this as needed
