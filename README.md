@@ -23,7 +23,6 @@ party controls - cheaper + wider reach should mean more controls in the ecosyste
 For the most part they don't share code. The naming differences are annoying. The binary API differences mean you can't write code (like controls or tools) that work on multiple UI platforms.
 .NET Standard UI helps here by taking a subset of the object model (the subset needed to create controls with drawn UI) and standardizing it. Using a subset makes the problem more tractable - it's not
 a single unified XAML object model for everything (not yet in any case), but it's a significant step in that direction.
-As the standard is based on WPF/UWP, it means that it isn't a big leap to take an existing WPF/UWP control definition (something like [this](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/controls/button-styles-and-templates?view=netframeworkdesktop-4.8) for instance, typically contructed out of shape primitives, visual states, and storyboards) and make it a cross platform control.
 
 # Architecture and APIs
 
