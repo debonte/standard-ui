@@ -9,6 +9,22 @@ The standard includes APIs needed to create controls that use drawn UI - shapes 
 
 API names most closely match UWP/WinUI, but should be familiar to WPF and Xamarin.Forms develepers as they are pretty similar.
 
+# Value Propositions
+
+.NET Standard UI aims to help solve these problems:
+
+**Grow the .NET UI control ecosystem** - Writing a single control that can target several UI
+frameworks means it's easier to write controls and they can target a bigger set of users. If I'm writing say a chart control or a fancy radial gauge, no longer do I need to write separate versions for WPF/Xamarin.Forms/UWP/WinUI/Uno or create my own platform wrappers to share code.
+.NET Standard UI essentially has the wrappers built in, allowing a single control assembly. This
+helps control vendors, community members that build controls, and Microsoft as it builds out first
+party controls - cheaper + wider reach should mean more controls in the ecosystem. For Microsoft controls, possibilties include cross platform Fluent UI or controls that interoperate with MS services, like the MS Graph controls [here](https://docs.microsoft.com/en-us/windows/communitytoolkit/graph/controls/peoplepicker).
+
+**Reduce .NET UI Fragementation** - Today there are multiple XAML UI frameworks (WPF, UWP, WinUI, Xamarin.Forms, .NET MAUI, Uno, Avalonia, etc.). All are pretty similar, though slightly different.
+For the most part they don't share code. The naming differences are annoying. The binary API differences mean you can't write code (like controls or tools) that work on multiple UI platforms.
+.NET Standard UI helps here by taking a subset of the object model (the subset needed to create controls with drawn UI) and standardizing it. Using a subset makes the problem more tractable - it's not
+a single unified XAML object model for everything (not yet in any case), but it's a significant step in that direction.
+As the standard is based on WPF/UWP, it means that it isn't a big leap to take an existing WPF/UWP control definition (something like [this](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/controls/button-styles-and-templates?view=netframeworkdesktop-4.8) for instance, typically contructed out of shape primitives, visual states, and storyboards) and make it a cross platform control.
+
 # Architecture and APIs
 
 The API is interface based. For instance, an ellipse is `Microsoft.StandardUI.Shapes.IEllipse`. Users of the API always use the interface.
