@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.StandardUI;
-using System.StandardUI.Controls;
-using static System.StandardUI.FactoryStatics;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
+using static Microsoft.StandardUI.FactoryStatics;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {

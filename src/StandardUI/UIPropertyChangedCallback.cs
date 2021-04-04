@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI
+﻿namespace Microsoft.StandardUI
 {
     /// <summary>
     /// Represents the callback that is invoked when the effective property value of a dependency property changes.

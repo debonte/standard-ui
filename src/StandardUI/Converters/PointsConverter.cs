@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace System.StandardUI.Converters
+namespace Microsoft.StandardUI.Converters
 {
 	public static class PointsConverter
 	{

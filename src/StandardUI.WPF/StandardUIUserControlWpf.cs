@@ -1,7 +1,8 @@
-﻿using System.StandardUI.Controls;
+﻿using Microsoft.StandardUI.Controls;
+using System;
 using System.Windows.Media;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class StandardUIUserControlWpf : StandardUIControlWpf
     {
@@ -18,7 +19,7 @@ namespace System.StandardUI.Wpf
             MinHeight = userControl.MinHeight;
             MaxHeight = userControl.MaxHeight;
 
-            var content = (Windows.UIElement?) userControl.Content;
+            var content = (System.Windows.UIElement?) userControl.Content;
             if (content != null)
                 AddLogicalChild(content);
         }

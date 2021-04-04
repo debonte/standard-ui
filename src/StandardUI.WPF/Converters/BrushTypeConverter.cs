@@ -1,9 +1,9 @@
-using System.StandardUI.Converters;
-using System.StandardUI.Wpf.Media;
+using Microsoft.StandardUI.Converters;
+using Microsoft.StandardUI.Wpf.Media;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace System.StandardUI.Wpf.Converters
+namespace Microsoft.StandardUI.Wpf.Converters
 {
 	public class BrushTypeConverter : TypeConverterBase
 	{

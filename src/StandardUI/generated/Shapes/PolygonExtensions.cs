@@ -1,8 +1,8 @@
 // This file is generated from IPolygon.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Shapes
+namespace Microsoft.StandardUI.Shapes
 {
     public static class PolygonExtensions
     {

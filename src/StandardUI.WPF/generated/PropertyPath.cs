@@ -1,12 +1,12 @@
 // This file is generated from IPropertyPath.cs. Update the source file to change its contents.
 
-using System.StandardUI;
+using Microsoft.StandardUI;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class PropertyPath : StandardUIDependencyObject, IPropertyPath
     {
-        public static readonly Windows.DependencyProperty PathProperty = PropertyUtils.Register(nameof(Path), typeof(string), typeof(PropertyPath), "");
+        public static readonly System.Windows.DependencyProperty PathProperty = PropertyUtils.Register(nameof(Path), typeof(string), typeof(PropertyPath), "");
         
         public string Path => (string) GetValue(PathProperty);
     }

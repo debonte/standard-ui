@@ -9,7 +9,7 @@ namespace StandardUI.CodeGenerator
 {
     public class Context
     {
-        public const string RootNamespace = "System.StandardUI";
+        public const string RootNamespace = "Microsoft.StandardUI";
 
         public int IndentSize { get; } = 4;
         public Workspace Workspace { get; }
@@ -29,8 +29,8 @@ namespace StandardUI.CodeGenerator
 
             QualifiedNameSyntax destinationNamespace = OutputType.RootNamespace;
 
-            // Map e.g. System.StandardUI.Media source namespace => System.StandardUI.WPF.Media destination namespace
-            // If the source namespace is just System.StandardUI, don't change anything here
+            // Map e.g. Microsoft.StandardUI.Media source namespace => Microsoft.StandardUI.WPF.Media destination namespace
+            // If the source namespace is just Microsoft.StandardUI, don't change anything here
             if (childNamespaceName != null)
                 destinationNamespace = QualifiedName(destinationNamespace, IdentifierName(childNamespaceName));
 

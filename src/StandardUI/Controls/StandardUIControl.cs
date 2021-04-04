@@ -1,6 +1,7 @@
-﻿using static System.StandardUI.FactoryStatics;
+﻿using System;
+using static Microsoft.StandardUI.FactoryStatics;
 
-namespace System.StandardUI.Controls
+namespace Microsoft.StandardUI.Controls
 {
     public abstract class StandardUIControl : IUIElement
     {

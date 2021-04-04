@@ -1,8 +1,8 @@
-using System.StandardUI.Converters;
+using Microsoft.StandardUI.Converters;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace System.StandardUI.Wpf.Converters
+namespace Microsoft.StandardUI.Wpf.Converters
 {
 	public class SizeTypeConverter : TypeConverterBase
 	{

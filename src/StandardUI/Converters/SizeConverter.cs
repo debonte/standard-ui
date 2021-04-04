@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace System.StandardUI.Converters
+namespace Microsoft.StandardUI.Converters
 {
 	public static class SizeConverter
 	{

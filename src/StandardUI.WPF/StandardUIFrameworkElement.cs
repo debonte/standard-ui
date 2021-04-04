@@ -1,7 +1,8 @@
+using System;
 using System.Windows;
 using System.Windows.Media;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     /// <summary>
     /// This is the base for predefined standard UI controls. 

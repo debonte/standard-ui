@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace System.StandardUI.Converters
+namespace Microsoft.StandardUI.Converters
 {
     public static class ColorConverter
     {

@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI.Wpf
+﻿namespace Microsoft.StandardUI.Wpf
 {
     public static class RectExtensions
     {

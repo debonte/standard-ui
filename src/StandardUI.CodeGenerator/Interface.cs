@@ -8,7 +8,7 @@ namespace StandardUI.CodeGenerator
     public class Interface
     {
         public static int IndentSize = 4;
-        public const string RootNamespace = "System.StandardUI";
+        public const string RootNamespace = "Microsoft.StandardUI";
 
         private readonly NameSyntax _sourceNamespaceName;
         private readonly CompilationUnitSyntax _sourceCompilationUnit;
@@ -94,7 +94,7 @@ namespace StandardUI.CodeGenerator
                     "protected override int VisualChildrenCount => _uiElementCollection.Count;");
                 mainClassNonstaticMethods.AddBlankLine();
                 mainClassNonstaticMethods.AddLine(
-                    "protected override Windows.Media.Visual GetVisualChild(int index) => (Windows.Media.Visual) _uiElementCollection[index];");
+                    "protected override System.Windows.Media.Visual GetVisualChild(int index) => (System.Windows.Media.Visual) _uiElementCollection[index];");
             }
 
             // If there are any attached properties, add the property descriptors and accessors for them
@@ -305,14 +305,14 @@ namespace StandardUI.CodeGenerator
                 NameSyntax sourceUsingName = sourceUsing.Name;
                 AddUsing(usingNames, sourceUsingName);
 
-                if (sourceUsingName.ToString().StartsWith("System.StandardUI."))
+                if (sourceUsingName.ToString().StartsWith("Microsoft.StandardUI."))
                     AddUsing(usingNames, Context.ToDestinationNamespaceName(sourceUsingName));
             }
 
             AddUsing(usingNames, _sourceNamespaceName);
 
-            IEnumerable<QualifiedNameSyntax> outputTypeUsings = OutputType.GetUsings(hasPropertyDescriptors, DestinationTypeHasTypeConverterAttribute());
-            foreach (QualifiedNameSyntax outputTypeUsing in outputTypeUsings)
+            IEnumerable<NameSyntax> outputTypeUsings = OutputType.GetUsings(hasPropertyDescriptors, DestinationTypeHasTypeConverterAttribute());
+            foreach (NameSyntax outputTypeUsing in outputTypeUsings)
                 AddUsing(usingNames, outputTypeUsing);
 
             foreach (var member in Declaration.Members)

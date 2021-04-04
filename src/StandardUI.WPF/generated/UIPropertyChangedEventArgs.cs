@@ -1,8 +1,8 @@
 // This file is generated from IUIPropertyChangedEventArgs.cs. Update the source file to change its contents.
 
-using System.StandardUI;
+using Microsoft.StandardUI;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class UIPropertyChangedEventArgs : StandardUIDependencyObject, IUIPropertyChangedEventArgs
     {

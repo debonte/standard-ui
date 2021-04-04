@@ -1,18 +1,18 @@
 // This file is generated from ICanvas.cs. Update the source file to change its contents.
 
-using System.StandardUI.Controls;
+using Microsoft.StandardUI.Controls;
 
-namespace System.StandardUI.Wpf.Controls
+namespace Microsoft.StandardUI.Wpf.Controls
 {
     public partial class Canvas : Panel, ICanvas
     {
-        public static readonly Windows.DependencyProperty LeftProperty = PropertyUtils.RegisterAttached("Left", typeof(double), typeof(Windows.UIElement), 0.0);
-        public static readonly Windows.DependencyProperty TopProperty = PropertyUtils.RegisterAttached("Top", typeof(double), typeof(Windows.UIElement), 0.0);
+        public static readonly System.Windows.DependencyProperty LeftProperty = PropertyUtils.RegisterAttached("Left", typeof(double), typeof(System.Windows.UIElement), 0.0);
+        public static readonly System.Windows.DependencyProperty TopProperty = PropertyUtils.RegisterAttached("Top", typeof(double), typeof(System.Windows.UIElement), 0.0);
         
-        public static double GetLeft(Windows.UIElement element) => (double) element.GetValue(LeftProperty);
-        public static void SetLeft(Windows.UIElement element, double value) => element.SetValue(LeftProperty, value);
+        public static double GetLeft(System.Windows.UIElement element) => (double) element.GetValue(LeftProperty);
+        public static void SetLeft(System.Windows.UIElement element, double value) => element.SetValue(LeftProperty, value);
         
-        public static double GetTop(Windows.UIElement element) => (double) element.GetValue(TopProperty);
-        public static void SetTop(Windows.UIElement element, double value) => element.SetValue(TopProperty, value);
+        public static double GetTop(System.Windows.UIElement element) => (double) element.GetValue(TopProperty);
+        public static void SetTop(System.Windows.UIElement element, double value) => element.SetValue(TopProperty, value);
     }
 }

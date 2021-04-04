@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public interface IUIElementCollection : IStandardUICollection<IUIElement>
     {

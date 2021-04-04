@@ -1,12 +1,12 @@
 // This file is generated from ILineSegment.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Wpf.Media
+namespace Microsoft.StandardUI.Wpf.Media
 {
     public class LineSegment : PathSegment, ILineSegment
     {
-        public static readonly Windows.DependencyProperty PointProperty = PropertyUtils.Register(nameof(Point), typeof(PointWpf), typeof(LineSegment), PointWpf.Default);
+        public static readonly System.Windows.DependencyProperty PointProperty = PropertyUtils.Register(nameof(Point), typeof(PointWpf), typeof(LineSegment), PointWpf.Default);
         
         public PointWpf Point
         {

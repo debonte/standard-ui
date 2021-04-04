@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     internal struct SizeInPixels
     {
@@ -63,7 +63,7 @@ namespace System.StandardUI.Wpf
 
                 _bitmap.AddDirtyRect(new Int32Rect(0, 0, widthInPixels, heightInPixels));
                 _bitmap.Unlock();
-                drawingContext.DrawImage(_bitmap, new Windows.Rect(0, 0, widthInPixels, heightInPixels));
+                drawingContext.DrawImage(_bitmap, new System.Windows.Rect(0, 0, widthInPixels, heightInPixels));
 
                 //var rect = new System.Windows.Rect(0, 0, 175, 50);
                 //drawingContext.DrawRectangle(new SolidColorBrush(System.Windows.Media.Colors.Red), null, rect);

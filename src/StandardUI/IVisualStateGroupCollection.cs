@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     [UIModelObject]
     public interface IVisualStateGroupCollection : IList<IVisualStateGroup>

@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI
+﻿namespace Microsoft.StandardUI
 {
     public struct Point
     {

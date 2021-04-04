@@ -1,14 +1,14 @@
 // This file is generated from IRadialGradientBrush.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Wpf.Media
+namespace Microsoft.StandardUI.Wpf.Media
 {
     public class RadialGradientBrush : GradientBrush, IRadialGradientBrush
     {
-        public static readonly Windows.DependencyProperty CenterProperty = PropertyUtils.Register(nameof(Center), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
-        public static readonly Windows.DependencyProperty GradientOriginProperty = PropertyUtils.Register(nameof(GradientOrigin), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
-        public static readonly Windows.DependencyProperty RadiusXProperty = PropertyUtils.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), 0.5);
+        public static readonly System.Windows.DependencyProperty CenterProperty = PropertyUtils.Register(nameof(Center), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
+        public static readonly System.Windows.DependencyProperty GradientOriginProperty = PropertyUtils.Register(nameof(GradientOrigin), typeof(PointWpf), typeof(RadialGradientBrush), PointWpf.CenterDefault);
+        public static readonly System.Windows.DependencyProperty RadiusXProperty = PropertyUtils.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), 0.5);
         
         public PointWpf Center
         {

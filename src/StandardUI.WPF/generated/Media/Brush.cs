@@ -1,10 +1,10 @@
 // This file is generated from IBrush.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 using System.ComponentModel;
-using System.StandardUI.Wpf.Converters;
+using Microsoft.StandardUI.Wpf.Converters;
 
-namespace System.StandardUI.Wpf.Media
+namespace Microsoft.StandardUI.Wpf.Media
 {
     public class Brush : StandardUIDependencyObject, IBrush
     {

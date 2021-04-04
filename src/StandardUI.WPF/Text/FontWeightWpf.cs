@@ -1,6 +1,6 @@
-﻿using System.StandardUI.Text;
+﻿using Microsoft.StandardUI.Text;
 
-namespace System.StandardUI.Wpf.Text
+namespace Microsoft.StandardUI.Wpf.Text
 {
     public struct FontWeightWpf
     {

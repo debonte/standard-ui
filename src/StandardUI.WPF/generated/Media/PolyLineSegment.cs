@@ -1,12 +1,12 @@
 // This file is generated from IPolyLineSegment.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Wpf.Media
+namespace Microsoft.StandardUI.Wpf.Media
 {
     public class PolyLineSegment : PathSegment, IPolyLineSegment
     {
-        public static readonly Windows.DependencyProperty PointsProperty = PropertyUtils.Register(nameof(Points), typeof(PointsWpf), typeof(PolyLineSegment), PointsWpf.Default);
+        public static readonly System.Windows.DependencyProperty PointsProperty = PropertyUtils.Register(nameof(Points), typeof(PointsWpf), typeof(PolyLineSegment), PointsWpf.Default);
         
         public PointsWpf Points
         {

@@ -1,4 +1,6 @@
-﻿namespace System.StandardUI
+﻿using System;
+
+namespace Microsoft.StandardUI
 {
     /// <summary>
     /// Contains number values that represent the location and size of a rectangle.

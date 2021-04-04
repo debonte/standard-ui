@@ -1,6 +1,6 @@
 // This file is generated from ILinearGradientBrush.cs. Update the source file to change its contents.
 
-namespace System.StandardUI.Media
+namespace Microsoft.StandardUI.Media
 {
     public static class LinearGradientBrushExtensions
     {

@@ -1,8 +1,8 @@
-﻿using System.StandardUI.Shapes;
+﻿using Microsoft.StandardUI.Shapes;
 using System;
-using System.StandardUI.Controls;
+using Microsoft.StandardUI.Controls;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     /// <summary>
     /// A IVisualizer turns cross platform vector graphics into an IVisual, a platform specific representation those graphics.

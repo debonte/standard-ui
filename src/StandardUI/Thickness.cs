@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI
+﻿namespace Microsoft.StandardUI
 {
     /// <summary>
     /// Describes the thickness of a frame around a rectangle. Four Double values describe the Left, Top,

@@ -1,6 +1,6 @@
 // This file is generated from ITargetPropertyPath.cs. Update the source file to change its contents.
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public static class TargetPropertyPathExtensions
     {

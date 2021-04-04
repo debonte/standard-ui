@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI.Controls
+﻿namespace Microsoft.StandardUI.Controls
 {
     [UIModelObject]
     public interface ICanvas : IPanel

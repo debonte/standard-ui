@@ -1,9 +1,9 @@
 // This file is generated from ITextBlock.cs. Update the source file to change its contents.
 
-using System.StandardUI.Media;
-using System.StandardUI.Text;
+using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Text;
 
-namespace System.StandardUI.Controls
+namespace Microsoft.StandardUI.Controls
 {
     public static class TextBlockExtensions
     {

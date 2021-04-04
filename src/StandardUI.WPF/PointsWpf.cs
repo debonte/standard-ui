@@ -1,8 +1,8 @@
-﻿using System.StandardUI.Wpf.Converters;
+﻿using Microsoft.StandardUI.Wpf.Converters;
 using System.ComponentModel;
 
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     [TypeConverter(typeof(PointsTypeConverter))]
     public struct PointsWpf

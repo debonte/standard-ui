@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public class StandardUICollection<TItem> : IList, IList<TItem>, IEnumerable<TItem> // , INotifyObjectOrSubobjectChanged where TItem : INotifyObjectOrSubobjectChanged
     {

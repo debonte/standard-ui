@@ -1,10 +1,10 @@
-﻿using System.StandardUI.Media;
+﻿using Microsoft.StandardUI.Media;
 using System;
-using System.StandardUI.Controls;
-using System.StandardUI.Shapes;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Shapes;
 using System.Collections.Generic;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public class UnintializedStandardUIFactory : IStandardUIFactory
     {

@@ -1,6 +1,6 @@
 // This file is generated from ILine.cs. Update the source file to change its contents.
 
-namespace System.StandardUI.Shapes
+namespace Microsoft.StandardUI.Shapes
 {
     public static class LineExtensions
     {

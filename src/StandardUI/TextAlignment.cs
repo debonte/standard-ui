@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI
+﻿namespace Microsoft.StandardUI
 {
     /// <summary>
     /// Specifies whether text is centered, left-aligned, or right-aligned.

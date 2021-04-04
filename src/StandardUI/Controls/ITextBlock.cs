@@ -1,7 +1,7 @@
-﻿using System.StandardUI.Media;
-using System.StandardUI.Text;
+﻿using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Text;
 
-namespace System.StandardUI.Controls
+namespace Microsoft.StandardUI.Controls
 {
     [UIModelObject]
     public interface ITextBlock : IUIElement

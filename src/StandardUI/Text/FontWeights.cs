@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI.Text
+﻿namespace Microsoft.StandardUI.Text
 {
     /// <summary>
     /// Provides a set of predefined font weights as static property values.

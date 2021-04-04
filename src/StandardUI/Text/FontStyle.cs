@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI.Text
+﻿namespace Microsoft.StandardUI.Text
 {
     /// <summary>
     /// Represents the style of a font face (for example, normal or italic).

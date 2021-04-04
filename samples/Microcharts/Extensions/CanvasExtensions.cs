@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Aloïs DENIEL. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.StandardUI;
-using System.StandardUI.Controls;
-using System.StandardUI.Media;
-using System.StandardUI.Shapes;
-using System.StandardUI.Text;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Shapes;
+using Microsoft.StandardUI.Text;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
-using static System.StandardUI.FactoryStatics;
+using static Microsoft.StandardUI.FactoryStatics;
 
 namespace Microcharts
 {

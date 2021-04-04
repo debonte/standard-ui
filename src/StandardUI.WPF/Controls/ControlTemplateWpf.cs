@@ -1,16 +1,16 @@
-﻿using System.StandardUI.Controls;
+﻿using Microsoft.StandardUI.Controls;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class ControlTemplateWpf : IControlTemplate
     {
-        private Windows.Controls.ControlTemplate _controlTemplate;
+        private System.Windows.Controls.ControlTemplate _controlTemplate;
 
-        public ControlTemplateWpf(Windows.Controls.ControlTemplate controlTemplate)
+        public ControlTemplateWpf(System.Windows.Controls.ControlTemplate controlTemplate)
         {
             _controlTemplate = controlTemplate;
         }
 
-        public Windows.Controls.ControlTemplate ControlTemplate => _controlTemplate;
+        public System.Windows.Controls.ControlTemplate ControlTemplate => _controlTemplate;
     }
 }

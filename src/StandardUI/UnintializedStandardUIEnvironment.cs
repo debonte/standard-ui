@@ -1,7 +1,7 @@
-﻿using System.StandardUI.Media;
+﻿using Microsoft.StandardUI.Media;
 using System;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public class UnintializedStandardUIEnvironment : IStandardUIEnvironment
     {

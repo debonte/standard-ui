@@ -1,4 +1,6 @@
-﻿namespace System.StandardUI
+﻿using System;
+
+namespace Microsoft.StandardUI
 {
     public static class StandardUIEnvironment
     {

@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI
+﻿namespace Microsoft.StandardUI
 {
     /// <summary>
     /// Represents number values that specify a height and width.

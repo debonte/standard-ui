@@ -9,12 +9,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.StandardUI;
-using System.StandardUI.Controls;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
 using SkiaSharp;
-using static System.StandardUI.FactoryStatics;
-using System.StandardUI.Shapes;
-using System.StandardUI.Media;
+using static Microsoft.StandardUI.FactoryStatics;
+using Microsoft.StandardUI.Shapes;
+using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {

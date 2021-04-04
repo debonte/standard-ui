@@ -1,9 +1,9 @@
-﻿using System.StandardUI.Controls;
+﻿using Microsoft.StandardUI.Controls;
 using System.Windows.Media;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
-    public class StandardUIControlWpf : Windows.Controls.Control, IStandardUIControlEnvironmentPeer
+    public class StandardUIControlWpf : System.Windows.Controls.Control, IStandardUIControlEnvironmentPeer
     {
         private StandardUIControl _standardUIControl;
         private ControlTemplateWpf? _controlTemplateWpf;
@@ -20,13 +20,13 @@ namespace System.StandardUI.Wpf
             MaxHeight = standardUIControl.MaxHeight;
         }
 
-        protected override Windows.Size MeasureOverride(Windows.Size constraint)
+        protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
             _standardUIControl.Measure(new Size(constraint.Width, constraint.Height));
             return _standardUIControl.DesiredSize.ToWpfSize();
         }
 
-        protected override Windows.Size ArrangeOverride(Windows.Size arrangeSize)
+        protected override System.Windows.Size ArrangeOverride(System.Windows.Size arrangeSize)
         {
             _standardUIControl.Arrange(new Rect(0, 0, arrangeSize.Width, arrangeSize.Height));
             return arrangeSize;
@@ -50,19 +50,19 @@ namespace System.StandardUI.Wpf
 
         public object GetValue(IUIProperty dp)
         {
-            Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
+            System.Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
             return GetValue(wpfDependencyProperty);
         }
 
         public object ReadLocalValue(IUIProperty dp)
         {
-            Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
+            System.Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
             return ReadLocalValue(wpfDependencyProperty);
         }
 
         public void SetValue(IUIProperty dp, object value)
         {
-            Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
+            System.Windows.DependencyProperty wpfDependencyProperty = ((UIProperty)dp).DependencyProperty;
             SetValue(wpfDependencyProperty, value);
         }
 
@@ -70,7 +70,7 @@ namespace System.StandardUI.Wpf
         {
             get
             {
-                Windows.Controls.ControlTemplate controlTemplate = Template;
+                System.Windows.Controls.ControlTemplate controlTemplate = Template;
                 if (controlTemplate == null)
                     _controlTemplateWpf = null;
                 else
@@ -93,7 +93,7 @@ namespace System.StandardUI.Wpf
 
         IUIPropertyObject? IStandardUIControlEnvironmentPeer.GetTemplateChild(string childName)
         {
-            Windows.DependencyObject? child = this.GetTemplateChild(childName);
+            System.Windows.DependencyObject? child = this.GetTemplateChild(childName);
             if (child == null)
                 return null;
 

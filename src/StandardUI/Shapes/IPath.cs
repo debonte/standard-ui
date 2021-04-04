@@ -1,6 +1,6 @@
-﻿using System.StandardUI.Media;
+﻿using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Shapes
+namespace Microsoft.StandardUI.Shapes
 {
     [UIModelObject]
     public interface IPath : IShape

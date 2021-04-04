@@ -1,4 +1,4 @@
-﻿namespace System.StandardUI.Shapes
+﻿namespace Microsoft.StandardUI.Shapes
 {
     [UIModelObject]
     public interface ILine : IShape

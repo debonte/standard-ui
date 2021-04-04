@@ -1,13 +1,13 @@
 // This file is generated from IVisualState.cs. Update the source file to change its contents.
 
-using System.StandardUI;
+using Microsoft.StandardUI;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class VisualState : UIPropertyObject, IVisualState
     {
-        public static readonly Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualState), "");
-        public static readonly Windows.DependencyProperty SettersProperty = PropertyUtils.Register(nameof(Setters), typeof(SetterCollection), typeof(VisualState), null);
+        public static readonly System.Windows.DependencyProperty NameProperty = PropertyUtils.Register(nameof(Name), typeof(string), typeof(VisualState), "");
+        public static readonly System.Windows.DependencyProperty SettersProperty = PropertyUtils.Register(nameof(Setters), typeof(SetterCollection), typeof(VisualState), null);
         
         private SetterCollection _setterCollection;
         

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.StandardUI.Controls;
-using System.StandardUI.Media;
-using System.StandardUI.Shapes;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Shapes;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     public interface IStandardUIFactory
     {

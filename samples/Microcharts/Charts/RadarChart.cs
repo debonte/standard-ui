@@ -3,12 +3,12 @@
 
 using System;
 using System.Linq;
-using System.StandardUI;
-using System.StandardUI.Controls;
-using System.StandardUI.Shapes;
-using static System.StandardUI.FactoryStatics;
+using Microsoft.StandardUI;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Shapes;
+using static Microsoft.StandardUI.FactoryStatics;
 using SkiaSharp;
-using System.StandardUI.Media;
+using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {

@@ -1,6 +1,6 @@
-﻿using System.StandardUI.Media;
+﻿using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Controls
+namespace Microsoft.StandardUI.Controls
 {
     [UIModelObject]
     public interface IBorder : IUIElement

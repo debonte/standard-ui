@@ -1,9 +1,9 @@
 // This file is generated from IVisualStateCollection.cs. Update the source file to change its contents.
 
 using System.Collections.Generic;
-using System.StandardUI;
+using Microsoft.StandardUI;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class VisualStateCollection : StandardUICollection<IVisualState>, IVisualStateCollection
     {

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.StandardUI.Controls;
-using System.StandardUI.Media;
-using System.StandardUI.Shapes;
-using System.StandardUI.Wpf.Controls;
-using System.StandardUI.Wpf.Media;
-using System.StandardUI.Wpf.Shapes;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
+using Microsoft.StandardUI.Shapes;
+using Microsoft.StandardUI.Wpf.Controls;
+using Microsoft.StandardUI.Wpf.Media;
+using Microsoft.StandardUI.Wpf.Shapes;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class StandardUIFactory : IStandardUIFactory
     {

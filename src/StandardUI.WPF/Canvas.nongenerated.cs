@@ -1,29 +1,28 @@
 // This file is generated from ICanvas.cs. Update the source file to change its contents.
 
-using System.StandardUI.Controls;
-using System.Windows;
+using Microsoft.StandardUI.Controls;
 
-namespace System.StandardUI.Wpf.Controls
+namespace Microsoft.StandardUI.Wpf.Controls
 {
     public partial class Canvas : Panel, ICanvas
     {
-        protected override Windows.Size MeasureOverride(Windows.Size constraint)
+        protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
-            var childConstraint = new Windows.Size(double.PositiveInfinity, double.PositiveInfinity);
+            var childConstraint = new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity);
 
             foreach (IUIElement? childInterface in Children)
             {
-                var child = (UIElement?)childInterface;
+                var child = (System.Windows.UIElement?)childInterface;
 
                 if (child == null)
                     continue;
                 child.Measure(childConstraint);
             }
 
-            return new Windows.Size();
+            return new System.Windows.Size();
         }
 
-        protected override Windows.Size ArrangeOverride(Windows.Size arrangeSize)
+        protected override System.Windows.Size ArrangeOverride(System.Windows.Size arrangeSize)
         {
             //Canvas arranges children at their DesiredSize.
             //This means that Margin on children is actually respected and added
@@ -32,7 +31,7 @@ namespace System.StandardUI.Wpf.Controls
 
             foreach (IUIElement childInterface in Children)
             {
-                var child = (UIElement?)childInterface;
+                var child = (System.Windows.UIElement?)childInterface;
 
                 if (child == null)
                     continue;
@@ -52,7 +51,7 @@ namespace System.StandardUI.Wpf.Controls
                 if (!double.IsNaN(top))
                     y = top;
 
-                child.Arrange(new Windows.Rect(new Windows.Point(x, y), child.DesiredSize));
+                child.Arrange(new System.Windows.Rect(new System.Windows.Point(x, y), child.DesiredSize));
             }
             return arrangeSize;
         }

@@ -1,6 +1,6 @@
-﻿using System.StandardUI.Media;
+﻿using Microsoft.StandardUI.Media;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class WpfStandardUIEnvironment : IStandardUIEnvironment
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     /// <summary>
     /// The visual environment is responsible for drawing things on the screen, or to a bitmap,

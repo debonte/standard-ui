@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.StandardUI
+namespace Microsoft.StandardUI
 {
     [AttributeUsage(AttributeTargets.Interface)]
     public class UIModelObjectAttribute : Attribute

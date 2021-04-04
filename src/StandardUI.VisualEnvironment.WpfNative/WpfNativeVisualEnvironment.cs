@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.StandardUI.VisualEnvironment.WpfNative
+namespace Microsoft.StandardUI.VisualEnvironment.WpfNative
 {
     public class WpfNativeVisualEnvironment : IVisualEnvironment
     {

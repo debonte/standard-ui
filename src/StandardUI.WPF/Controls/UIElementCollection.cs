@@ -1,23 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.StandardUI;
-using System.Windows;
 
-namespace System.StandardUI.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class UIElementCollection : IUIElementCollection
     {
-        private Windows.Controls.UIElementCollection _collection;
+        private System.Windows.Controls.UIElementCollection _collection;
 
-        public UIElementCollection(FrameworkElement parent)
+        public UIElementCollection(System.Windows.FrameworkElement parent)
         {
-            _collection = new Windows.Controls.UIElementCollection(parent, parent);
+            _collection = new System.Windows.Controls.UIElementCollection(parent, parent);
         }
 
         public IUIElement this[int index]
         {
             get => (IUIElement)_collection[index];
-            set => _collection[index] = (Windows.UIElement)value;
+            set => _collection[index] = (System.Windows.UIElement)value;
         }
 
         public int Count => _collection.Count;
@@ -26,12 +25,12 @@ namespace System.StandardUI.Wpf
 
         public void Add(IUIElement item)
         {
-            _collection.Add((Windows.UIElement) item);
+            _collection.Add((System.Windows.UIElement) item);
         }
 
         public void Clear() => _collection.Clear();
 
-        public bool Contains(IUIElement item) => _collection.Contains((Windows.UIElement)item);
+        public bool Contains(IUIElement item) => _collection.Contains((System.Windows.UIElement)item);
 
         public void CopyTo(IUIElement[] array, int arrayIndex)
         {
@@ -40,13 +39,13 @@ namespace System.StandardUI.Wpf
 
         public IEnumerator<IUIElement> GetEnumerator() => new Enumerator(_collection.GetEnumerator());
 
-        public int IndexOf(IUIElement item) => _collection.IndexOf((Windows.UIElement)item);
+        public int IndexOf(IUIElement item) => _collection.IndexOf((System.Windows.UIElement)item);
 
-        public void Insert(int index, IUIElement item) => _collection.Insert(index, (Windows.UIElement)item);
+        public void Insert(int index, IUIElement item) => _collection.Insert(index, (System.Windows.UIElement)item);
 
         public bool Remove(IUIElement item)
         {
-            int index = _collection.IndexOf((Windows.UIElement)item);
+            int index = _collection.IndexOf((System.Windows.UIElement)item);
             if (index == -1)
                 return false;
             _collection.RemoveAt(index);
