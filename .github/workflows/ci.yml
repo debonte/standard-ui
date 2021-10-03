@@ -17,12 +17,11 @@ jobs:
       matrix:
         configuration: [Debug]    # Later add Release when needed
 
-    runs-on: windows-2019    # For a list of available runner types, refer to
+    runs-on: windows-2022    # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
       Solution_Name: StandardUI.sln
-      Test_Project_Path: tests/StandardUI.Base.Tests.csproj
 
     steps:
     - name: Checkout
@@ -38,6 +37,3 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore $env:Solution_Name
-
-    - name: Test
-      run: dotnet test --no-build --verbosity normal $env:Solution_Name
