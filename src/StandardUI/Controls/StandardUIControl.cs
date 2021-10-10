@@ -22,8 +22,8 @@ namespace Microsoft.StandardUI.Controls
 
         public double MinWidth
         {
-                get => _peer.MinWidth;
-                set => _peer.MinWidth = value;
+            get => _peer.MinWidth;
+            set => _peer.MinWidth = value;
         }
 
         public double MaxWidth
