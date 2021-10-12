@@ -11,6 +11,11 @@ using static Microsoft.StandardUI.FactoryStatics;
 
 namespace Microcharts
 {
+    public interface IBarChart : IPointChart
+    {
+    }
+
+
     /// <summary>
     /// ![chart](../images/Bar.png)
     ///
@@ -21,7 +26,7 @@ namespace Microcharts
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.BarChart"/> class.
         /// </summary>
-        public BarChart()
+        public BarChart(IBarChart control) : base(control)
         {
             PointSize = 0;
         }

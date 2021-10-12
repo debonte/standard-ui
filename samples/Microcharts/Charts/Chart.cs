@@ -18,10 +18,13 @@ using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {
+    public interface IChart : IControl {
+    };
+
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class Chart : StandardUIUserControl, INotifyPropertyChanged
+    public abstract class Chart : StandardControlImplementation<IChart>, INotifyPropertyChanged
     {
         private IEnumerable<ChartEntry> entries;
         private float animationProgress;
@@ -38,7 +41,7 @@ namespace Microcharts
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.Chart"/> class.
         /// </summary>
-        public Chart()
+        public Chart(IChart control) : base(control)
         {
             PropertyChanged += OnPropertyChanged;
         }
@@ -270,12 +273,12 @@ namespace Microcharts
 
         #endregion
 
-        public void Build()
+        public override IUIElement Build()
         {
-            ICanvas canvas = Canvas() .Width(Width) .Height(Height);
-            Draw(canvas, (int) Width, (int) Height);
+            ICanvas canvas = Canvas() .Width(Control.Width) .Height(Control.Height);
+            Draw(canvas, (int) Control.Width, (int)Control.Height);
 
-            Content = canvas;
+            return canvas;
         }
 
         /// <summary>

@@ -12,6 +12,10 @@ using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {
+    public interface IRadarChart : IChart
+    {
+    }
+
     /// <summary>
     /// ![chart](../images/Radar.png)
     ///
@@ -20,6 +24,10 @@ namespace Microcharts
     public class RadarChart : Chart
     {
         private const float Epsilon = 0.01f;
+
+        public RadarChart(IRadarChart control) : base(control)
+        {
+        }
 
         /// <summary>
         /// Gets or sets the size of the line.
