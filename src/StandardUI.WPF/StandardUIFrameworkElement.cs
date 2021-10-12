@@ -27,9 +27,9 @@ namespace Microsoft.StandardUI.Wpf
 
         public double ActualY => throw new NotImplementedException();
 
-        protected override void OnRender(DrawingContext drawingContext)
+        protected override void OnRender(DrawingContext drawingContextWpf)
         {
-            base.OnRender(drawingContext);
+            base.OnRender(drawingContextWpf);
 
             if (Visibility != Visibility.Visible)
                 return;
@@ -39,12 +39,12 @@ namespace Microsoft.StandardUI.Wpf
             Rect cullingRect = new Rect(0, 0, 200, 200);
 
             IVisual visual;
-            using (IDrawingContext visualizer = visualEnvironment.CreateDrawingContext(cullingRect)) {
-                OnVisualize(visualizer);
-                visual = visualizer.End();
+            using (IDrawingContext drawingContext = visualEnvironment.CreateDrawingContext(cullingRect)) {
+                Draw(drawingContext);
+                visual = drawingContext.End();
             }
 
-            _helper.OnRender(visual, Width, Height, drawingContext);
+            _helper.OnRender(visual, Width, Height, drawingContextWpf);
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -53,7 +53,7 @@ namespace Microsoft.StandardUI.Wpf
             InvalidateVisual();
         }
 
-        public virtual void OnVisualize(IDrawingContext visualizer)
+        public virtual void Draw(IDrawingContext visualizer)
         {
         }
 

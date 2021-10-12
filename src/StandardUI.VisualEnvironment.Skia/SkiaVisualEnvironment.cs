@@ -5,7 +5,7 @@ namespace Microsoft.StandardUI.SkiaVisualizer
 {
     public class SkiaVisualEnvironment : IVisualEnvironment
     {
-        public IVisualizer CreateVisualizer(in Rect cullingRect) => new SkiaVisualizer(cullingRect);
+        public IDrawingContext CreateDrawingContext(in Rect cullingRect) => new SkiaDrawingContext(cullingRect);
 
         public void RenderToBuffer(IVisual visual, IntPtr pixels, int width, int height, int rowBytes)
         {

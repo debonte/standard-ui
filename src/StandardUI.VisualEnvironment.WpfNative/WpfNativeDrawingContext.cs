@@ -9,12 +9,12 @@ using PenLineJoin = Microsoft.StandardUI.Media.PenLineJoin;
 
 namespace Microsoft.StandardUI.VisualEnvironment.WpfNative
 {
-    public class WpfNativeVisualizer : IVisualizer
+    public class WpfNativeDrawingContext : IDrawingContext
     {
         private DrawingGroup _drawingGroup;
         private DrawingContext? _drawingContext;
 
-        public WpfNativeVisualizer(in Rect cullingRect)
+        public WpfNativeDrawingContext(in Rect cullingRect)
         {
             _drawingGroup = new DrawingGroup();
             _drawingContext = _drawingGroup.Open();

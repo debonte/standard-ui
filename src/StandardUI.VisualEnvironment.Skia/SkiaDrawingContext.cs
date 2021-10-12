@@ -7,12 +7,12 @@ using Microsoft.StandardUI.Controls;
 
 namespace Microsoft.StandardUI.SkiaVisualizer
 {
-    public class SkiaVisualizer : IVisualizer
+    public class SkiaDrawingContext : IDrawingContext
     {
         private SKPictureRecorder? _skPictureRecorder;
         private SKCanvas _skCanvas;
 
-        public SkiaVisualizer(in Rect cullingRect)
+        public SkiaDrawingContext(in Rect cullingRect)
         {
             _skPictureRecorder = new SKPictureRecorder();
 

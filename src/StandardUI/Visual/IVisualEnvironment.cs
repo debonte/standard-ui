@@ -19,7 +19,7 @@ namespace Microsoft.StandardUI
     /// </summary>
     public interface IVisualEnvironment
     {
-        IVisualizer CreateVisualizer(in Rect cullingRect);
+        IDrawingContext CreateDrawingContext(in Rect cullingRect);
 
         /// <summary>
         /// Render the visual to the specified bitmap memory buffer.

@@ -21,6 +21,6 @@ namespace Microsoft.StandardUI.Wpf.Shapes
             set => Data = (Geometry) value;
         }
         
-        public override void OnVisualize(IVisualizer visualizer) => visualizer.DrawPath(this);
+        public override void Draw(IDrawingContext visualizer) => visualizer.DrawPath(this);
     }
 }
