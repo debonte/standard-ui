@@ -1,7 +1,11 @@
 ﻿namespace Microsoft.StandardUI.Controls
 {
-    public class StandardUIUserControl : StandardUIControl
+    public class StandardUserControlImplementation<TControl> : StandardControlImplementation<TControl> where TControl : IControl
     {
+        public StandardUserControlImplementation(TControl control) : base(control)
+        {
+        }
+
         public IUIElement? Content { get; set; }
 
         protected override Size MeasureOverride(Size availableSize)

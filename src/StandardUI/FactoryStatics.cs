@@ -30,9 +30,6 @@ namespace Microsoft.StandardUI
 
         /*** Environment peers ***/
 
-        public static IStandardUIControlEnvironmentPeer StandardUIControlEnvironmentPeer(StandardUIControl standardUIControl) =>
-            Factory.CreateStandardUIControlEnvironmentPeer(standardUIControl);
-
         /*** Infrastructure objects ***/
 
         public static IUIPropertyMetadata UIPropertyMetdata(object defaultValue) => Factory.CreatePropertyMetadata(defaultValue);

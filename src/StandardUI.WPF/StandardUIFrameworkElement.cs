@@ -11,12 +11,12 @@ namespace Microsoft.StandardUI.Wpf
     {
         StandardUIFrameworkElementHelper _helper = new StandardUIFrameworkElementHelper();
 
-        public void Measure(Size availableSize)
+        void IUIElement.Measure(Size availableSize)
         {
             Measure(availableSize.ToWpfSize());
         }
 
-        public void Arrange(Rect finalRect)
+        void IUIElement.Arrange(Rect finalRect)
         {
             Arrange(finalRect.ToWpfRect());
         }
@@ -39,7 +39,7 @@ namespace Microsoft.StandardUI.Wpf
             Rect cullingRect = new Rect(0, 0, 200, 200);
 
             IVisual visual;
-            using (IVisualizer visualizer = visualEnvironment.CreateVisualizer(cullingRect)) {
+            using (IDrawingContext visualizer = visualEnvironment.CreateDrawingContext(cullingRect)) {
                 OnVisualize(visualizer);
                 visual = visualizer.End();
             }
@@ -53,7 +53,7 @@ namespace Microsoft.StandardUI.Wpf
             InvalidateVisual();
         }
 
-        public virtual void OnVisualize(IVisualizer visualizer)
+        public virtual void OnVisualize(IDrawingContext visualizer)
         {
         }
 

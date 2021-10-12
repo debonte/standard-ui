@@ -43,10 +43,6 @@ namespace Microsoft.StandardUI.Wpf
         public IPolyQuadraticBezierSegment CreatePolyQuadraticBezierSegment(Points points) => throw new NotImplementedException();
         public IQuadraticBezierSegment CreateQuadraticBezierSegment(in Point point1, in Point point2) => throw new NotImplementedException();
 
-        /*** Environment peers ***/
-
-        public IStandardUIControlEnvironmentPeer CreateStandardUIControlEnvironmentPeer(StandardUIControl standardUIControl) => new StandardUIControlWpf(standardUIControl);
-
         /*** Infrastructure objects ***/
 
         public IUIPropertyMetadata CreatePropertyMetadata(object defaultValue) => throw new NotImplementedException();

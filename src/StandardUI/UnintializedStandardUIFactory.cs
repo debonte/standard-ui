@@ -44,11 +44,6 @@ namespace Microsoft.StandardUI
         public IPathGeometry CreatePathGeometry(ITransform? transform, IEnumerable<IPathFigure> figures, FillRule fillRule) => throw CreateInitNotCalledException();
         public IPathFigure CreatePathFigure(IEnumerable<IPathSegment> segments, Point startPoint, bool isClosed, bool isFilled) => throw CreateInitNotCalledException();
 
-        /*** Environment peers ***/
-
-        public IStandardUIControlEnvironmentPeer CreateStandardUIControlEnvironmentPeer(StandardUIControl standardUIControl) =>
-            throw CreateInitNotCalledException();
-
         /*** Infrastructure objects ***/
 
         public IUIPropertyMetadata CreatePropertyMetadata(object defaultValue) => throw CreateInitNotCalledException();

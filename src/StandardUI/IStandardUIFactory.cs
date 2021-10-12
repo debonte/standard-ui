@@ -42,10 +42,6 @@ namespace Microsoft.StandardUI
         IPathGeometry CreatePathGeometry(ITransform? transform, IEnumerable<IPathFigure> figures, FillRule fillRule);
         IPathFigure CreatePathFigure(IEnumerable<IPathSegment> segments, Point startPoint, bool isClosed, bool isFilled);
 
-        /*** Environment peers ***/
-
-        IStandardUIControlEnvironmentPeer CreateStandardUIControlEnvironmentPeer(StandardUIControl standardUIControl);
-
         /*** Infrastructure objects ***/
 
         IUIPropertyMetadata CreatePropertyMetadata(object defaultValue);
