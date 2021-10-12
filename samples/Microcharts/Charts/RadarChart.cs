@@ -65,7 +65,7 @@ namespace Microcharts
 
         private double ValueRange => this.AbsoluteMaximum - this.AbsoluteMinimum;
 
-        public override void DrawContent(ICanvas canvas, int width, int height)
+        public override void BuildContent(ICanvas canvas, int width, int height)
         {
             var total = Entries?.Count() ?? 0;
 

@@ -19,6 +19,7 @@ using Microsoft.StandardUI.Media;
 namespace Microcharts
 {
     public interface IChart : IControl {
+
     };
 
     /// <summary>
@@ -266,7 +267,7 @@ namespace Microcharts
         }
 
         /// <summary>
-        /// Gets the drawable chart area (is set <see cref="DrawCaptionElements"/>).
+        /// Gets the drawable chart area (is set <see cref="BuildCaptionElements"/>).
         /// This is the total chart size minus the area allocated by caption elements.
         /// </summary>
         protected Rect DrawableChartArea { get; private set; }
@@ -275,25 +276,15 @@ namespace Microcharts
 
         public override IUIElement Build()
         {
-            ICanvas canvas = Canvas() .Width(Control.Width) .Height(Control.Height);
-            Draw(canvas, (int) Control.Width, (int)Control.Height);
+            int width = (int)Control.Width;
+            int height = (int)Control.Height;
 
-            return canvas;
-        }
-
-        /// <summary>
-        /// Draw the  graph onto the specified canvas.
-        /// </summary>
-        /// <param name="canvas">The canvas.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        public void Draw(ICanvas canvas, int width, int height)
-        {
-            //canvas.Clear(BackgroundColor);
+            ICanvas canvas = Canvas() .Width(width) .Height(height);
 
             DrawableChartArea = new Rect(0, 0, width, height);
+            BuildContent(canvas, width, height);
 
-            DrawContent(canvas, width, height);
+            return canvas;
         }
 
         /// <summary>
@@ -302,7 +293,7 @@ namespace Microcharts
         /// <param name="canvas">The canvas.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public abstract void DrawContent(ICanvas canvas, int width, int height);
+        public abstract void BuildContent(ICanvas canvas, int width, int height);
 
         /// <summary>
         /// Draws caption elements on the right or left side of the chart.
@@ -313,7 +304,7 @@ namespace Microcharts
         /// <param name="entries">The entries.</param>
         /// <param name="isLeft">If set to <c>true</c> is left.</param>
         /// <param name="isGraphCentered">Should the chart in the center always?</param>
-        protected void DrawCaptionElements(ICanvas canvas, int width, int height, List<ChartEntry> entries, bool isLeft, bool isGraphCentered)
+        protected void BuildCaptionElements(ICanvas canvas, int width, int height, List<ChartEntry> entries, bool isLeft, bool isGraphCentered)
         {
             var totalMargin = 2 * Margin;
             var availableHeight = height - (2 * totalMargin);
@@ -356,7 +347,7 @@ namespace Microcharts
                         captionX -= captionMargin;
                     }
 
-                    canvas.DrawCaptionLabels(entry.Label, lblColor, UnicodeMode, UnicodeLanguage, entry.ValueLabel, valueColor, LabelTextSize,
+                    canvas.BuildCaptionLabels(entry.Label, lblColor, UnicodeMode, UnicodeLanguage, entry.ValueLabel, valueColor, LabelTextSize,
                         new Point(captionX, y + (LabelTextSize / 2)), isLeft ? TextAlignment.Left : TextAlignment.Right, Typeface, out var labelBounds);
                     labelBounds.Union(rect);
 

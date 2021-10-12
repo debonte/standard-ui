@@ -43,7 +43,7 @@ namespace Microcharts
         /// <param name="canvas">The output canvas.</param>
         /// <param name="width">The width of the chart.</param>
         /// <param name="height">The height of the chart.</param>
-        public override void DrawContent(ICanvas canvas, int width, int height)
+        public override void BuildContent(ICanvas canvas, int width, int height)
         {
             if (Entries != null)
             {

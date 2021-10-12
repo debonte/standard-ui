@@ -77,7 +77,7 @@ namespace Microcharts
 
         private double ValueRange => MaxValue - MinValue;
 
-        public override void DrawContent(ICanvas canvas, int width, int height)
+        public override void BuildContent(ICanvas canvas, int width, int height)
         {
             if (Entries != null)
             {

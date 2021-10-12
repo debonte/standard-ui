@@ -14,7 +14,7 @@ namespace Microcharts
 {
     internal static class CanvasExtensions
     {
-        public static void DrawCaptionLabels(this ICanvas canvas, string label, Color labelColor, bool labelIsUnicode, char unicodeLang, string value, Color valueColor, double textSize, Point point, TextAlignment horizontalAlignment, SKTypeface typeface, out Rect totalBounds)
+        public static void BuildCaptionLabels(this ICanvas canvas, string label, Color labelColor, bool labelIsUnicode, char unicodeLang, string value, Color valueColor, double textSize, Point point, TextAlignment horizontalAlignment, SKTypeface typeface, out Rect totalBounds)
         {
             var hasLabel = !string.IsNullOrEmpty(label);
             var hasValueLabel = !string.IsNullOrEmpty(value);
