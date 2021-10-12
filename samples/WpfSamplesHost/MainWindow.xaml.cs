@@ -4,6 +4,7 @@ using Microsoft.StandardUI.SkiaVisualizer;
 using Microsoft.StandardUI.VisualEnvironment.WpfNative;
 using Microsoft.StandardUI.Wpf;
 using SimpleControls;
+using SimpleControls.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,11 +23,11 @@ namespace WpfHost
             var radialGauge = new RadialGauge();
             radialGauge.Width = 100;
             radialGauge.Height = 100;
+            radialGauge.HorizontalAlignment = HorizontalAlignment.Left;
 
-            var radialGaugeWpf = new StandardUIUserControlWpf(radialGauge);
-            radialGaugeWpf.HorizontalAlignment = HorizontalAlignment.Left;
-            controlStack.Children.Add(radialGaugeWpf);
+            controlStack.Children.Add(radialGauge);
 
+#if false
             var barChart = new BarChart()
             {
                 Entries = CreateChartEntries(),
@@ -55,6 +56,7 @@ namespace WpfHost
             var radarChartWpf = new StandardUIUserControlWpf(radarChart);
             radarChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
             controlStack.Children.Add(radarChartWpf);
+#endif
         }
 
         public static ChartEntry[] CreateChartEntries()
