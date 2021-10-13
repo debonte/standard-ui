@@ -11,6 +11,8 @@ namespace Microsoft.StandardUI.Wpf
 
         public static ColorWpf FromColor(Color color) => new ColorWpf(color);
 
+        public static implicit operator ColorWpf(Color color) => new ColorWpf(color);
+
         // Auto properties
         public Color Color { get; }
 
