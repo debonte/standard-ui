@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.StandardUI;
 using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Shapes;
 using static Microsoft.StandardUI.FactoryStatics;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
@@ -16,7 +17,6 @@ namespace Microcharts
 {
     public interface IPointChart : IChart
     {
-
     }
 
     /// <summary>
@@ -24,14 +24,14 @@ namespace Microcharts
     ///
     /// Point chart.
     /// </summary>
-    public class PointChart : Chart
+    public class PointChartImplementation<T> : ChartImplementation<T> where T : IPointChart
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.PointChart"/> class.
         /// </summary>
-        public PointChart(IPointChart control) : base(control)
+        public PointChartImplementation(T control) : base(control)
         {
-            LabelOrientation = Orientation.Default;
+            LabelOrientation = Orientation.Horizontal; // Orientation.Default;
             ValueLabelOrientation = Orientation.Default;
         }
 
@@ -88,15 +88,15 @@ namespace Microcharts
                 var valueLabels = Entries.Select(x => x.ValueLabel).ToArray();
                 var valueLabelSizes = MeasureLabels(valueLabels);
                 var headerHeight = CalculateFooterHeaderHeight(valueLabelSizes, ValueLabelOrientation);
-
                 var itemSize = CalculateItemSize(width, height, footerHeight, headerHeight);
+
                 var origin = CalculateYOrigin(itemSize.Height, headerHeight);
                 var points = CalculatePoints(itemSize, origin, headerHeight);
 
                 DrawPointAreas(canvas, points, origin);
-                DrawPoints(canvas, points);
-                DrawHeader(canvas, valueLabels, valueLabelSizes, points, itemSize, height, headerHeight);
-                DrawFooter(canvas, labels, labelSizes, points, itemSize, height, footerHeight);
+                BuildPoints(canvas, points);
+                BuildHeader(canvas, valueLabels, valueLabelSizes, points, itemSize, height, headerHeight);
+                BuildFooter(canvas, labels, labelSizes, points, itemSize, height, footerHeight);
             }
         }
 
@@ -141,7 +141,7 @@ namespace Microcharts
             return result.ToArray();
         }
 
-        protected void DrawHeader(ICanvas canvas, string[] labels, Rect[] labelSizes, Point[] points, Size itemSize, int height, double headerHeight)
+        protected void BuildHeader(ICanvas canvas, string[] labels, Rect[] labelSizes, Point[] points, Size itemSize, int height, double headerHeight)
         {
             DrawLabels(canvas,
                             labels,
@@ -154,7 +154,7 @@ namespace Microcharts
                             height);
         }
 
-        protected void DrawFooter(ICanvas canvas, string[] labels, Rect[] labelSizes, Point[] points, Size itemSize, int height, double footerHeight)
+        protected void BuildFooter(ICanvas canvas, string[] labels, Rect[] labelSizes, Point[] points, Size itemSize, int height, double footerHeight)
         {
             DrawLabels(canvas,
                             labels,
@@ -167,7 +167,7 @@ namespace Microcharts
                             height);
         }
 
-        protected void DrawPoints(ICanvas canvas, Point[] points)
+        protected void BuildPoints(ICanvas canvas, Point[] points)
         {
             if (points.Length > 0 && PointMode != PointMode.None)
             {
@@ -182,7 +182,6 @@ namespace Microcharts
 
         protected void DrawPointAreas(ICanvas canvas, Point[] points, double origin)
         {
-#if LATER
             if (points.Length > 0 && PointAreaAlpha > 0)
             {
                 for (int i = 0; i < points.Length; i++)
@@ -191,20 +190,24 @@ namespace Microcharts
                     var point = points[i];
                     var y = Math.Min(origin, point.Y);
 
-                    using (var shader = SKShader.CreateLinearGradient(new SKPoint(0, origin), new SKPoint(0, point.Y), new[] { entry.Color.WithA(PointAreaAlpha), entry.Color.WithA((byte)(PointAreaAlpha / 3)) }, null, SKShaderTileMode.Clamp))
+                    var color = Color.FromRgb(230, 230, 230);
+                    var brush = SolidColorBrush() .Color(color);
+
+                    // TODO: Support gradient bruhes here
+#if LATER
+                    //using (var shader = SKShader.CreateLinearGradient(new SKPoint(0, origin), new SKPoint(0, point.Y), new[] { entry.Color.WithA(PointAreaAlpha), entry.Color.WithA((byte)(PointAreaAlpha / 3)) }, null, SKShaderTileMode.Clamp))
                     using (var paint = new SKPaint
                     {
                         Style = SKPaintStyle.Fill,
                         Color = entry.Color.WithA(PointAreaAlpha),
                     })
-                    {
-                        paint.Shader = shader;
-                        var height = Math.Max(2, Math.Abs(origin - point.Y));
-                        canvas.DrawRect(SKRect.Create(point.X - (PointSize / 2), y, PointSize, height), paint);
-                    }
+#endif
+                    var height = Math.Max(2, Math.Abs(origin - point.Y));
+
+                    var barArea = Rectangle() .Width(PointSize) .Height(height) .Fill(brush);
+                    canvas.Add(point.X - (PointSize / 2), y, barArea);
                 }
             }
-#endif
         }
 
         /// <summary>

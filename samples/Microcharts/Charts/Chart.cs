@@ -15,23 +15,26 @@ using SkiaSharp;
 using static Microsoft.StandardUI.FactoryStatics;
 using Microsoft.StandardUI.Shapes;
 using Microsoft.StandardUI.Media;
+using DefaultValueAttribute = Microsoft.StandardUI.DefaultValueAttribute;
 
 namespace Microcharts
 {
-    public interface IChart : IControl {
+    public interface IChart : IControl
+    {
+        IEnumerable<ChartEntry> Entries { get; set; }
 
-    };
+        Color BackgroundColor { get; set; }
+
+        Color LabelColor { get; set; }
+    }
 
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class Chart : StandardControlImplementation<IChart>, INotifyPropertyChanged
+    public abstract class ChartImplementation<T> : StandardControlImplementation<T>, INotifyPropertyChanged where T : IChart
     {
-        private IEnumerable<ChartEntry> entries;
         private float animationProgress;
         private double margin = 20, labelTextSize = 16;
-        private Color backgroundColor = Colors.White;
-        private Color labelColor = Colors.Gray;
         private SKTypeface typeface;
         private double? internalMinValue, internalMaxValue;
         private bool isAnimated = true, isAnimating = false;
@@ -42,9 +45,12 @@ namespace Microcharts
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.Chart"/> class.
         /// </summary>
-        public Chart(IChart control) : base(control)
+        public ChartImplementation(T control) : base(control)
         {
             PropertyChanged += OnPropertyChanged;
+
+            // Animation doesn't currently work, so disable it by default
+            IsAnimated = false;
         }
 
         /// <summary>
@@ -149,35 +155,11 @@ namespace Microcharts
             set => Set(ref typeface, value);
         }
 
-        /// <summary>
-        /// Gets or sets the color of the chart background.
-        /// </summary>
-        /// <value>The color of the background.</value>
-        public Color BackgroundColor
-        {
-            get => backgroundColor;
-            set => Set(ref backgroundColor, value);
-        }
+        public Color BackgroundColor => Control.BackgroundColor;
 
-        /// <summary>
-        /// Gets or sets the color of the labels.
-        /// </summary>
-        /// <value>The color of the labels.</value>
-        public Color LabelColor
-        {
-            get => labelColor;
-            set => Set(ref labelColor, value);
-        }
+        public Color LabelColor => Control.LabelColor;
 
-        /// <summary>
-        /// Gets or sets the data entries.
-        /// </summary>
-        /// <value>The entries.</value>
-        public IEnumerable<ChartEntry> Entries
-        {
-            get => entries;
-            set => UpdateEntries(value);
-        }
+        public IEnumerable<ChartEntry> Entries => Control.Entries;
 
         /// <summary>
         /// Gets or sets the minimum value from entries. If not defined, it will be the minimum between zero and the
@@ -437,10 +419,10 @@ namespace Microcharts
         /// <param name="target">The target instance.</param>
         /// <param name="onInvalidate">Callback when chart is invalidated.</param>
         /// <typeparam name="TTarget">The target subsriber type.</typeparam>
-        public InvalidatedWeakEventHandler<TTarget> ObserveInvalidate<TTarget>(TTarget target, Action<TTarget> onInvalidate)
+        public InvalidatedWeakEventHandler<T, TTarget> ObserveInvalidate<TTarget>(TTarget target, Action<TTarget> onInvalidate)
             where TTarget : class
         {
-            var weakHandler = new InvalidatedWeakEventHandler<TTarget>(this, target, onInvalidate);
+            var weakHandler = new InvalidatedWeakEventHandler<T, TTarget>(this, target, onInvalidate);
             weakHandler.Subsribe();
             return weakHandler;
         }
@@ -495,6 +477,7 @@ namespace Microcharts
             IsAnimating = false;
         }
 
+#if false
         private async void UpdateEntries(IEnumerable<ChartEntry> value)
         {
             try
@@ -546,6 +529,7 @@ namespace Microcharts
                 animationCancellation = null;
             }
         }
+#endif
 
         /// <summary>
         /// Raises the property change.

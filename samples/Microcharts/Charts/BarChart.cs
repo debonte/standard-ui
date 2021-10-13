@@ -15,18 +15,17 @@ namespace Microcharts
     {
     }
 
-
     /// <summary>
     /// ![chart](../images/Bar.png)
     ///
     /// A bar chart.
     /// </summary>
-    public class BarChart : PointChart
+    public class BarChartImplementation<T> : PointChartImplementation<T> where T : IBarChart
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.BarChart"/> class.
         /// </summary>
-        public BarChart(IBarChart control) : base(control)
+        public BarChartImplementation(T control) : base(control)
         {
             PointSize = 0;
         }
@@ -45,7 +44,7 @@ namespace Microcharts
         /// <param name="height">The height of the chart.</param>
         public override void BuildContent(ICanvas canvas, int width, int height)
         {
-            if (Entries != null)
+            if (Control.Entries != null)
             {
                 var labels = Entries.Select(x => x.Label).ToArray();
                 var labelSizes = MeasureLabels(labels);
@@ -59,11 +58,11 @@ namespace Microcharts
                 var origin = CalculateYOrigin((float) itemSize.Height, headerHeight);
                 var points = CalculatePoints(itemSize, origin, headerHeight);
 
-                DrawBarAreas(canvas, points, itemSize, headerHeight);
-                DrawBars(canvas, points, itemSize, origin, headerHeight);
-                DrawPoints(canvas, points);
-                DrawHeader(canvas, valueLabels, valueLabelSizes, points, itemSize, height, headerHeight);
-                DrawFooter(canvas, labels, labelSizes, points, itemSize, height, footerHeight);
+                BuildBarAreas(canvas, points, itemSize, headerHeight);
+                BuildBars(canvas, points, itemSize, origin, headerHeight);
+                BuildPoints(canvas, points);
+                BuildHeader(canvas, valueLabels, valueLabelSizes, points, itemSize, height, headerHeight);
+                BuildFooter(canvas, labels, labelSizes, points, itemSize, height, footerHeight);
             }
         }
 
@@ -75,14 +74,16 @@ namespace Microcharts
         /// <param name="itemSize">The item size.</param>
         /// <param name="origin">The origin.</param>
         /// <param name="headerHeight">The Header height.</param>
-        protected void DrawBars(ICanvas canvas, Point[] points, Size itemSize, double origin, double headerHeight)
+        protected void BuildBars(ICanvas canvas, Point[] points, Size itemSize, double origin, double headerHeight)
         {
+            var entries = Control.Entries;
+
             const float MinBarHeight = 4;
             if (points.Length > 0)
             {
-                for (int i = 0; i < Entries.Count(); i++)
+                for (int i = 0; i < entries.Count(); i++)
                 {
-                    var entry = Entries.ElementAt(i);
+                    var entry = entries.ElementAt(i);
                     var point = points[i];
 
                     var x = point.X - (itemSize.Width / 2);
@@ -110,7 +111,7 @@ namespace Microcharts
         /// <param name="points">The entry points.</param>
         /// <param name="itemSize">The item size.</param>
         /// <param name="headerHeight">The header height.</param>
-        protected void DrawBarAreas(ICanvas canvas, Point[] points, Size itemSize, double headerHeight)
+        protected void BuildBarAreas(ICanvas canvas, Point[] points, Size itemSize, double headerHeight)
         {
             if (points.Length > 0 && PointAreaAlpha > 0)
             {

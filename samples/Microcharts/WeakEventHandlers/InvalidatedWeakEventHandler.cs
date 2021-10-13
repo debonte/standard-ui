@@ -11,11 +11,11 @@ namespace Microcharts
     /// in memory instead of the actual subscriber.
     /// This could be considered as an acceptable solution in most cases.
     /// </summary>
-    public class InvalidatedWeakEventHandler<TTarget> : IDisposable where TTarget : class
+    public class InvalidatedWeakEventHandler<TControlSource, TTarget> : IDisposable where TControlSource : IChart where TTarget : class
     {
         #region Fields
 
-        private readonly WeakReference<Chart> sourceReference;
+        private readonly WeakReference<ChartImplementation<TControlSource>> sourceReference;
 
         private readonly WeakReference<TTarget> targetReference;
 
@@ -33,9 +33,9 @@ namespace Microcharts
         /// <param name="source">The source.</param>
         /// <param name="target">The target.</param>
         /// <param name="targetMethod">The target method.</param>
-        public InvalidatedWeakEventHandler(Chart source, TTarget target, Action<TTarget> targetMethod)
+        public InvalidatedWeakEventHandler(ChartImplementation<TControlSource> source, TTarget target, Action<TTarget> targetMethod)
         {
-            this.sourceReference = new WeakReference<Chart>(source);
+            this.sourceReference = new WeakReference<ChartImplementation<TControlSource>>(source);
             this.targetReference = new WeakReference<TTarget>(target);
             this.targetMethod = targetMethod;
         }
@@ -48,7 +48,7 @@ namespace Microcharts
         /// Gets a value indicating whether this <see cref="T:Microcharts.InvalidateWeakEventHandler`1"/> is alive.
         /// </summary>
         /// <value><c>true</c> if is alive; otherwise, <c>false</c>.</value>
-        public bool IsAlive => this.sourceReference.TryGetTarget(out Chart s) && this.targetReference.TryGetTarget(out TTarget t);
+        public bool IsAlive => this.sourceReference.TryGetTarget(out ChartImplementation<TControlSource> s) && this.targetReference.TryGetTarget(out TTarget t);
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Microcharts
         /// </summary>
         public void Subsribe()
         {
-            if (!this.isSubscribed && this.sourceReference.TryGetTarget(out Chart source))
+            if (!this.isSubscribed && this.sourceReference.TryGetTarget(out ChartImplementation<TControlSource> source))
             {
                 source.Invalidated += this.OnEvent;
                 this.isSubscribed = true;
@@ -73,7 +73,7 @@ namespace Microcharts
         {
             if (this.isSubscribed)
             {
-                if (this.sourceReference.TryGetTarget(out Chart source))
+                if (this.sourceReference.TryGetTarget(out ChartImplementation<TControlSource> source))
                 {
                     source.Invalidated -= this.OnEvent;
                 }
