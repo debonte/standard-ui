@@ -1,12 +1,9 @@
 ﻿using Microcharts;
 using Microsoft.StandardUI;
 using Microsoft.StandardUI.SkiaVisualizer;
-using Microsoft.StandardUI.VisualEnvironment.WpfNative;
 using Microsoft.StandardUI.Wpf;
-using SimpleControls;
 using SimpleControls.Wpf;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace WpfHost
 {
@@ -20,29 +17,36 @@ namespace WpfHost
             WpfStandardUIEnvironment.Init(new SkiaVisualEnvironment());
             InitializeComponent();
 
-            var radialGauge = new RadialGauge();
-            radialGauge.Width = 100;
-            radialGauge.Height = 100;
-            radialGauge.HorizontalAlignment = HorizontalAlignment.Left;
+            var radialGauge = new RadialGauge()
+            {
+                Width = 100,
+                Height = 100,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
 
             controlStack.Children.Add(radialGauge);
 
-#if false
             var barChart = new BarChart()
             {
                 Entries = CreateChartEntries(),
-                LabelTextSize = 14,
-                LabelOrientation = Microcharts.Orientation.Horizontal,
-                IsAnimated = false,
+                BackgroundColor = Colors.Blue,
+                LabelColor = Colors.Green,
                 Width = 400,
-                Height = 400,
+                Height = 300,
             };
-            barChart.Build();
+            controlStack.Children.Add(barChart);
 
-            var barChartWpf = new StandardUIUserControlWpf(barChart);
-            barChartWpf.HorizontalAlignment = HorizontalAlignment.Left;
-            controlStack.Children.Add(barChartWpf);
+            var pointChart = new PointChart()
+            {
+                Entries = CreateChartEntries(),
+                BackgroundColor = Colors.Red,
+                LabelColor = Colors.Maroon,
+                Width = 400,
+                Height = 300,
+            };
+            controlStack.Children.Add(pointChart);
 
+#if false
             var radarChart = new RadarChart()
             {
                 Entries = CreateChartEntries(),

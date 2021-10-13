@@ -12,7 +12,7 @@ namespace SimpleControls.Wpf
 
         public RadialGauge()
         {
-            InitImplementation(new SimpleControls.RadialGaugeImplementation(this));
+            InitImplementation(new RadialGaugeImplementation<IRadialGauge>(this));
         }
 
         public Brush? Fill

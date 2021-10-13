@@ -12,9 +12,9 @@ namespace SimpleControls
         IBrush? Fill { get; set; }
     }
 
-    public class RadialGaugeImplementation : StandardControlImplementation<IRadialGauge>
+    public class RadialGaugeImplementation<T> : StandardControlImplementation<T> where T : IRadialGauge
     {
-        public RadialGaugeImplementation(IRadialGauge control) : base(control)
+        public RadialGaugeImplementation(T control) : base(control)
         { }
 
         public override IUIElement? Build()
