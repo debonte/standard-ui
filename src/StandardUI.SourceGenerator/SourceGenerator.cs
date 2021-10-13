@@ -5,23 +5,22 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-#nullable enable
-
 namespace StandardUI.CodeGenerator
 {
     [Generator]
     internal class SourceGenerator : ISourceGenerator
     {
-        private const string AttributeSource = @"
-    [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=true)]
-    internal sealed class StandardUIControlAttribute : System.Attribute
+        private const string AttributeSource = @"// This file was generated
+
+[System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=true)]
+internal sealed class StandardUIControlAttribute : System.Attribute
+{
+    public string TypeName { get; }
+    public StandardUIControlAttribute(string typeName)
     {
-        public string TypeName { get; }
-        public StandardUIControlAttribute(string typeName)
-        {
-            TypeName = typeName;
-        }
+        TypeName = typeName;
     }
+}
 ";
 
         public void Initialize(GeneratorInitializationContext context)
