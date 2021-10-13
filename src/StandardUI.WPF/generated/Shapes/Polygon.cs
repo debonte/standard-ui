@@ -28,6 +28,6 @@ namespace Microsoft.StandardUI.Wpf.Shapes
             set => Points = new PointsWpf(value);
         }
         
-        public override void Draw(IDrawingContext visualizer) => visualizer.DrawPolygon(this);
+        public override void Draw(IDrawingContext drawingContext) => drawingContext.DrawPolygon(this);
     }
 }

@@ -35,6 +35,6 @@ namespace Microsoft.StandardUI.Wpf.Shapes
             set => SetValue(Y2Property, value);
         }
         
-        public override void Draw(IDrawingContext visualizer) => visualizer.DrawLine(this);
+        public override void Draw(IDrawingContext drawingContext) => drawingContext.DrawLine(this);
     }
 }

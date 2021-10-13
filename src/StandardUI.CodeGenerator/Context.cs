@@ -135,7 +135,7 @@ namespace StandardUI.CodeGenerator
             return baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IPanel";
         }
 
-        public static bool IncludeOnVisualize(InterfaceDeclarationSyntax interfaceDeclaration)
+        public static bool IncludeDraw(InterfaceDeclarationSyntax interfaceDeclaration)
         {
             TypeSyntax? baseInterface = interfaceDeclaration.BaseList?.Types.FirstOrDefault()?.Type;
             if (baseInterface is IdentifierNameSyntax identifieName && identifieName.Identifier.Text == "IShape")

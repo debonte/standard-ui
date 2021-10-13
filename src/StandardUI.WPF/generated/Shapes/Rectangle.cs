@@ -21,6 +21,6 @@ namespace Microsoft.StandardUI.Wpf.Shapes
             set => SetValue(RadiusYProperty, value);
         }
         
-        public override void Draw(IDrawingContext visualizer) => visualizer.DrawRectangle(this);
+        public override void Draw(IDrawingContext drawingContext) => drawingContext.DrawRectangle(this);
     }
 }
