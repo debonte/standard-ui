@@ -1,26 +1,18 @@
 ﻿using Microsoft.StandardUI.Controls;
 using System;
-using System.Windows;
 using System.Windows.Media;
 
 namespace Microsoft.StandardUI.Wpf
 {
-    public class StandardControl<TControl> : System.Windows.Controls.Control, IControl, IStandardControlEnvironmentPeer where TControl : IControl
+    public class StandardControl<T> : System.Windows.Controls.Control, IControl, IStandardControlEnvironmentPeer where T : IControl
     {
-        private StandardControlImplementation<TControl> _implementation;
+        private StandardControlImplementation<T> _implementation;
         private StandardUIFrameworkElement? _buildContent;
+        private bool _invalid = true;
 
-        protected void InitImplementation(StandardControlImplementation<TControl> implementation)
+        protected void InitImplementation(StandardControlImplementation<T> implementation)
         {
             _implementation = implementation;
-            
-            _buildContent = (StandardUIFrameworkElement?)implementation.Build();
-
-            if (_buildContent != null)
-            {
-                AddVisualChild(_buildContent);
-                AddLogicalChild(_buildContent);
-            }
         }
 
         void IUIElement.Measure(Size availableSize)
@@ -37,11 +29,17 @@ namespace Microsoft.StandardUI.Wpf
 
         IUIPropertyObject? IControl.GetTemplateChild(string childName)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         protected override System.Windows.Size MeasureOverride(System.Windows.Size constraint)
         {
+            if (_invalid)
+            {
+                Rebuild();
+                _invalid = false;
+            }
+
             _implementation.Measure(new Size(constraint.Width, constraint.Height));
             return _implementation.DesiredSize.ToWpfSize();
         }
@@ -86,6 +84,24 @@ namespace Microsoft.StandardUI.Wpf
                 throw new ArgumentOutOfRangeException("index", index, "Index out of range; control only has a single visual child.");
 
             return _buildContent;
+        }
+
+        private void Rebuild()
+        {
+            if (_buildContent != null)
+            {
+                RemoveVisualChild(_buildContent);
+                RemoveLogicalChild(_buildContent);
+                _buildContent = null;
+            }
+
+            _buildContent = (StandardUIFrameworkElement?)_implementation.Build();
+
+            if (_buildContent != null)
+            {
+                AddVisualChild(_buildContent);
+                AddLogicalChild(_buildContent);
+            }
         }
 
 #if false

@@ -2,11 +2,11 @@
 
 namespace Microsoft.StandardUI.Controls
 {
-    public abstract class StandardControlImplementation<TControl> where TControl : IControl
+    public abstract class StandardControlImplementation<T> where T : IControl
     {
-        public TControl Control { get; }
+        public T Control { get; }
 
-        public StandardControlImplementation(TControl control)
+        public StandardControlImplementation(T control)
         {
             Control = control;
         }
