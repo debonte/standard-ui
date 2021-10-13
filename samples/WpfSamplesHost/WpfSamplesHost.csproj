@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\src\StandardUI.SourceGenerator\StandardUI.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.Skia\StandardUI.VisualEnvironment.Skia.csproj" />
     <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj" />
     <ProjectReference Include="..\..\src\StandardUI.WPF\StandardUI.Wpf.csproj" />
