@@ -21,11 +21,11 @@ namespace Microcharts
     ///
     /// A radar chart.
     /// </summary>
-    public class RadarChartImplementation : ChartImplementation
+    public class RadarChartImplementation<T> : ChartImplementation<T> where T : IRadarChart
     {
         private const float Epsilon = 0.01f;
 
-        public RadarChartImplementation(IRadarChart control) : base(control)
+        public RadarChartImplementation(T control) : base(control)
         {
         }
 

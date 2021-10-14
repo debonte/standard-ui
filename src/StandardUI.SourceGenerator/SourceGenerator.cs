@@ -68,11 +68,11 @@ using Microsoft.StandardUI.Wpf;
 
 namespace SimpleControls.Wpf
 {{
-    public class {controlTypeName} : StandardControl, {interfaceFullTypeName}
+    public class {controlTypeName} : StandardControl<{interfaceFullTypeName}>, {interfaceFullTypeName}
     {{
         public {controlTypeName}()
         {{
-            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation(this));
+            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation<{interfaceFullTypeName}>(this));
         }}");
 
             SourceGenerator.GenerateProperties(interfaceSymbol, controlTypeName, sourceCode);

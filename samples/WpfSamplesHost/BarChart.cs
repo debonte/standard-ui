@@ -15,7 +15,7 @@ namespace SimpleControls.Wpf
 
         public BarChart()
         {
-            InitImplementation(new BarChartImplementation(this));
+            InitImplementation(new BarChartImplementation<IBarChart>(this));
         }
 
         public IEnumerable<ChartEntry> Entries
