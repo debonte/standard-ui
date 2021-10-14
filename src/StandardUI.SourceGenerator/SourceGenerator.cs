@@ -54,7 +54,7 @@ internal sealed class StandardUIControlAttribute : System.Attribute
                 return;
             }
 
-            if (!SourceGenerator.TryGetTypeNamesFromInterface(interfaceFullTypeName, out string interfaceTypeName, out string interfaceNamespace, out string controlTypeName))
+            if (!SourceGenerator.TryGetTypeNamesFromInterface(interfaceFullTypeName, out string interfaceNamespace, out string controlTypeName))
             {
                 return;
             }
@@ -68,11 +68,11 @@ using Microsoft.StandardUI.Wpf;
 
 namespace SimpleControls.Wpf
 {{
-    public class {controlTypeName} : StandardControl, {interfaceTypeName}
+    public class {controlTypeName} : StandardControl, {interfaceFullTypeName}
     {{
         public {controlTypeName}()
         {{
-            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation<{interfaceTypeName}>(this));
+            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation(this));
         }}");
 
             SourceGenerator.GenerateProperties(interfaceSymbol, controlTypeName, sourceCode);
@@ -165,24 +165,21 @@ namespace SimpleControls.Wpf
         /// Given the full name (with namespace) of an interface type, extracts various other related strings.
         /// </summary>
         /// <param name="interfaceFullTypeName">The full name (with namespace) of an interface type. For example, Contoso.Controls.IControl</param>
-        /// <param name="interfaceTypeName">The interface's type name. For example, IControl</param>
         /// <param name="interfaceNamespace">The interface's namespace. For example, Contoso.Controls</param>
         /// <param name="controlTypeName">The default name of the class implementing the interface (by convention). For example, Control</param>
         /// <returns>True if the output strings were successfully determined, otherwise false.</returns>
-        private static bool TryGetTypeNamesFromInterface(string interfaceFullTypeName, out string interfaceTypeName, out string interfaceNamespace, out string controlTypeName)
+        private static bool TryGetTypeNamesFromInterface(string interfaceFullTypeName, out string interfaceNamespace, out string controlTypeName)
         {
             int lastDotIndex = interfaceFullTypeName.LastIndexOf('.');
             if (lastDotIndex < 3)
             {
-                interfaceTypeName = null;
                 interfaceNamespace = null;
                 controlTypeName = null;
                 return false;
             }
 
-            interfaceTypeName = interfaceFullTypeName.Substring(lastDotIndex + 1);
+            controlTypeName = interfaceFullTypeName.Substring(lastDotIndex + 2);
             interfaceNamespace = interfaceFullTypeName.Substring(0, lastDotIndex);
-            controlTypeName = interfaceTypeName.Substring(1);
             return true;
         }
 

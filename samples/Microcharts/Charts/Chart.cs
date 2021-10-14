@@ -31,7 +31,7 @@ namespace Microcharts
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class ChartImplementation<T> : StandardControlImplementation<T>, INotifyPropertyChanged where T : IChart
+    public abstract class ChartImplementation : StandardControlImplementation, INotifyPropertyChanged
     {
         private float animationProgress;
         private double margin = 20, labelTextSize = 16;
@@ -42,11 +42,15 @@ namespace Microcharts
         private Task invalidationPlanification;
         private CancellationTokenSource animationCancellation;
 
+        protected IChart Control { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.Chart"/> class.
         /// </summary>
-        public ChartImplementation(T control) : base(control)
+        public ChartImplementation(IChart control) : base((IStandardControlEnvironmentPeer)control)
         {
+            Control = control;
+
             PropertyChanged += OnPropertyChanged;
 
             // Animation doesn't currently work, so disable it by default
@@ -419,10 +423,10 @@ namespace Microcharts
         /// <param name="target">The target instance.</param>
         /// <param name="onInvalidate">Callback when chart is invalidated.</param>
         /// <typeparam name="TTarget">The target subsriber type.</typeparam>
-        public InvalidatedWeakEventHandler<T, TTarget> ObserveInvalidate<TTarget>(TTarget target, Action<TTarget> onInvalidate)
+        public InvalidatedWeakEventHandler<TTarget> ObserveInvalidate<TTarget>(TTarget target, Action<TTarget> onInvalidate)
             where TTarget : class
         {
-            var weakHandler = new InvalidatedWeakEventHandler<T, TTarget>(this, target, onInvalidate);
+            var weakHandler = new InvalidatedWeakEventHandler<TTarget>(this, target, onInvalidate);
             weakHandler.Subsribe();
             return weakHandler;
         }

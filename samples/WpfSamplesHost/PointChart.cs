@@ -15,7 +15,7 @@ namespace SimpleControls.Wpf
 
         public PointChart()
         {
-            InitImplementation(new PointChartImplementation<IPointChart>(this));
+            InitImplementation(new PointChartImplementation(this));
         }
 
         public IEnumerable<ChartEntry> Entries
