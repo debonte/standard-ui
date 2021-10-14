@@ -8,7 +8,7 @@ namespace SimpleControls.Wpf
     {
         public BarChart()
         {
-            InitImplementation(new BarChartImplementation<IBarChart>(this));
+            InitImplementation(new BarChartImplementation(this));
         }
     }
 }

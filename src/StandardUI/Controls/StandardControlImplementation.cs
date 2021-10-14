@@ -95,14 +95,4 @@ namespace Microsoft.StandardUI.Controls
             return finalSize;
         }
     }
-
-    public abstract class StandardControlImplementation<T> : StandardControlImplementation where T : IControl
-    {
-        public T Control { get; }
-
-        public StandardControlImplementation(T control) : base((IStandardControlEnvironmentPeer)control)
-        {
-            Control = control;
-        }
-    }
 }

@@ -24,12 +24,12 @@ namespace Microcharts
     ///
     /// Point chart.
     /// </summary>
-    public class PointChartImplementation<T> : ChartImplementation<T> where T : IPointChart
+    public class PointChartImplementation : ChartImplementation
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.PointChart"/> class.
         /// </summary>
-        public PointChartImplementation(T control) : base(control)
+        public PointChartImplementation(IPointChart control) : base(control)
         {
             LabelOrientation = Orientation.Horizontal; // Orientation.Default;
             ValueLabelOrientation = Orientation.Default;

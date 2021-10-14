@@ -72,7 +72,7 @@ namespace SimpleControls.Wpf
     {{
         public {controlTypeName}()
         {{
-            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation<{interfaceFullTypeName}>(this));
+            InitImplementation(new {interfaceNamespace}.{controlTypeName}Implementation(this));
         }}");
 
             SourceGenerator.GenerateProperties(interfaceSymbol, controlTypeName, sourceCode);
