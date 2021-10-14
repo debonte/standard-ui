@@ -7,7 +7,7 @@ using Microsoft.StandardUI;
 
 namespace SimpleControls.Wpf
 {
-    public class PointChart : StandardControl<IPointChart>, IPointChart
+    public class PointChart : StandardControl, IPointChart
     {
         public static readonly System.Windows.DependencyProperty EntriesProperty = PropertyUtils.Register(nameof(Entries), typeof(IEnumerable<ChartEntry>), typeof(PointChart), null);
         public static readonly System.Windows.DependencyProperty BackgroundColorProperty = PropertyUtils.Register(nameof(BackgroundColor), typeof(ColorWpf), typeof(PointChart), ColorWpf.Default);
