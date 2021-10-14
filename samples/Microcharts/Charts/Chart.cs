@@ -31,7 +31,7 @@ namespace Microcharts
     /// <summary>
     /// A chart.
     /// </summary>
-    public abstract class ChartImplementation : StandardControlImplementation, INotifyPropertyChanged
+    public abstract class ChartImplementation : StandardControlImplementation<IChart>, INotifyPropertyChanged
     {
         private float animationProgress;
         private double margin = 20, labelTextSize = 16;
@@ -42,15 +42,11 @@ namespace Microcharts
         private Task invalidationPlanification;
         private CancellationTokenSource animationCancellation;
 
-        protected IChart Control { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.Chart"/> class.
         /// </summary>
-        public ChartImplementation(IChart control) : base((IStandardControlEnvironmentPeer)control)
+        public ChartImplementation(IChart control) : base(control)
         {
-            Control = control;
-
             PropertyChanged += OnPropertyChanged;
 
             // Animation doesn't currently work, so disable it by default

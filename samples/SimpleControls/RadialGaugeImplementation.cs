@@ -12,20 +12,17 @@ namespace SimpleControls
         IBrush? Fill { get; set; }
     }
 
-    public class RadialGaugeImplementation : StandardControlImplementation
+    public class RadialGaugeImplementation : StandardControlImplementation<IRadialGauge>
     {
-        private readonly IRadialGauge control;
-
-        public RadialGaugeImplementation(IRadialGauge control) : base((IStandardControlEnvironmentPeer)control)
+        public RadialGaugeImplementation(IRadialGauge control) : base(control)
         {
-            this.control = control;
         }
 
         public override IUIElement? Build()
         {
             var blueBrush = SolidColorBrush().Color(Colors.Blue);
 
-            return Rectangle() .Width(50) .Height(50) .Stroke(blueBrush) .Fill(this.control.Fill);
+            return Rectangle() .Width(50) .Height(50) .Stroke(blueBrush) .Fill(this.Control.Fill);
         }
     }
 }

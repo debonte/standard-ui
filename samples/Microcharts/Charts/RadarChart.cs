@@ -5,10 +5,9 @@ using System;
 using System.Linq;
 using Microsoft.StandardUI;
 using Microsoft.StandardUI.Controls;
+using Microsoft.StandardUI.Media;
 using Microsoft.StandardUI.Shapes;
 using static Microsoft.StandardUI.FactoryStatics;
-using SkiaSharp;
-using Microsoft.StandardUI.Media;
 
 namespace Microcharts
 {
