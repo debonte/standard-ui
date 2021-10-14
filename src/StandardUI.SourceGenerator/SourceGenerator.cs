@@ -68,7 +68,7 @@ using Microsoft.StandardUI.Wpf;
 
 namespace SimpleControls.Wpf
 {{
-    public class {controlTypeName} : StandardControl<{interfaceFullTypeName}>, {interfaceFullTypeName}
+    public class {controlTypeName} : StandardControl, {interfaceFullTypeName}
     {{
         public {controlTypeName}()
         {{
