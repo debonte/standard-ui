@@ -82,7 +82,7 @@ namespace StandardUI.CodeGenerator
             {
                 mainClassNonstaticMethods.AddBlankLineIfNonempty();
                 mainClassNonstaticMethods.AddLine(
-                    $"public override void Draw(IDrawingContext drawingContext) => drawingContext.Draw{DestinationClassName}(this);");
+                    $"public override void Draw(IDrawingContext visualizer) => visualizer.Draw{DestinationClassName}(this);");
             }
 
             // Add a special case for the WPF visual tree child methods for Panel; later we'll generalize this as needed

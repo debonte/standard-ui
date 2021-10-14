@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="Microsoft.CodeAnalysis" Version="3.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\StandardUI.SourceGenerator\StandardUI.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.Skia\StandardUI.VisualEnvironment.Skia.csproj" />
     <ProjectReference Include="..\..\src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj" />
     <ProjectReference Include="..\..\src\StandardUI.WPF\StandardUI.Wpf.csproj" />

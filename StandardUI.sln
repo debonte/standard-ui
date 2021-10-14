@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.VisualEnvironmen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleControls", "samples\SimpleControls\SimpleControls.csproj", "{2A1EDFC0-2865-4DC8-A232-6D2CCB7FA7E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardUI.VisualEnvironment.WpfNative", "src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj", "{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.VisualEnvironment.WpfNative", "src\StandardUI.VisualEnvironment.WpfNative\StandardUI.VisualEnvironment.WpfNative.csproj", "{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardUI.SourceGenerator", "src\StandardUI.SourceGenerator\StandardUI.SourceGenerator.csproj", "{26E564DA-4315-44EF-B287-A9B3BC87BF1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFFB0DA0-82FB-4075-B5E1-4E9A73C2491D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E564DA-4315-44EF-B287-A9B3BC87BF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E564DA-4315-44EF-B287-A9B3BC87BF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E564DA-4315-44EF-B287-A9B3BC87BF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E564DA-4315-44EF-B287-A9B3BC87BF1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
