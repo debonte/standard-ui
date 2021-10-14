@@ -4,13 +4,13 @@ using System.Windows.Media;
 
 namespace Microsoft.StandardUI.Wpf
 {
-    public class StandardControl<T> : System.Windows.Controls.Control, IControl, IStandardControlEnvironmentPeer where T : IControl
+    public class StandardControl : System.Windows.Controls.Control, IControl, IStandardControlEnvironmentPeer
     {
-        private StandardControlImplementation<T> _implementation;
+        private StandardControlImplementation _implementation;
         private StandardUIFrameworkElement? _buildContent;
         private bool _invalid = true;
 
-        protected void InitImplementation(StandardControlImplementation<T> implementation)
+        protected void InitImplementation(StandardControlImplementation implementation)
         {
             _implementation = implementation;
         }

@@ -2,13 +2,13 @@
 
 namespace Microsoft.StandardUI.Controls
 {
-    public abstract class StandardControlImplementation<T> where T : IControl
+    public abstract class StandardControlImplementation
     {
-        public T Control { get; }
+        IStandardControlEnvironmentPeer _environmentPeer;
 
-        public StandardControlImplementation(T control)
+        public StandardControlImplementation(IStandardControlEnvironmentPeer environmentPeer)
         {
-            Control = control;
+            _environmentPeer = environmentPeer;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Microsoft.StandardUI.Controls
 
         protected virtual Size MeasureOverride(Size availableSize)
         {
-            IUIElement? buildContent = EnvironmentPeer.BuildContent;
+            IUIElement? buildContent = _environmentPeer.BuildContent;
 
             // By default, return the size of the content
             if (buildContent != null)
@@ -83,7 +83,7 @@ namespace Microsoft.StandardUI.Controls
 
         protected virtual Size ArrangeOverride(Size finalSize)
         {
-            IUIElement? buildContent = EnvironmentPeer.BuildContent;
+            IUIElement? buildContent = _environmentPeer.BuildContent;
 
             // By default, give all the space to the content
             if (buildContent != null)
@@ -94,7 +94,15 @@ namespace Microsoft.StandardUI.Controls
 
             return finalSize;
         }
+    }
 
-        private IStandardControlEnvironmentPeer EnvironmentPeer => (IStandardControlEnvironmentPeer)Control;
+    public abstract class StandardControlImplementation<T> : StandardControlImplementation where T : IControl
+    {
+        public T Control { get; }
+
+        public StandardControlImplementation(T control) : base((IStandardControlEnvironmentPeer)control)
+        {
+            Control = control;
+        }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.StandardUI;
 
 namespace SimpleControls.Wpf
 {
-    public class BarChart : StandardControl<IBarChart>, IBarChart
+    public class BarChart : StandardControl, IBarChart
     {
         public static readonly System.Windows.DependencyProperty EntriesProperty = PropertyUtils.Register(nameof(Entries), typeof(IEnumerable<ChartEntry>), typeof(BarChart), null);
         public static readonly System.Windows.DependencyProperty BackgroundColorProperty = PropertyUtils.Register(nameof(BackgroundColor), typeof(ColorWpf), typeof(BarChart), ColorWpf.Default);
