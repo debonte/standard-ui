@@ -20,12 +20,12 @@ namespace Microcharts
     ///
     /// A bar chart.
     /// </summary>
-    public class BarChartImplementation<T> : PointChartImplementation<T> where T : IBarChart
+    public class BarChartImplementation : PointChartImplementation
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microcharts.BarChart"/> class.
         /// </summary>
-        public BarChartImplementation(T control) : base(control)
+        public BarChartImplementation(IBarChart control) : base(control)
         {
             PointSize = 0;
         }
